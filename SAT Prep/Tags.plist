@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Math</key>
+	<array>
+		<string>Linear Equations</string>
+		<string>Linear Inequalities</string>
+		<string>Rates, Ratios, and Proportions</string>
+		<string>Scatterplots</string>
+		<string>Statistics and Probability</string>
+		<string>Polynomials and Rational Expressions</string>
+		<string>Functions</string>
+		<string>Quadratic Equations</string>
+		<string>Imaginary Numbers</string>
+		<string>Lines, Angles, Triangles</string>
+		<string>Circles</string>
+		<string>3D Shapes</string>
+		<string>Trigonometry</string>
+	</array>
+	<key>Writing</key>
+	<array>
+		<string>Development</string>
+		<string>Organization</string>
+		<string>Effective Language Use</string>
+		<string>Sentence Structure</string>
+		<string>Conventions of Usage</string>
+		<string>Conventions of Punctuation</string>
+	</array>
+	<key>Reading</key>
+	<array>
+		<string>Analyzing Word Choice</string>
+		<string>Analyzing Text Structure</string>
+		<string>Analyzing Point of View</string>
+		<string>Analyzing Purpose</string>
+		<string>Analyzing Arguments</string>
+		<string>Reading Closely</string>
+		<string>Citing Textual Evidence</string>
+		<string>Central Ideas and Themes</string>
+		<string>Summarizing</string>
+		<string>Understanding Relationships</string>
+		<string>Interpreting Words and Phrases</string>
+		<string>Analyzing Multiple Texts</string>
+		<string>Quantitative Information</string>
+	</array>
+</dict>
+</plist>
