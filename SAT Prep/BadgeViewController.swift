@@ -17,6 +17,7 @@ class BadgeViewController: UICollectionViewController {
     var currentIndex = 0
     var allBadges = [Badge]()
     var badges = [Badge]()
+    var parentVC: BadgeController?
     var colors = [UIColor(red:0.33, green:0.33, blue:0.42, alpha:1.0),
                   UIColor(red:0.37, green:0.79, blue:0.00, alpha:1.0),
                   UIColor(red:0.85, green:0.44, blue:0.18, alpha:1.0),
@@ -38,22 +39,51 @@ class BadgeViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        parentVC = self.parent as! BadgeController
+        parentVC?.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
+        
         allTags = model.readTags()
-        let parent = self.parent as! BadgeController
-        currentIndex = parent.getIndex()
+        currentIndex = (parentVC?.getIndex())!
         switch currentIndex {
         case 0:
             tags = allTags["reading"]!
+            renderHeader()
         case 1:
             tags = allTags["writing"]!
-            fetchBadges(p: parent)
+            fetchBadges(p: parentVC!)
         case 2:
             tags = allTags["math"]!
-            fetchBadges(p: parent)
+            fetchBadges(p: parentVC!)
         default:
             tags = allTags["reading"]!
         }
+    }
+    
+    func renderHeader() {
         
+        let navStreakLabel = UIImageView(image: UIImage(named:"Flame"))
+        let navStreakCount = UILabel()
+        
+        navStreakLabel.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        navStreakLabel.contentMode = .scaleAspectFit
+        
+        model.getUser() {user in
+            navStreakCount.text = String((user.streak))
+        }
+        
+        navStreakCount.textAlignment = NSTextAlignment.center
+        navStreakCount.textColor = UIColor(red:1.00, green:0.45, blue:0.29, alpha:1.0)
+        navStreakCount.font = navStreakCount.font.withSize(self.view.frame.height * 0.036)
+        
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        
+        stackView.addArrangedSubview(navStreakLabel)
+        stackView.addArrangedSubview(navStreakCount)
+        
+        parentVC?.navigationItem.titleView = stackView
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +102,8 @@ class BadgeViewController: UICollectionViewController {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "reuseCell",
                                                       for: indexPath) as! BadgeCellCollectionViewCell
+        
+        cell.imageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         cell.backgroundColor = UIColor.white
         let badge = badgeForIndexPath(indexPath: indexPath)
         
@@ -102,20 +134,37 @@ class BadgeViewController: UICollectionViewController {
         cell.imageView.clipsToBounds = true
         cell.imageView.layer.masksToBounds = true
         cell.imageView.contentMode = .scaleAspectFit
-        
         cell.imageView.tintColor = colors[(indexPath as IndexPath).item]
+        
         // Set badge color
+        let gradient = CAGradientLayer()
+        gradient.frame =  CGRect(x: cell.imageView.frame.origin.x-4, y: cell.imageView.frame.origin.y, width: cell.frame.size.width, height: cell.frame.size.height)
+        
         if badge.progress < 10 {
             cell.imageView.tintColor = UIColor(red:0.89, green:0.89, blue:0.89, alpha:1.0)
             cell.imageView.layer.borderColor = UIColor.white.cgColor
         } else if badge.progress < 25 {
             cell.imageView.layer.borderColor = UIColor(red:0.80, green:0.50, blue:0.20, alpha:1.0).cgColor
+            gradient.colors = [UIColor(red:0.64, green:0.40, blue:0.16, alpha:1.0).cgColor, UIColor(red:0.86, green:0.65, blue:0.44, alpha:1.0).cgColor]
         } else if badge.progress < 50 {
             cell.imageView.layer.borderColor = UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.0).cgColor
+            gradient.colors = [UIColor(red:0.86, green:0.86, blue:0.86, alpha:1.0).cgColor, UIColor(red:0.41, green:0.41, blue:0.41, alpha:1.0).cgColor]
         } else {
             cell.imageView.layer.borderColor = UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor
+            gradient.colors = [UIColor(red:1.00, green:0.99, blue:0.75, alpha:1.0).cgColor, UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor]
         }
+        let shape = CAShapeLayer()
+        shape.lineWidth = cell.imageView.frame.size.width*0.2
+        shape.path = UIBezierPath(arcCenter: CGPoint (x: (cell.imageView.frame.size.width-2) / 2, y: cell.imageView.frame.size.height / 2),
+                                  radius: cell.imageView.frame.width / 2.0,
+                                  startAngle: CGFloat(-0.5 * .pi),
+                                  endAngle: CGFloat(1.5 * .pi),
+                                  clockwise: true).cgPath
         
+        shape.strokeColor = UIColor.black.cgColor
+        shape.fillColor = UIColor.clear.cgColor
+        gradient.mask = shape
+        cell.imageView.layer.addSublayer(gradient)
         
         return cell
     }

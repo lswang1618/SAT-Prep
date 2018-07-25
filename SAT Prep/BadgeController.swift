@@ -22,12 +22,18 @@ class BadgeController: UITabBarController {
         tabView.frame.size.width = self.view.frame.width
         self.view.addSubview(tabView)
         
+        let parent = self.parent as! UINavigationController
+        parent.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
+        
         model.getBadges() {result in
             self.badges = result
             
             let child = self.childViewControllers[0] as! BadgeViewController
             child.fetchBadges(p: self)
         }
+        tabSelector.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "DinPro-Light", size: view.frame.height*0.018)], for: .normal)
+        tabSelector.frame.size.height = floor((UIFont(name: "DinPro-Light", size: view.frame.height*0.02)?.lineHeight)! + 2 * 10)
+        tabView.frame.size.height = view.frame.height * 0.1
     }
     
     override func didReceiveMemoryWarning() {

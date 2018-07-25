@@ -14,6 +14,14 @@ class ShortQuestionViewController: UIViewController {
     var user: User?
     var parentVC: ViewController?
     
+    var animator: UIDynamicAnimator!
+    var gravity: UIGravityBehavior!
+    var collision: UICollisionBehavior!
+    var elasticity: UIDynamicItemBehavior!
+    
+    let orange = UIColor(red:1.00, green:0.53, blue:0.36, alpha:1.0)
+    let grey = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.0)
+    
     private lazy var explanationController: ExplanationViewController = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
@@ -23,6 +31,7 @@ class ShortQuestionViewController: UIViewController {
         return viewController
     }()
     
+    @IBOutlet weak var card: RoundedCornerView!
     @IBOutlet weak var questionView: UIStackView!
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var buttonA: ChoiceButton!
@@ -39,6 +48,8 @@ class ShortQuestionViewController: UIViewController {
         if question?.correctAnswer == 0 {
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonA.mathLabel.textColor = UIColor.white
+            buttonA.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerA.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonA.isEnabled = false
@@ -49,6 +60,8 @@ class ShortQuestionViewController: UIViewController {
         if question?.correctAnswer == 1 {
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonB.mathLabel.textColor = UIColor.white
+            buttonB.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerB.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonB.isEnabled = false
@@ -59,6 +72,8 @@ class ShortQuestionViewController: UIViewController {
         if question?.correctAnswer == 2 {
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonC.mathLabel.textColor = UIColor.white
+            buttonC.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerC.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonC.isEnabled = false
@@ -69,6 +84,8 @@ class ShortQuestionViewController: UIViewController {
         if question?.correctAnswer == 3 {
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonD.mathLabel.textColor = UIColor.white
+            buttonD.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerD.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonD.isEnabled = false
@@ -91,6 +108,12 @@ class ShortQuestionViewController: UIViewController {
         buttonCHeight.constant = height
         buttonDHeight.constant = height
         
+        buttonA.shapeLayer.fillColor = orange.cgColor
+        buttonB.shapeLayer.fillColor = orange.cgColor
+        buttonC.shapeLayer.fillColor = orange.cgColor
+        buttonD.shapeLayer.fillColor = orange.cgColor
+        
+        
         if q.subject == "Math" {
             let mathLabel = MTMathUILabel()
             mathLabel.latex = q.text
@@ -111,6 +134,20 @@ class ShortQuestionViewController: UIViewController {
             buttonC.setTitle(question.answerC.choiceText, for: .normal)
             buttonD.setTitle(question.answerD.choiceText, for: .normal)
         }
+            
+        animator = UIDynamicAnimator(referenceView: view)
+        gravity = UIGravityBehavior(items: [card])
+        gravity.magnitude = 2.0
+        animator.addBehavior(gravity)
+        
+        
+        collision = UICollisionBehavior(items: [card])
+        collision.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: 0, y: view.frame.size.height*0.8), to: CGPoint(x: view.frame.size.width, y: view.frame.size.height*0.8))
+        animator.addBehavior(collision)
+        
+        elasticity = UIDynamicItemBehavior(items: [card])
+        elasticity.elasticity = 0.4
+        animator.addBehavior(elasticity)
     }
     
     private func createMathLabel(_ text: String, _ button: ChoiceButton) {

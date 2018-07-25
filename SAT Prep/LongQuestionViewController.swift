@@ -14,7 +14,12 @@ class LongQuestionViewController: UIViewController {
     var user: User?
     var parentVC: ViewController?
     
-    let mint = UIColor(red:0.00, green:0.51, blue:0.69, alpha:1.0)
+    var animator: UIDynamicAnimator!
+    var gravity: UIGravityBehavior!
+    var collision: UICollisionBehavior!
+    var elasticity: UIDynamicItemBehavior!
+    
+    let mint = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
     
     private lazy var explanationController: ExplanationViewController = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -41,12 +46,16 @@ class LongQuestionViewController: UIViewController {
     
     @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var card: RoundedCornerView!
+    @IBOutlet weak var answers: UIView!
     
     //MARK: Actions
     @IBAction func selectChoiceA(_ sender: UIButton) {
         if question?.correctAnswer == 0 {
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonA.mathLabel.textColor = UIColor.gray
+            buttonA.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerA.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonA.isEnabled = false
@@ -57,6 +66,8 @@ class LongQuestionViewController: UIViewController {
         if question?.correctAnswer == 1 {
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonB.mathLabel.textColor = UIColor.gray
+            buttonB.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerB.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonB.isEnabled = false
@@ -65,8 +76,11 @@ class LongQuestionViewController: UIViewController {
     
     @IBAction func selectChoiceC(_ sender: UIButton) {
         if question?.correctAnswer == 2 {
+            print("tapped")
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonC.mathLabel.textColor = UIColor.gray
+            buttonC.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerC.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonC.isEnabled = false
@@ -77,6 +91,8 @@ class LongQuestionViewController: UIViewController {
         if question?.correctAnswer == 3 {
             parentVC?.handleCorrect(vc: self)
         } else {
+            buttonD.mathLabel.textColor = UIColor.gray
+            buttonD.shapeLayer.fillColor = UIColor.gray.cgColor
             self.explanationController.explanations = question.answerD.explanations
             parentVC?.handleWrong(vc: self.explanationController)
             buttonD.isEnabled = false
@@ -89,6 +105,7 @@ class LongQuestionViewController: UIViewController {
         parentVC = self.parent as? ViewController
         
         scrollView.layer.cornerRadius = 20
+        
         questionField.isHidden = true
         renderQuestion(q: question)
         renderContent(q: question)
@@ -101,7 +118,7 @@ class LongQuestionViewController: UIViewController {
             let viewHeight = view.frame.height
             let deviceHeight = view.superview?.frame.height
             view.center = CGPoint(x:view.center.x,
-                                  y: min(deviceHeight!*0.89 + viewHeight*0.5, max(view.center.y + translation.y, deviceHeight! - viewHeight*0.5)))
+                                  y: min(deviceHeight!*0.88 + viewHeight*0.5, max(view.center.y + translation.y, deviceHeight! - viewHeight*0.5)))
         }
         recognizer.setTranslation(CGPoint.zero, in: self.view)
     }
@@ -116,7 +133,7 @@ class LongQuestionViewController: UIViewController {
                 view.center = CGPoint(x: view.center.x, y: deviceHeight! - viewHeight*0.5)
             }
             else if view.center.y == deviceHeight! - viewHeight*0.5 {
-                view.center = CGPoint(x: view.center.x, y: deviceHeight!*0.89 + viewHeight*0.5)
+                view.center = CGPoint(x: view.center.x, y: deviceHeight!*0.88 + viewHeight*0.5)
             }
         }
     }
@@ -169,7 +186,7 @@ class LongQuestionViewController: UIViewController {
     }
     
     private func renderContent(q: Question) {
-        contentStackView.layoutMargins = UIEdgeInsets(top: 15, left: 8, bottom: 15, right: 8)
+        contentStackView.layoutMargins = UIEdgeInsets(top: 15, left: 8, bottom: 0, right: 8)
         contentStackView.isLayoutMarginsRelativeArrangement = true
         
         let content = q.content
@@ -254,6 +271,19 @@ class LongQuestionViewController: UIViewController {
         }
         
         contentStackView.addArrangedSubview(mainLabel)
+        
+        animator = UIDynamicAnimator(referenceView: view)
+        gravity = UIGravityBehavior(items: [card])
+        gravity.magnitude = 2.0
+        animator.addBehavior(gravity)
+        
+        collision = UICollisionBehavior(items: [card])
+        collision.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: 0, y: view.frame.size.height*0.82), to: CGPoint(x: view.frame.size.width, y: view.frame.size.height*0.82))
+        animator.addBehavior(collision)
+        
+        elasticity = UIDynamicItemBehavior(items: [card])
+        elasticity.elasticity = 0.4
+        animator.addBehavior(elasticity)
         
     }
 }

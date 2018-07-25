@@ -12,6 +12,7 @@ import Firebase
 class Model {
     var db: Firestore!
     let settings: FirestoreSettings!
+    let tags = ["Linear Equations", "Development", "Analyzing Word Choice", "Linear Inequalities", "Organization", "Analyzing Text Structure", "Rates, Ratios, and Proportions", "Effective Language Use", "Analyzing Point of View", "Scatterplots", "Sentence Structure", "Analyzing Purpose", "Statistics and Probability", "Conventions of Usage", "Analyzing Arguments", "Polynomials and Rational Expressions", "Conventions of Punctuations", "Reading Closely", "Functions", "Citing Textual Evidence", "Quadratic Equations", "Central Ideas and Themes", "Imaginary Numbers", "Summarizing", "Lines, Angles, and Triangles", "Understanding Relationships", "Circles", "Interpreting Words and Phrases", "3D Shapes", "Analyzing Multiple Texts", "Trigonometry", "Quantitative Information"]
     
     init() {
         db = Firestore.firestore()
@@ -33,26 +34,22 @@ class Model {
     func getBadges(completion: @escaping([Badge]) -> ()) {
         let user = Auth.auth().currentUser
         var badges = [Badge]()
+        
         db.collection("users").document(user!.uid).collection("badges").getDocuments() { (querySnapshot, error) in
             guard let docs = querySnapshot?.documents else { return }
             for doc in docs {
                 badges.append(Badge(dictionary: doc.data())!)
             }
-            
             completion(badges)
         }
     }
     
-    func getBadge(tag: String, completion: @escaping(Badge) -> ()) {
-        let user = Auth.auth().currentUser
-        db.collection("users").document(user!.uid).collection("badges").document(tag).getDocument() { (document, error) in
-            guard let badge = Badge(dictionary: (document?.data()!)!) else { return }
-            completion(badge)
-        }
-        
-    }
-    
     func getUser(completion: @escaping (User) -> ()) {
+//        do {
+//            try Auth.auth().signOut()
+//        } catch {
+//            
+//        }
         let user = Auth.auth().currentUser
         
         let tagDict = self.readTags()
@@ -69,25 +66,27 @@ class Model {
                     return
                 } else {
                     let batch = self.db.batch()
-                    let userRef = self.db.collection("users").document(user!.uid)
+                    let userRef = self.db.collection("users").document(user!.user.uid)
                     batch.setData([
                         "qIndex": 0,
                         "streak": 0,
-                        "last_answered": 0
+                        "last_answered": 0,
+                        "days": [],
+                        "time": 0,
+                        "name": "",
+                        "profileImage": ""
                     ], forDocument: userRef)
                     for tag in tagArray {
-                        let badgeRef = self.db.collection("users").document(user!.uid).collection("badges").document(tag)
+                        let badgeRef = self.db.collection("users").document(user!.user.uid).collection("badges").document(tag)
                         batch.setData([
                             "tag": tag,
                             "progress": 0,
-                            "progressLevel1": 0,
-                            "progressLevel2": 0,
-                            "progressLevel3": 0
+                            "lastIndex": 0
                             ], forDocument: badgeRef)
                     }
                     batch.commit() { err in
                         if err != nil { return } else {
-                            completion(User(uid: user!.uid)!)
+                            completion(User(uid: user!.user.uid)!)
                         }
                     }
                 }
@@ -95,11 +94,23 @@ class Model {
         }
     }
         
-    func getQuestion(index: Int, completion: @escaping (Question) -> ()) {
+    func getQuestion(tIndex: Int, qIndex: Int, completion: @escaping (Question) -> ()) {
+        let questionsRef = db.collection("questions")
+        questionsRef.whereField("tag", isEqualTo: tags[tIndex])
+            .whereField("index", isGreaterThan: qIndex).limit(to: 1)
+            .getDocuments() { (querySnapshot, error) in
+                guard let result = Question(dictionary: querySnapshot!.documents[0].data()) else { return }
+                completion(result)
+        }
+    }
+    
+    func getTagQuestion(qIndex: Int, tag: String, completion: @escaping (Question) -> ()) {
         let questionsRef = db.collection("questions")
         
-        questionsRef.whereField("index", isEqualTo: index).limit(to: 1)
+        questionsRef.whereField("tag", isEqualTo: tag)
+            .whereField("index", isGreaterThan: qIndex).limit(to: 1)
             .getDocuments() { (querySnapshot, error) in
+                
                 guard let result = Question(dictionary: querySnapshot!.documents[0].data()) else { return }
                 completion(result)
         }

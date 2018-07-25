@@ -160,6 +160,7 @@ class ChoiceButton: UIButton {
     override func draw(_ rect: CGRect) {
         buttonView.removeFromSuperview()
         shapeLayer.path = UIBezierPath(ovalIn: CGRect(x: 5, y: rect.size.height * 0.1, width: rect.size.height * 0.8, height: rect.size.height * 0.8)).cgPath
+        
         buttonView = UIView()
         buttonView.layer.addSublayer(shapeLayer)
         buttonView.isUserInteractionEnabled = false
@@ -167,17 +168,21 @@ class ChoiceButton: UIButton {
         label = UILabel(frame: CGRect(x: 5, y: rect.size.height * 0.1, width: rect.size.height * 0.8, height: rect.size.height * 0.8))
         label.textAlignment = NSTextAlignment.center
         label.textColor = UIColor.white
+        label.isUserInteractionEnabled = false
         
         mathLabel.fontSize = rect.size.height * 0.23
         mathLabel.contentInsets = UIEdgeInsetsMake(0, rect.size.height, 0, 0)
         mathLabel.sizeToFit()
         mathLabel.center.y = rect.size.height/2
+        mathLabel.isUserInteractionEnabled = false
         
         titleLabel?.preferredMaxLayoutWidth = titleLabel?.frame.size.width ?? 0
         titleEdgeInsets = UIEdgeInsets(top: (rect.size.height) * 0.3, left: (rect.size.height) * 0.95, bottom:(rect.size.height) * 0.3, right:10)
         titleLabel?.font = titleLabel?.font.withSize(rect.size.height * 0.2)
+        
+        setTitleColor(UIColor.gray, for: .disabled)
     }
-    
+
     @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
@@ -222,6 +227,57 @@ class ChoiceD: ChoiceButton {
     }
 }
 
+class SegmentedControl : UISegmentedControl {
+    
+    @IBInspectable
+    var segmentPadding: CGSize = CGSize.zero
+    
+    @IBInspectable
+    var titleFontName: String?
+    
+    @IBInspectable
+    var titleFontSize: CGFloat = UIFont.systemFontSize
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        setup()
+    }
+    
+    #if TARGET_INTERFACE_BUILDER
+    
+    override func prepareForInterfaceBuilder() {
+        setup()
+    }
+    
+    #endif
+    
+    func setup() {
+        var attributes: [NSObject : AnyObject]?
+        
+        if let fontName = titleFontName, let font = UIFont(name: fontName, size: titleFontSize) {
+            attributes = [NSAttributedStringKey.font: font] as [NSObject : AnyObject]
+        }
+        
+        setTitleTextAttributes(attributes, for: .normal)
+    }
+    
+    override open var intrinsicContentSize: CGSize {
+        var size = super.intrinsicContentSize
+        
+        if let fontName = titleFontName, let font = UIFont(name: fontName, size: titleFontSize) {
+            size.height = floor(font.lineHeight + 2 * segmentPadding.height)
+        }
+        else {
+            size.height += segmentPadding.height * 2
+        }
+        
+        size.width  += segmentPadding.width * CGFloat(numberOfSegments + 1)
+        
+        return size
+    }
+    
+}
 
 
 

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		454818CCBBBC96BA40A2B265 /* Pods_SAT_Prep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99B502F1E4B0730F7F0686C /* Pods_SAT_Prep.framework */; };
+		3C1A419794F728429B2765ED /* Pods_SAT_Prep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BEFFB5CCA3154F011F32715 /* Pods_SAT_Prep.framework */; };
 		5001BDCE20CDFE8A00C9B2B8 /* BadgeCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5001BDCD20CDFE8A00C9B2B8 /* BadgeCellCollectionViewCell.swift */; };
 		5001BDD020CF5BE200C9B2B8 /* BadgeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5001BDCF20CF5BE200C9B2B8 /* BadgeDetailViewController.swift */; };
 		5001BDDA20D0B24800C9B2B8 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5001BDD920D0B24800C9B2B8 /* AccountViewController.swift */; };
@@ -19,21 +19,24 @@
 		501C6B7020ABCF40009E2C18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501C6B6F20ABCF40009E2C18 /* Assets.xcassets */; };
 		501C6B7320ABCF40009E2C18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 501C6B7120ABCF40009E2C18 /* LaunchScreen.storyboard */; };
 		501C6B9A20ABFA8C009E2C18 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 501C6B9920ABFA8C009E2C18 /* MapKit.framework */; };
-		501C6B9D20ABFCAC009E2C18 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 501C6B9C20ABFCAC009E2C18 /* CloudKit.framework */; };
 		501C6B9F20AD228D009E2C18 /* DINPro-Light_13935.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 501C6B9E20AD228D009E2C18 /* DINPro-Light_13935.ttf */; };
 		501C6BA720AD2E42009E2C18 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C6BA620AD2E42009E2C18 /* Question.swift */; };
 		501C6BB420B0ED57009E2C18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */; };
 		509024C320B7CC4400221E74 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024C220B7CC4400221E74 /* Model.swift */; };
 		509024CC20BCEDD500221E74 /* LongQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024CB20BCEDD500221E74 /* LongQuestionViewController.swift */; };
 		509024CE20BCF72800221E74 /* ShortQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024CD20BCF72800221E74 /* ShortQuestionViewController.swift */; };
+		50B0EF6D2106B329001806B8 /* flame.gif in Resources */ = {isa = PBXBuildFile; fileRef = 50B0EF6C2106B328001806B8 /* flame.gif */; };
+		50B0EF732106E378001806B8 /* check_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 50B0EF722106E377001806B8 /* check_animation.json */; };
+		50B0EF752106E75A001806B8 /* confettibar.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B0EF742106E75A001806B8 /* confettibar.png */; };
 		50E695A420CCCB670080E3E0 /* BadgeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E695A320CCCB670080E3E0 /* BadgeController.swift */; };
 		50E695A620CCED260080E3E0 /* Tags.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50E695A520CCED260080E3E0 /* Tags.plist */; };
 		50E695A820CCFD6A0080E3E0 /* BadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E695A720CCFD6A0080E3E0 /* BadgeViewController.swift */; };
 		50EF766C20C2EB3E00263B4F /* ExplanationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EF766B20C2EB3E00263B4F /* ExplanationViewController.swift */; };
+		50FD8F2E21001DE700DBD95E /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD8F2D21001DE700DBD95E /* SignInController.swift */; };
+		50FD8F30210028E900DBD95E /* AuthChoiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD8F2F210028E900DBD95E /* AuthChoiceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4E2E95B25653E89ECFF3683F /* Pods-SAT Prep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SAT Prep.release.xcconfig"; path = "Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep.release.xcconfig"; sourceTree = "<group>"; };
 		5001BDCD20CDFE8A00C9B2B8 /* BadgeCellCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		5001BDCF20CF5BE200C9B2B8 /* BadgeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeDetailViewController.swift; sourceTree = "<group>"; };
 		5001BDD920D0B24800C9B2B8 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -48,19 +51,24 @@
 		501C6B7420ABCF40009E2C18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		501C6B9920ABFA8C009E2C18 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		501C6B9B20ABFCA5009E2C18 /* SAT Prep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SAT Prep.entitlements"; sourceTree = "<group>"; };
-		501C6B9C20ABFCAC009E2C18 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		501C6B9E20AD228D009E2C18 /* DINPro-Light_13935.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DINPro-Light_13935.ttf"; path = "../../../Downloads/DINPro-Light_13935.ttf"; sourceTree = "<group>"; };
 		501C6BA620AD2E42009E2C18 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		509024C220B7CC4400221E74 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		509024CB20BCEDD500221E74 /* LongQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongQuestionViewController.swift; sourceTree = "<group>"; };
 		509024CD20BCF72800221E74 /* ShortQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortQuestionViewController.swift; sourceTree = "<group>"; };
+		50B0EF6C2106B328001806B8 /* flame.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = flame.gif; path = ../../../Documents/flames_AME/flame.gif; sourceTree = "<group>"; };
+		50B0EF722106E377001806B8 /* check_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = check_animation.json; path = ../../../Downloads/check_animation.json; sourceTree = "<group>"; };
+		50B0EF742106E75A001806B8 /* confettibar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = confettibar.png; path = ../../../Downloads/confettibar.png; sourceTree = "<group>"; };
 		50E695A320CCCB670080E3E0 /* BadgeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeController.swift; sourceTree = "<group>"; };
 		50E695A520CCED260080E3E0 /* Tags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tags.plist; sourceTree = "<group>"; };
 		50E695A720CCFD6A0080E3E0 /* BadgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeViewController.swift; sourceTree = "<group>"; };
 		50EF766B20C2EB3E00263B4F /* ExplanationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplanationViewController.swift; sourceTree = "<group>"; };
-		9873E94ED67D52C4A59D7B21 /* Pods-SAT Prep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SAT Prep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep.debug.xcconfig"; sourceTree = "<group>"; };
-		C99B502F1E4B0730F7F0686C /* Pods_SAT_Prep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SAT_Prep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50FD8F2D21001DE700DBD95E /* SignInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
+		50FD8F2F210028E900DBD95E /* AuthChoiceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthChoiceController.swift; sourceTree = "<group>"; };
+		8BEFFB5CCA3154F011F32715 /* Pods_SAT_Prep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SAT_Prep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBBA470E0AC4D4C98847BF86 /* Pods-SAT Prep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SAT Prep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep.debug.xcconfig"; sourceTree = "<group>"; };
+		F3FD52CB9CB4C998220D6230 /* Pods-SAT Prep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SAT Prep.release.xcconfig"; path = "Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +77,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				501C6B9A20ABFA8C009E2C18 /* MapKit.framework in Frameworks */,
-				501C6B9D20ABFCAC009E2C18 /* CloudKit.framework in Frameworks */,
-				454818CCBBBC96BA40A2B265 /* Pods_SAT_Prep.framework in Frameworks */,
+				3C1A419794F728429B2765ED /* Pods_SAT_Prep.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +90,7 @@
 				501C6B6720ABCF3F009E2C18 /* SAT Prep */,
 				501C6B6620ABCF3F009E2C18 /* Products */,
 				501C6B9820ABFA8C009E2C18 /* Frameworks */,
-				A5B2DEFE7ED5681470DD24BF /* Pods */,
+				C4624B251EBE868654DB7A37 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +114,9 @@
 				501C6B7120ABCF40009E2C18 /* LaunchScreen.storyboard */,
 				501C6B7420ABCF40009E2C18 /* Info.plist */,
 				501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */,
+				50B0EF742106E75A001806B8 /* confettibar.png */,
+				50B0EF6C2106B328001806B8 /* flame.gif */,
+				50B0EF722106E377001806B8 /* check_animation.json */,
 				501C6BA820B0A45C009E2C18 /* Models */,
 				5014AC9B20BE4A39008F34D3 /* IBClasses.swift */,
 				50E695A520CCED260080E3E0 /* Tags.plist */,
@@ -117,9 +127,8 @@
 		501C6B9820ABFA8C009E2C18 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				501C6B9C20ABFCAC009E2C18 /* CloudKit.framework */,
 				501C6B9920ABFA8C009E2C18 /* MapKit.framework */,
-				C99B502F1E4B0730F7F0686C /* Pods_SAT_Prep.framework */,
+				8BEFFB5CCA3154F011F32715 /* Pods_SAT_Prep.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -138,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				5001BDD920D0B24800C9B2B8 /* AccountViewController.swift */,
+				50FD8F2F210028E900DBD95E /* AuthChoiceController.swift */,
 				50E695A320CCCB670080E3E0 /* BadgeController.swift */,
 				5001BDCF20CF5BE200C9B2B8 /* BadgeDetailViewController.swift */,
 				50E695A720CCFD6A0080E3E0 /* BadgeViewController.swift */,
@@ -146,15 +156,16 @@
 				509024CB20BCEDD500221E74 /* LongQuestionViewController.swift */,
 				50EF766B20C2EB3E00263B4F /* ExplanationViewController.swift */,
 				509024CD20BCF72800221E74 /* ShortQuestionViewController.swift */,
+				50FD8F2D21001DE700DBD95E /* SignInController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		A5B2DEFE7ED5681470DD24BF /* Pods */ = {
+		C4624B251EBE868654DB7A37 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9873E94ED67D52C4A59D7B21 /* Pods-SAT Prep.debug.xcconfig */,
-				4E2E95B25653E89ECFF3683F /* Pods-SAT Prep.release.xcconfig */,
+				BBBA470E0AC4D4C98847BF86 /* Pods-SAT Prep.debug.xcconfig */,
+				F3FD52CB9CB4C998220D6230 /* Pods-SAT Prep.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -166,11 +177,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 501C6B7720ABCF40009E2C18 /* Build configuration list for PBXNativeTarget "SAT Prep" */;
 			buildPhases = (
-				25AFFC4785EBC8603C687682 /* [CP] Check Pods Manifest.lock */,
+				782B1257F99D2429F12909D7 /* [CP] Check Pods Manifest.lock */,
 				501C6B6120ABCF3F009E2C18 /* Sources */,
 				501C6B6220ABCF3F009E2C18 /* Frameworks */,
 				501C6B6320ABCF3F009E2C18 /* Resources */,
-				4A4AB2C8A213B7213253B38B /* [CP] Embed Pods Frameworks */,
+				7D389F3A64224A2AA29B2148 /* [CP] Embed Pods Frameworks */,
+				8EEFEBBBF8D5CBB82F304658 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -197,6 +209,9 @@
 						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
 							};
@@ -204,7 +219,7 @@
 								enabled = 1;
 							};
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -234,8 +249,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				501C6B7320ABCF40009E2C18 /* LaunchScreen.storyboard in Resources */,
+				50B0EF732106E378001806B8 /* check_animation.json in Resources */,
 				50E695A620CCED260080E3E0 /* Tags.plist in Resources */,
 				501C6B7020ABCF40009E2C18 /* Assets.xcassets in Resources */,
+				50B0EF6D2106B329001806B8 /* flame.gif in Resources */,
+				50B0EF752106E75A001806B8 /* confettibar.png in Resources */,
 				501C6BB420B0ED57009E2C18 /* GoogleService-Info.plist in Resources */,
 				501C6B6E20ABCF40009E2C18 /* Main.storyboard in Resources */,
 				501C6B9F20AD228D009E2C18 /* DINPro-Light_13935.ttf in Resources */,
@@ -245,7 +263,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		25AFFC4785EBC8603C687682 /* [CP] Check Pods Manifest.lock */ = {
+		782B1257F99D2429F12909D7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -263,17 +281,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4A4AB2C8A213B7213253B38B /* [CP] Embed Pods Frameworks */ = {
+		7D389F3A64224A2AA29B2148 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/UICountingLabel/UICountingLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -281,14 +307,23 @@
 				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
 				"${BUILT_PRODUCTS_DIR}/iosMath/iosMath.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UICountingLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -296,11 +331,42 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iosMath.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8EEFEBBBF8D5CBB82F304658 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SAT Prep/Pods-SAT Prep-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -318,10 +384,12 @@
 				509024CC20BCEDD500221E74 /* LongQuestionViewController.swift in Sources */,
 				5014AC9C20BE4A39008F34D3 /* IBClasses.swift in Sources */,
 				5001BDCE20CDFE8A00C9B2B8 /* BadgeCellCollectionViewCell.swift in Sources */,
+				50FD8F30210028E900DBD95E /* AuthChoiceController.swift in Sources */,
 				5014AC9E20BFB2A1008F34D3 /* User.swift in Sources */,
 				50EF766C20C2EB3E00263B4F /* ExplanationViewController.swift in Sources */,
 				501C6B6B20ABCF3F009E2C18 /* ViewController.swift in Sources */,
 				501C6B6920ABCF3F009E2C18 /* AppDelegate.swift in Sources */,
+				50FD8F2E21001DE700DBD95E /* SignInController.swift in Sources */,
 				509024C320B7CC4400221E74 /* Model.swift in Sources */,
 				5001BDD020CF5BE200C9B2B8 /* BadgeDetailViewController.swift in Sources */,
 			);
@@ -462,7 +530,7 @@
 		};
 		501C6B7820ABCF40009E2C18 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9873E94ED67D52C4A59D7B21 /* Pods-SAT Prep.debug.xcconfig */;
+			baseConfigurationReference = BBBA470E0AC4D4C98847BF86 /* Pods-SAT Prep.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SAT Prep/SAT Prep.entitlements";
@@ -479,7 +547,7 @@
 		};
 		501C6B7920ABCF40009E2C18 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E2E95B25653E89ECFF3683F /* Pods-SAT Prep.release.xcconfig */;
+			baseConfigurationReference = F3FD52CB9CB4C998220D6230 /* Pods-SAT Prep.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SAT Prep/SAT Prep.entitlements";

@@ -13,13 +13,21 @@ struct User {
     var index: Int
     var last_answered: Any
     var streak: Int
+    var days: Array<Int>
+    var time: Int
+    var name: String
+    var profileImage: String
     
     var dictionary: [String: Any] {
         return [
             "uid": uid,
             "index": index,
             "last_answered": last_answered,
-            "streak": streak
+            "streak": streak,
+            "days": days,
+            "time": time,
+            "name": name,
+            "profileImage": profileImage
         ]
     }
 }
@@ -29,35 +37,40 @@ extension User {
         guard let uid = uid as String?,
             let index = dictionary["qIndex"] as? Int,
             let last_answered = dictionary["last_answered"] as Any?,
-            let streak = dictionary["streak"] as? Int else { return nil}
+            let streak = dictionary["streak"] as? Int,
+            let days = dictionary["days"] as? Array<Int>,
+            let time = dictionary["time"] as? Int,
+            let name = dictionary["name"] as? String,
+            let profileImage = dictionary["profileImage"] as? String else { return nil}
         
-        self.init(uid: uid, index: index, last_answered: last_answered, streak: streak)
+        self.init(uid: uid, index: index, last_answered: last_answered, streak: streak, days: days, time: time, name: name, profileImage: profileImage)
     }
     init?(uid: String) {
-        self.init(uid: uid, index: 0, last_answered: 0, streak: 0)
+        self.init(uid: uid, index: 0, last_answered: 0, streak: 0, days: [], time: 36, name: "", profileImage: "")
     }
 }
 
 struct Badge {
     var tag: String
     var progress: Int
-    var progressLevel1: Int
-    var progressLevel2: Int
-    var progressLevel3: Int
+    var lastIndex: Int
 }
 
 extension Badge {
     init?(dictionary: [String: Any]) {
         guard let tag = dictionary["tag"] as? String,
             let progress = dictionary["progress"] as? Int,
-            let progressLevel1 = dictionary["progressLevel1"] as? Int,
-            let progressLevel2 = dictionary["progressLevel2"] as? Int,
-            let progressLevel3 = dictionary["progressLevel3"] as? Int else { return nil }
+            let lastIndex = dictionary["lastIndex"] as? Int else { return nil }
         
-        self.init(tag: tag, progress: progress, progressLevel1: progressLevel1, progressLevel2: progressLevel2, progressLevel3: progressLevel3)
+        self.init(tag: tag, progress: progress, lastIndex: lastIndex)
     }
     
     init?() {
-        self.init(tag: "", progress: 0, progressLevel1: 0, progressLevel2: 0, progressLevel3: 0)
+        self.init(tag: "", progress: 0, lastIndex: 0)
+    }
+    
+    mutating func update(index: Int) {
+        self.lastIndex = index
+        self.progress += 1
     }
 }
