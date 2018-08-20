@@ -12,11 +12,12 @@ import Firebase
 class Model {
     var db: Firestore!
     let settings: FirestoreSettings!
-    let tags = ["Linear Equations", "Development", "Analyzing Word Choice", "Linear Inequalities", "Organization", "Analyzing Text Structure", "Rates, Ratios, and Proportions", "Effective Language Use", "Analyzing Point of View", "Scatterplots", "Sentence Structure", "Analyzing Purpose", "Statistics and Probability", "Conventions of Usage", "Analyzing Arguments", "Polynomials and Rational Expressions", "Conventions of Punctuations", "Reading Closely", "Functions", "Citing Textual Evidence", "Quadratic Equations", "Central Ideas and Themes", "Imaginary Numbers", "Summarizing", "Lines, Angles, and Triangles", "Understanding Relationships", "Circles", "Interpreting Words and Phrases", "3D Shapes", "Analyzing Multiple Texts", "Trigonometry", "Quantitative Information"]
+    let tags = ["Linear Equations", "Development", "Analyzing Word Choice", "Linear Inequalities", "Organization", "Analyzing Text Structure", "Rates, Ratios, and Proportions", "Effective Language Use", "Analyzing Point of View", "Scatterplots", "Sentence Structure", "Analyzing Purpose", "Statistics and Probability", "Conventions of Usage", "Analyzing Arguments", "Polynomials and Rational Expressions", "Conventions of Punctuations", "Reading Closely", "Functions", "Citing Textual Evidence", "Quadratic Equations", "Central Ideas and Themes", "Imaginary Numbers", "Summarizing", "Lines, Angles, and Triangles", "Understanding Relationships", "Circles", "Interpreting Words and Phrases", "3D Shapes", "Analyzing Multiple Texts", "Trigonometry", "Quantitative Information", "Systems of Linear Equations"]
     
     init() {
         db = Firestore.firestore()
         settings = db.settings
+        settings.isPersistenceEnabled = true
         settings.areTimestampsInSnapshotsEnabled = true
         db.settings = settings
     }
@@ -36,6 +37,7 @@ class Model {
         var badges = [Badge]()
         
         db.collection("users").document(user!.uid).collection("badges").getDocuments() { (querySnapshot, error) in
+            
             guard let docs = querySnapshot?.documents else { return }
             for doc in docs {
                 badges.append(Badge(dictionary: doc.data())!)
@@ -45,11 +47,6 @@ class Model {
     }
     
     func getUser(completion: @escaping (User) -> ()) {
-//        do {
-//            try Auth.auth().signOut()
-//        } catch {
-//            
-//        }
         let user = Auth.auth().currentUser
         
         let tagDict = self.readTags()
@@ -94,25 +91,27 @@ class Model {
         }
     }
         
-    func getQuestion(tIndex: Int, qIndex: Int, completion: @escaping (Question) -> ()) {
+    func getQuestion(tIndex: Int, qIndex: Int, completion: @escaping (Question?) -> ()) {
         let questionsRef = db.collection("questions")
+        
         questionsRef.whereField("tag", isEqualTo: tags[tIndex])
             .whereField("index", isGreaterThan: qIndex).limit(to: 1)
             .getDocuments() { (querySnapshot, error) in
-                guard let result = Question(dictionary: querySnapshot!.documents[0].data()) else { return }
-                completion(result)
+                let result = querySnapshot!.documents
+                if result.count == 0 { completion(nil); return }
+                completion(Question(dictionary: result[0].data())!)
         }
     }
     
-    func getTagQuestion(qIndex: Int, tag: String, completion: @escaping (Question) -> ()) {
+    func getTagQuestion(qIndex: Int, tag: String, completion: @escaping (Question?) -> ()) {
         let questionsRef = db.collection("questions")
         
         questionsRef.whereField("tag", isEqualTo: tag)
             .whereField("index", isGreaterThan: qIndex).limit(to: 1)
             .getDocuments() { (querySnapshot, error) in
-                
-                guard let result = Question(dictionary: querySnapshot!.documents[0].data()) else { return }
-                completion(result)
+                let result = querySnapshot!.documents
+                if result.count == 0 { completion(nil); return }
+                completion(Question(dictionary: result[0].data())!)
         }
     }
     

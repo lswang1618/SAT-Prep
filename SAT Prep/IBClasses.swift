@@ -99,6 +99,26 @@ class RoundedCornerView: UIView {
         borderPath.lineWidth = borderWidth
         borderPath.stroke()
     }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        for subview in subviews as [UIView] {
+            if !subview.isHidden && subview.alpha > 0 && subview.isUserInteractionEnabled && subview.point(inside: convert(point, to: subview), with: event) {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+class StackView: UIStackView {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        for subview in subviews as [UIView] {
+            if !subview.isHidden && subview.alpha > 0 && subview.isUserInteractionEnabled && subview.point(inside: convert(point, to: subview), with: event) {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 class MultiLineButton: UIButton {
@@ -129,6 +149,14 @@ class MultiLineButton: UIButton {
         super.layoutSubviews()
     }
     
+}
+
+class ExplanationButton: UIButton {
+    var mathLabel = MTMathUILabel()
+    
+    override func draw(_ rect: CGRect) {
+        mathLabel.isUserInteractionEnabled = false
+    }
 }
 
 class ChoiceButton: UIButton {

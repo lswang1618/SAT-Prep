@@ -26,40 +26,73 @@ class ViewController: UIViewController {
     var collision: UICollisionBehavior!
     var elasticity: UIDynamicItemBehavior!
     
+    var colors = [UIColor(red:0.33, green:0.33, blue:0.42, alpha:1.0),
+                  UIColor(red:0.37, green:0.79, blue:0.00, alpha:1.0),
+                  UIColor(red:0.85, green:0.44, blue:0.18, alpha:1.0),
+                  UIColor(red:0.92, green:0.00, blue:0.78, alpha:1.0),
+                  UIColor(red:0.48, green:0.53, blue:0.88, alpha:1.0),
+                  UIColor(red:0.56, green:0.43, blue:0.80, alpha:1.0),
+                  UIColor(red:0.26, green:0.73, blue:0.88, alpha:1.0),
+                  UIColor(red:0.00, green:0.66, blue:0.25, alpha:1.0),
+                  UIColor(red:1.00, green:0.84, blue:0.18, alpha:1.0),
+                  UIColor(red:1.00, green:0.28, blue:0.33, alpha:1.0),
+                  UIColor(red:0.05, green:0.40, blue:0.75, alpha:1.0),
+                  UIColor(red:0.34, green:0.90, blue:0.86, alpha:1.0),
+                  UIColor(red:1.00, green:0.61, blue:0.00, alpha:1.0),
+                  UIColor(red:1.00, green:0.63, blue:0.00, alpha:1.0)]
+    
     @IBOutlet weak var getAnotherButton: UIButton!
     @IBOutlet weak var flameView: FLAnimatedImageView!
     @IBOutlet weak var successView: UIView!
     @IBOutlet weak var streakLabel: UICountingLabel!
     @IBOutlet weak var streakStackView: UIStackView!
-    
+    @IBOutlet weak var errorStackView: UIStackView!
+    @IBOutlet weak var errorView: LOTAnimatedControl!
     
     @IBAction func anotherButton(_ sender: UIButton) {
+        self.renderHeader()
         let tagIndex = self.user!.index
+        
         if self.badges.count == 0 {
             self.model?.getBadges() { results in
                 self.badges = results
                 self.fetchQuestion(model: self.model!, qIndex: (self.badges.filter({ $0.tag == self.model!.tags[tagIndex] }).first?.lastIndex)!, tIndex: tagIndex)
+                self.renderHeader()
             }
         } else {
             self.fetchQuestion(model: self.model!, qIndex: (self.badges.filter({ $0.tag == self.model!.tags[tagIndex] }).first?.lastIndex)!, tIndex: tagIndex)
+            self.renderHeader()
         }
-        self.renderHeader()
     }
     
-    func loadQuestion(tagQuestion: Question) {
+    func loadError() {
+        streakStackView.isHidden = true
+        errorStackView.spacing = view.frame.size.height*0.065
+        errorStackView.isHidden = false
+        errorView.animationView.setAnimation(named: "struggle")
+        errorView.animationView.contentMode = .scaleAspectFit
+        errorView.animationView.loopAnimation = true
+        errorView.animationView.play()
+    }
+    
+    func loadQuestion(tagQuestion: Question?) {
+        if tagQuestion == nil {
+            loadError()
+            return
+        }
         self.question = tagQuestion
         if self.badges.count == 0 {
             self.model?.getBadges() { results in
                 self.badges = results
+                self.renderHeader()
             }
         }
-    
-        if tagQuestion.content.main.count > 0 {
+        
+        if tagQuestion!.content.main.count > 0 {
             self.addChildViewController(self.longQuestionViewController)
         } else {
             self.addChildViewController(self.shortQuestionViewController)
         }
-   
     }
     
     //MARK: Child View Controllers
@@ -96,8 +129,11 @@ class ViewController: UIViewController {
         successView.isHidden = true
         
         db = Firestore.firestore()
+        let settings = db?.settings
+        settings?.isPersistenceEnabled = true
+        settings?.areTimestampsInSnapshotsEnabled = true
+        db?.settings = settings!
         model = Model()
-        
         model?.getUser() {user in
             self.user = user
             let state = self.model?.checkStreak(user: user)
@@ -105,9 +141,11 @@ class ViewController: UIViewController {
                 self.renderStreak()
             } else {
                 let tagIndex = self.user!.index
+                
                 if self.badges.count == 0 {
                     self.model?.getBadges() { results in
                         self.badges = results
+                        
                         self.fetchQuestion(model: self.model!, qIndex: (self.badges.filter({ $0.tag == self.model!.tags[tagIndex] }).first?.lastIndex)!, tIndex: tagIndex)
                     }
                 } else {
@@ -120,13 +158,20 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.layoutIfNeeded()
     }
 
     func fetchQuestion(model: Model, qIndex: Int, tIndex: Int) {
         if self.question == nil {
             model.getQuestion(tIndex: tIndex, qIndex: qIndex) {result in
-                self.question = result
-                if result.content.main.count > 0 {
+                if result == nil {
+                    self.loadError()
+                    return
+                }
+                
+                self.question = result!
+                
+                if result!.content.main.count > 0 {
                     self.addChildViewController(self.longQuestionViewController)
                 } else {
                     self.addChildViewController(self.shortQuestionViewController)
@@ -140,6 +185,7 @@ class ViewController: UIViewController {
         navStreakLabel.contentMode = .scaleAspectFit
         navStreakCount.textAlignment = NSTextAlignment.center
         navStreakCount.textColor = UIColor(red:1.00, green:0.45, blue:0.29, alpha:1.0)
+        
         navStreakCount.text = String((user?.streak)!)
         navStreakCount.font = navStreakCount.font.withSize(self.view.frame.height * 0.036)
         
@@ -170,23 +216,14 @@ class ViewController: UIViewController {
         let imageData1 = try? FLAnimatedImage(animatedGIFData: gifData)
         flameView.animatedImage = imageData1
         flameView.contentMode = .scaleAspectFit
+        UIView.transition(with: flameView, duration: 1.0, options: .curveEaseIn, animations: {self.flameView.alpha = CGFloat(1.0)}, completion: nil)
+        
         getAnotherButton.isHidden = false
         
-        animator = UIDynamicAnimator(referenceView: view)
-        gravity = UIGravityBehavior(items: [streakStackView])
-        animator.addBehavior(gravity)
-        
-        
-        collision = UICollisionBehavior(items: [streakStackView])
-        collision.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: 0, y: view.frame.size.height*0.5), to: CGPoint(x: view.frame.size.width, y: view.frame.size.height*0.5))
-        animator.addBehavior(collision)
-        
-        elasticity = UIDynamicItemBehavior(items: [streakStackView])
-        elasticity.elasticity = 0.6
-        animator.addBehavior(elasticity)
     }
     
     func add(asChildViewController viewController: UIViewController) {
+        
         addChildViewController(viewController)
         
         view.addSubview(viewController.view)
@@ -235,6 +272,9 @@ class ViewController: UIViewController {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
         let badgeVC = storyBoard.instantiateViewController(withIdentifier: "badgeDetailView") as! BadgeDetailViewController
+        let tags = self.model?.readTags()[(question?.subject)!.lowercased()]
+        let index = question!.tag
+        badgeVC.color = colors[(tags?.index(of: index))!]
         badgeVC.badge = (self.badges.filter({ $0.tag == question?.tag }).first)!
         self.navigationController?.pushViewController(badgeVC, animated: true)
     }

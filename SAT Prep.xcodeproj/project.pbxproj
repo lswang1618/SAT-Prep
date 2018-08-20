@@ -22,6 +22,7 @@
 		501C6B9F20AD228D009E2C18 /* DINPro-Light_13935.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 501C6B9E20AD228D009E2C18 /* DINPro-Light_13935.ttf */; };
 		501C6BA720AD2E42009E2C18 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C6BA620AD2E42009E2C18 /* Question.swift */; };
 		501C6BB420B0ED57009E2C18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */; };
+		502FA0FD21194BAD00F848E2 /* struggle.json in Resources */ = {isa = PBXBuildFile; fileRef = 502FA0FC21194BAD00F848E2 /* struggle.json */; };
 		509024C320B7CC4400221E74 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024C220B7CC4400221E74 /* Model.swift */; };
 		509024CC20BCEDD500221E74 /* LongQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024CB20BCEDD500221E74 /* LongQuestionViewController.swift */; };
 		509024CE20BCF72800221E74 /* ShortQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024CD20BCF72800221E74 /* ShortQuestionViewController.swift */; };
@@ -54,6 +55,9 @@
 		501C6B9E20AD228D009E2C18 /* DINPro-Light_13935.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DINPro-Light_13935.ttf"; path = "../../../Downloads/DINPro-Light_13935.ttf"; sourceTree = "<group>"; };
 		501C6BA620AD2E42009E2C18 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		502FA0F62117FB8D00F848E2 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Regular.otf"; path = "../../../Library/Fonts/SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		502FA0F72117FB9700F848E2 /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Light.otf"; path = "../../../Library/Fonts/SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
+		502FA0FC21194BAD00F848E2 /* struggle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = struggle.json; path = ../../../Downloads/struggle.json; sourceTree = "<group>"; };
 		509024C220B7CC4400221E74 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		509024CB20BCEDD500221E74 /* LongQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongQuestionViewController.swift; sourceTree = "<group>"; };
 		509024CD20BCF72800221E74 /* ShortQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortQuestionViewController.swift; sourceTree = "<group>"; };
@@ -110,12 +114,15 @@
 				501C6B6820ABCF3F009E2C18 /* AppDelegate.swift */,
 				501C6B6C20ABCF40009E2C18 /* Main.storyboard */,
 				501C6B9E20AD228D009E2C18 /* DINPro-Light_13935.ttf */,
+				502FA0F72117FB9700F848E2 /* SF-UI-Display-Light.otf */,
+				502FA0F62117FB8D00F848E2 /* SF-UI-Display-Regular.otf */,
 				501C6B6F20ABCF40009E2C18 /* Assets.xcassets */,
 				501C6B7120ABCF40009E2C18 /* LaunchScreen.storyboard */,
 				501C6B7420ABCF40009E2C18 /* Info.plist */,
 				501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */,
 				50B0EF742106E75A001806B8 /* confettibar.png */,
 				50B0EF6C2106B328001806B8 /* flame.gif */,
+				502FA0FC21194BAD00F848E2 /* struggle.json */,
 				50B0EF722106E377001806B8 /* check_animation.json */,
 				501C6BA820B0A45C009E2C18 /* Models */,
 				5014AC9B20BE4A39008F34D3 /* IBClasses.swift */,
@@ -212,6 +219,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
 							};
@@ -252,6 +262,7 @@
 				50B0EF732106E378001806B8 /* check_animation.json in Resources */,
 				50E695A620CCED260080E3E0 /* Tags.plist in Resources */,
 				501C6B7020ABCF40009E2C18 /* Assets.xcassets in Resources */,
+				502FA0FD21194BAD00F848E2 /* struggle.json in Resources */,
 				50B0EF6D2106B329001806B8 /* flame.gif in Resources */,
 				50B0EF752106E75A001806B8 /* confettibar.png in Resources */,
 				501C6BB420B0ED57009E2C18 /* GoogleService-Info.plist in Resources */,
@@ -296,6 +307,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
@@ -320,6 +332,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",

@@ -20,7 +20,6 @@ class AccountViewController: UIViewController {
     @IBOutlet weak var notificationSwitch: UISwitch!
     @IBOutlet weak var profileImage: UIButton!
     @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var logoutButton: UIBarButtonItem!
     @IBOutlet weak var notificationMessage: UILabel!
     
     @IBOutlet weak var dateView: UIStackView!
@@ -62,6 +61,10 @@ class AccountViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(checkNotificationSetting), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
         
         db = Firestore.firestore()
+        let settings = db.settings
+        settings.isPersistenceEnabled = true
+        settings.areTimestampsInSnapshotsEnabled = true
+        db.settings = settings
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -168,10 +171,7 @@ class AccountViewController: UIViewController {
         self.time = hour * 4 + (minutes / 15)
     }
     
-    @IBAction func toggleLogout(_ sender: UIBarButtonItem) {
 
-    }
-    
     func toggleView() {
         DispatchQueue.main.async {
             self.notificationSwitch.isOn = !self.notificationsOff

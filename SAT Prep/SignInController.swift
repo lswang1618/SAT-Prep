@@ -45,6 +45,7 @@ class SignInController: UIViewController, FUIAuthDelegate {
                 
                 let providers: [FUIAuthProvider] = [
                     FUIGoogleAuth(),
+                    FUIFacebookAuth(),
                     FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()!),
                     ]
                 authUI?.providers = providers
@@ -59,20 +60,27 @@ class SignInController: UIViewController, FUIAuthDelegate {
     }
     
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
-        let data = Auth.auth().currentUser?.providerData[0]
-        
-        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-        changeRequest?.displayName = data?.displayName
-        changeRequest?.photoURL = data?.photoURL
-        changeRequest?.commitChanges { (error) in
+        let x = Auth.auth().currentUser
+        if (x?.isAnonymous)! || error != nil {
+            self.performSegue(withIdentifier: "logoutSegue", sender: nil)
+        } else {
+            let data = Auth.auth().currentUser?.providerData[0]
+            
+            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+            changeRequest?.displayName = data?.displayName
+            changeRequest?.photoURL = data?.photoURL
+            changeRequest?.commitChanges { (error) in
+            }
+            self.user = Auth.auth().currentUser
+            isLoggedIn()
         }
-        self.user = Auth.auth().currentUser
-        isLoggedIn()
+        
     }
     
-//    func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
-//        return AuthChoiceController(authUI: authUI)
-//    }
+    func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
+        
+        return AuthChoiceController(authUI: authUI)
+    }
     
     func application(_ app: UIApplication, open url: URL,
                      options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
@@ -86,6 +94,10 @@ class SignInController: UIViewController, FUIAuthDelegate {
     
     func isLoggedIn() {
         let db = Firestore.firestore()
+        let settings = db.settings
+        settings.isPersistenceEnabled = true
+        settings.areTimestampsInSnapshotsEnabled = true
+        db.settings = settings
         let model = Model()
         
         model.getUser() { eUser in
@@ -136,5 +148,15 @@ class SignInController: UIViewController, FUIAuthDelegate {
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         viewController.didMove(toParentViewController: self)
+    }
+    
+    @IBAction func logout(_ sender: UIBarButtonItem) {
+        
+        do {
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "logoutSegue", sender: nil)
+        } catch {
+            
+        }
     }
 }

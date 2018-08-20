@@ -94,10 +94,11 @@ class ShortQuestionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.layoutIfNeeded()
         parentVC = self.parent as? ViewController
         questionField.isHidden = true
         renderQuestion(q: question)
+        
     }
     
     private func renderQuestion(q: Question) {
@@ -114,21 +115,24 @@ class ShortQuestionViewController: UIViewController {
         buttonD.shapeLayer.fillColor = orange.cgColor
         
         
-        if q.subject == "Math" {
+        if q.text.range(of: "\\") != nil {
             let mathLabel = MTMathUILabel()
             mathLabel.latex = q.text
-            mathLabel.sizeToFit()
+            mathLabel.fontSize = self.view.frame.height * 0.026
             mathLabel.textAlignment = MTTextAlignment.center
-            questionView.insertArrangedSubview(mathLabel, at: 0)
-
+            mathLabel.contentInsets = UIEdgeInsetsMake(0, 0, 20, 0);
+            questionView.insertArrangedSubview(mathLabel, at: 1)
+        } else {
+            questionField.text = q.text
+            questionField.isHidden = false
+        }
+        
+        if question.answerA.choiceText.range(of: "\\") != nil {
             createMathLabel(question.answerA.choiceText, buttonA)
             createMathLabel(question.answerB.choiceText, buttonB)
             createMathLabel(question.answerC.choiceText, buttonC)
             createMathLabel(question.answerD.choiceText, buttonD)
         } else {
-            questionField.text = q.text
-            questionField.isHidden = false
-            
             buttonA.setTitle(question.answerA.choiceText, for: .normal)
             buttonB.setTitle(question.answerB.choiceText, for: .normal)
             buttonC.setTitle(question.answerC.choiceText, for: .normal)
@@ -137,24 +141,19 @@ class ShortQuestionViewController: UIViewController {
             
         animator = UIDynamicAnimator(referenceView: view)
         gravity = UIGravityBehavior(items: [card])
-        gravity.magnitude = 2.0
+        gravity.magnitude = 3.0
         animator.addBehavior(gravity)
-        
         
         collision = UICollisionBehavior(items: [card])
         collision.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: 0, y: view.frame.size.height*0.8), to: CGPoint(x: view.frame.size.width, y: view.frame.size.height*0.8))
         animator.addBehavior(collision)
-        
-        elasticity = UIDynamicItemBehavior(items: [card])
-        elasticity.elasticity = 0.4
-        animator.addBehavior(elasticity)
     }
     
     private func createMathLabel(_ text: String, _ button: ChoiceButton) {
         button.mathLabel.latex = text
         button.mathLabel.sizeToFit()
         button.mathLabel.textColor = UIColor.white
-        button.shapeLayer.fillColor = UIColor(red:0.00, green:0.51, blue:0.69, alpha:1.0).cgColor
+        button.shapeLayer.fillColor = orange.cgColor
         button.addSubview(button.mathLabel)
     }
 

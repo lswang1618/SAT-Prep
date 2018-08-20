@@ -101,11 +101,10 @@ class LongQuestionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.layoutIfNeeded()
         parentVC = self.parent as? ViewController
         
         scrollView.layer.cornerRadius = 20
-        
         questionField.isHidden = true
         renderQuestion(q: question)
         renderContent(q: question)
@@ -156,21 +155,23 @@ class LongQuestionViewController: UIViewController {
         buttonC.shapeLayer.fillColor = mint.cgColor
         buttonD.shapeLayer.fillColor = mint.cgColor
         
-        if q.subject == "Math" {
+        if q.text.range(of: "\\") != nil {
             let mathLabel = MTMathUILabel()
             mathLabel.latex = q.text
             mathLabel.sizeToFit()
             mathLabel.textAlignment = MTTextAlignment.center
             questionView.insertArrangedSubview(mathLabel, at: 1)
-            
+        } else {
+            questionField.text = q.text
+            questionField.isHidden = false
+        }
+        
+        if question.answerA.choiceText.range(of: "\\") != nil {
             createMathLabel(question.answerA.choiceText, buttonA)
             createMathLabel(question.answerB.choiceText, buttonB)
             createMathLabel(question.answerC.choiceText, buttonC)
             createMathLabel(question.answerD.choiceText, buttonD)
         } else {
-            questionField.text = q.text
-            questionField.isHidden = false
-            
             buttonA.setTitle(question.answerA.choiceText, for: .normal)
             buttonB.setTitle(question.answerB.choiceText, for: .normal)
             buttonC.setTitle(question.answerC.choiceText, for: .normal)
@@ -186,7 +187,7 @@ class LongQuestionViewController: UIViewController {
     }
     
     private func renderContent(q: Question) {
-        contentStackView.layoutMargins = UIEdgeInsets(top: 15, left: 8, bottom: 0, right: 8)
+        contentStackView.layoutMargins = UIEdgeInsets(top: 25, left: 25, bottom: 0, right: 25)
         contentStackView.isLayoutMarginsRelativeArrangement = true
         
         let content = q.content
@@ -195,20 +196,20 @@ class LongQuestionViewController: UIViewController {
         let titleLabel = UILabel()
         let introLabel = UILabel()
         let mainLabel = UILabel()
-        let image = UIImageView()
+        let image = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: contentStackView.frame.width*0.8, height: contentStackView.frame.width*0.8))
         let labels = content.labels
         
         if content.title != "" {
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
             titleLabel.numberOfLines = 0
             titleLabel.text = content.title.replacingOccurrences(of: "\\n", with: "\n" + space)
-            titleLabel.font = UIFont.systemFont(ofSize: 22)
+            titleLabel.font = UIFont(name: "Gill Sans", size: 24)
             contentStackView.addArrangedSubview(titleLabel)
         }
         if content.intro != "" {
             introLabel.translatesAutoresizingMaskIntoConstraints = false
             introLabel.numberOfLines = 0
-            introLabel.font = UIFont.systemFont(ofSize: 22)
+            introLabel.font = UIFont(name: "Gill Sans", size: 16)
             introLabel.text = content.intro.replacingOccurrences(of: "\\n", with: "\n" + space)
             contentStackView.addArrangedSubview(introLabel)
         }
@@ -216,9 +217,36 @@ class LongQuestionViewController: UIViewController {
             do {
                 let imageURL = URL(string: content.image)
                 let data = try Data(contentsOf: imageURL!)
-                image.image = UIImage(data: data)
-                contentStackView.addArrangedSubview(image)
                 image.contentMode = .scaleAspectFit
+                let oldImage = UIImage(data: data)
+                let oldWidth = oldImage!.size.width
+                let scaleFactor = contentStackView.frame.size.width * 0.95 / oldWidth
+                let cgImage = oldImage!.cgImage
+                
+                let width = Double(cgImage!.width) * Double(scaleFactor)
+                let height = Double(cgImage!.height) * Double(scaleFactor)
+                let bitsPerComponent = cgImage!.bitsPerComponent
+                let bytesPerRow = cgImage!.bytesPerRow
+                let colorSpace = cgImage!.colorSpace
+                let bitmapInfo = cgImage!.bitmapInfo
+                
+                let context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)
+                
+                context!.interpolationQuality = .high
+                UIGraphicsPushContext(context!)
+                UIGraphicsBeginImageContextWithOptions(CGSize(width: CGFloat(width), height: CGFloat(height)), false, UIScreen.main.scale)
+                oldImage?.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
+                let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                
+                image.image = newImage
+                
+                var ivFrame = image.frame
+                ivFrame.size.height = (image.image?.size.height)!
+                ivFrame.size.width = (image.image?.size.width)!
+                image.frame = ivFrame
+                
+                contentStackView.addArrangedSubview(image)
             }
             catch{
                 print(error)
@@ -229,11 +257,24 @@ class LongQuestionViewController: UIViewController {
         mainLabel.font = UIFont(name: "Georgia", size: 16)
         
         let cArray = content.main
+        var attributedString = NSMutableAttributedString()
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        
+        if question.subject == "Writing" {
+            paragraphStyle.lineSpacing = 10
+        } else {
+            paragraphStyle.lineSpacing = 5
+        }
         
         if content.labels.count == 0 {
-            mainLabel.text = space + cArray[0].replacingOccurrences(of: "\\n", with: "\n" + space)
+            if content.useLabels {
+                attributedString = NSMutableAttributedString(string: cArray[0].replacingOccurrences(of: "\\n", with: "\n"))
+            } else {
+                attributedString = NSMutableAttributedString(string: space + cArray[0].replacingOccurrences(of: "\\n", with: "\n" + space))
+            }
         } else {
-            let attributedString = NSMutableAttributedString(string: space)
+            attributedString = NSMutableAttributedString(string: space)
             if content.useLabels  {
                 let iconSize = CGRect(x: 0, y: -5, width: 30, height: 30)
                 let iconList = [UIImage(named: "iconA"), UIImage(named: "iconB"), UIImage(named: "iconC"), UIImage(named: "iconD")]
@@ -256,34 +297,28 @@ class LongQuestionViewController: UIViewController {
             else {
                 for i in 0...cArray.count-1 {
                     if labels.contains(i) {
-                        let attrs = [NSAttributedStringKey.foregroundColor : mint]//, NSAttributedStringKey.backgroundColor : mint]
+                        let attrs = [NSAttributedStringKey.foregroundColor : mint, NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue] as [NSAttributedStringKey : Any]
                         attributedString.append(NSMutableAttributedString(string:cArray[i].replacingOccurrences(of: "\\n", with: "\n" + space), attributes:attrs))
                     } else {
                         attributedString.append(NSMutableAttributedString(string: cArray[i].replacingOccurrences(of: "\\n", with: "\n" + space)))
                     }
                 }
             }
-            
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 10
-            attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
-            mainLabel.attributedText = attributedString
         }
+        
+        attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        mainLabel.attributedText = attributedString
         
         contentStackView.addArrangedSubview(mainLabel)
         
         animator = UIDynamicAnimator(referenceView: view)
         gravity = UIGravityBehavior(items: [card])
-        gravity.magnitude = 2.0
+        gravity.magnitude = 3.0
         animator.addBehavior(gravity)
         
         collision = UICollisionBehavior(items: [card])
         collision.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: 0, y: view.frame.size.height*0.82), to: CGPoint(x: view.frame.size.width, y: view.frame.size.height*0.82))
         animator.addBehavior(collision)
-        
-        elasticity = UIDynamicItemBehavior(items: [card])
-        elasticity.elasticity = 0.4
-        animator.addBehavior(elasticity)
         
     }
 }

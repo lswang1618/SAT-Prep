@@ -39,7 +39,7 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
                 removeView()
             }
         } else {
-            // flash wrong answer
+            shake(button: sender, values: [-12.0, 12.0, -12.0, 12.0, -6.0, 6.0, -3.0, 3.0, 0.0])
         }
     }
     
@@ -53,12 +53,12 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
                 removeView()
             }
         } else {
-            // flash wrong answer
+            shake(button: sender, values: [-12.0, 12.0, -12.0, 12.0, -6.0, 6.0, -3.0, 3.0, 0.0])
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         let parent = self.parent as! ViewController
         parent.navigationController?.navigationBar.barTintColor = UIColor(red:1.00, green:0.39, blue:0.42, alpha:1.0)
         parent.navStreakLabel.image = UIImage(named:"White_Flame")
@@ -68,30 +68,58 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         renderExplanation(e: currentExplanation!)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        let parent = self.parent as! ViewController
-        parent.navigationController?.navigationBar.barTintColor = UIColor(red:1.00, green:0.39, blue:0.42, alpha:1.0)
-    }
     
     func removeView() {
+        newCardView.removeFromSuperview()
+        newCardView = nil
         let parent = self.parent as! ViewController
+        
         parent.remove(asChildViewController: self)
         
         parent.navigationController?.navigationBar.barTintColor = mint
         parent.navStreakLabel.image = UIImage(named:"Flame")
         parent.navStreakCount.textColor = orange
+        
+        if let parentVC = parent.childViewControllers[0] as? LongQuestionViewController {
+            let deviceHeight = parentVC.answers.superview?.frame.height
+            let viewHeight = parentVC.answers.frame.height
+            parentVC.answers.center = CGPoint(x: parentVC.answers.center.x, y: deviceHeight! - viewHeight*0.5)
+        }
     }
     
-    func renderButton(button: UIButton) {
-        button.titleLabel?.font = UIFont(name: "DinPro-Light", size: view.frame.height*0.02)!
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.titleEdgeInsets = UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
+    func renderButton(button: ExplanationButton, choice: String) {
         button.layer.cornerRadius = 10
         button.layer.borderWidth = 3
         button.layer.borderColor = mint.cgColor
-        button.titleLabel?.numberOfLines = 0
-        button.titleLabel?.lineBreakMode = .byWordWrapping
+        
+        if choice.range(of: "\\") != nil {
+            button.mathLabel.latex = choice
+            button.mathLabel.textColor = UIColor.black
+            button.mathLabel.fontSize = view.frame.size.height*0.024
+            button.addSubview(button.mathLabel)
+            button.mathLabel.translatesAutoresizingMaskIntoConstraints = false
+            button.mathLabel.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
+            button.mathLabel.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
+        }
+        else {
+            button.setTitle(choice, for: .normal)
+            button.titleLabel?.font = UIFont(name: "DinPro-Light", size: view.frame.height*0.02)!
+            button.setTitleColor(UIColor.black, for: .normal)
+            button.titleEdgeInsets = UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
+            button.titleLabel?.numberOfLines = 0
+            button.titleLabel?.lineBreakMode = .byWordWrapping
+        }
+    }
+    
+    func shake(button: UIButton, duration: TimeInterval = 0.5, values: [CGFloat]) {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        
+        // Swift 4.1 and below
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        
+        animation.duration = duration // You can set fix duration
+        animation.values = values  // You can set fix values here also
+        button.layer.add(animation, forKey: "shake")
     }
     
     func renderExplanation(e: Explanation) {
@@ -106,8 +134,8 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
             collisionOut.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: -1 * view.frame.size.width, y: 0), to: CGPoint(x: -1 * view.frame.size.width, y: view.frame.size.height))
             animatorOut.addBehavior(collisionOut)
         }
-        let deviceHeight = self.parent?.view.frame.height
         
+        let deviceHeight = self.parent?.view.frame.height
         let deviceWidth = UIScreen.main.bounds.size.width
         let navHeight = self.navigationController?.navigationBar.frame.size.height
         
@@ -116,29 +144,38 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         newCardView.cornerRadius = 25
         
         
-        let buttonA = UIButton(type: .system) as UIButton
+        let buttonA = ExplanationButton(type: .system) as ExplanationButton
         buttonA.addTarget(self, action: #selector(self.selectChoiceA(_:)), for: UIControlEvents.touchUpInside)
-        buttonA.setTitle(e.choiceA, for: .normal)
-        renderButton(button: buttonA)
         
-        let buttonB = UIButton(type: .system) as UIButton
+        
+        let buttonB = ExplanationButton(type: .system) as ExplanationButton
         buttonB.addTarget(self, action: #selector(self.selectChoiceB(_:)), for: UIControlEvents.touchUpInside)
-        buttonB.setTitle(e.choiceB, for: .normal)
-        renderButton(button: buttonB)
+        
         
         let text = UILabel()
-        text.lineBreakMode = .byWordWrapping
-        text.numberOfLines = 0
-        text.text = e.explanationText
-        text.textColor = UIColor.black
-        text.font = UIFont(name: "DinPro-Light", size: view.frame.height*0.024)!
-        text.textAlignment = NSTextAlignment.center
+        let mathLabel = MTMathUILabel()
+        var stackView = UIStackView()
+        if e.explanationText.range(of: "\\") != nil {
+            mathLabel.latex = e.explanationText
+            mathLabel.fontSize = self.view.frame.height * 0.026
+            mathLabel.textAlignment = MTTextAlignment.center
+            stackView = UIStackView(arrangedSubviews: [mathLabel, buttonA, buttonB])
+        } else {
+            text.lineBreakMode = .byWordWrapping
+            text.numberOfLines = 0
+            text.text = e.explanationText
+            text.textColor = UIColor.black
+            text.font = UIFont(name: "DinPro-Light", size: deviceHeight!*0.024)!
+            text.textAlignment = NSTextAlignment.center
+            stackView = UIStackView(arrangedSubviews: [text, buttonA, buttonB])
+        }
+        renderButton(button: buttonA, choice: e.choiceA)
+        renderButton(button: buttonB, choice: e.choiceB)
         
-        let stackView = UIStackView(arrangedSubviews: [text, buttonA, buttonB])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
-        stackView.spacing = 40
+        stackView.spacing = view.frame.height*0.05
         stackView.translatesAutoresizingMaskIntoConstraints = false
         newCardView.addSubview(stackView)
         
@@ -146,12 +183,12 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         
         let viewsDictionary = ["stackView": stackView]
         let stackView_H = NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-40-[stackView]-40-|",
+            withVisualFormat: "H:|-30-[stackView]-30-|",
             options: NSLayoutFormatOptions(rawValue: 0),
             metrics: nil,
             views: viewsDictionary)
         let stackView_V = NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-40-[stackView]-40-|",
+            withVisualFormat: "V:|-30-[stackView]-50-|",
             options: NSLayoutFormatOptions(rawValue:0),
             metrics: nil,
             views: viewsDictionary)
@@ -169,9 +206,6 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         collisionIn = UICollisionBehavior(items: [newCardView])
         collisionIn.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: view.frame.size.width*0.05, y: 0), to: CGPoint(x: view.frame.size.width*0.05, y: view.frame.size.height))
         animatorIn.addBehavior(collisionIn)
-        
-        elasticityIn = UIDynamicItemBehavior(items: [newCardView])
-        elasticityIn.elasticity = 0.4
-        animatorIn.addBehavior(elasticityIn)
+    
     }
 }

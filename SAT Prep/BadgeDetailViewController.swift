@@ -47,7 +47,6 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
             let model = Model()
             
             model.getTagQuestion(qIndex: (badge?.lastIndex)!, tag: (badge?.tag)!, completion: {question in
-                
                 cVC.loadQuestion(tagQuestion: question)})
         }
     }
@@ -142,7 +141,7 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
         animator.delegate = self
         gravity = UIGravityBehavior(items: [card])
         gravity.gravityDirection = CGVector(dx: -1.0, dy: 0.0)
-        gravity.magnitude = 2.0
+        gravity.magnitude = 3.0
         animator.addBehavior(gravity)
         
         collision = UICollisionBehavior(items: [card])
@@ -150,7 +149,7 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
         animator.addBehavior(collision)
         
         elasticity = UIDynamicItemBehavior(items: [card])
-        elasticity.elasticity = 0.4
+        elasticity.elasticity = 0
         animator.addBehavior(elasticity)
     }
     

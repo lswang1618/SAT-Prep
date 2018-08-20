@@ -30,7 +30,8 @@ class BadgeViewController: UICollectionViewController {
                   UIColor(red:1.00, green:0.28, blue:0.33, alpha:1.0),
                   UIColor(red:0.05, green:0.40, blue:0.75, alpha:1.0),
                   UIColor(red:0.34, green:0.90, blue:0.86, alpha:1.0),
-                  UIColor(red:1.00, green:0.61, blue:0.00, alpha:1.0)]
+                  UIColor(red:1.00, green:0.61, blue:0.00, alpha:1.0),
+                  UIColor(red:1.00, green:0.63, blue:0.00, alpha:1.0)]
     
     //UI Constants
     let itemsPerRow: CGFloat = 3
