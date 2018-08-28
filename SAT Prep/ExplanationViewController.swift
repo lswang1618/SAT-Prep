@@ -92,7 +92,7 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         button.layer.borderWidth = 3
         button.layer.borderColor = mint.cgColor
         
-        if choice.range(of: "\\") != nil {
+        if choice.range(of: "\\") != nil && choice.range(of: "\\u") == nil {
             button.mathLabel.latex = choice
             button.mathLabel.textColor = UIColor.black
             button.mathLabel.fontSize = view.frame.size.height*0.024
@@ -102,7 +102,8 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
             button.mathLabel.centerYAnchor.constraint(equalTo: button.centerYAnchor).isActive = true
         }
         else {
-            button.setTitle(choice, for: .normal)
+            let string = choice.replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+            button.setTitle(string.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}"), for: .normal)
             button.titleLabel?.font = UIFont(name: "DinPro-Light", size: view.frame.height*0.02)!
             button.setTitleColor(UIColor.black, for: .normal)
             button.titleEdgeInsets = UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
@@ -155,7 +156,7 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         let text = UILabel()
         let mathLabel = MTMathUILabel()
         var stackView = UIStackView()
-        if e.explanationText.range(of: "\\") != nil {
+        if e.explanationText.range(of: "\\") != nil && e.explanationText.range(of: "\\u") == nil {
             mathLabel.latex = e.explanationText
             mathLabel.fontSize = self.view.frame.height * 0.026
             mathLabel.textAlignment = MTTextAlignment.center
@@ -163,7 +164,9 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         } else {
             text.lineBreakMode = .byWordWrapping
             text.numberOfLines = 0
-            text.text = e.explanationText
+            let string = e.explanationText.replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+            text.text = string.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}")
+            
             text.textColor = UIColor.black
             text.font = UIFont(name: "DinPro-Light", size: deviceHeight!*0.024)!
             text.textAlignment = NSTextAlignment.center

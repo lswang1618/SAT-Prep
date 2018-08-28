@@ -25,6 +25,7 @@ struct Question {
     var answerD: Answer
     
     var content: Content
+    var content2: Content?
     
     var dictionary: [String: Any] {
         return [
@@ -37,7 +38,8 @@ struct Question {
             "answerB": answerB,
             "answerC": answerC,
             "answerD": answerD,
-            "content": content
+            "content": content,
+            "content2": content2
         ]
     }
 }
@@ -58,17 +60,34 @@ extension Question {
             let answerD = Answer(dictionary: dictionary["answerD"] as! [String : Any]),
             let content = Content(dictionary: dictionary["content"] as! [String : Any]) else { return nil }
         
-        self.init(tag: tag,
-                  subject: subject,
-                  index: index,
-                  text: text,
-                  correctAnswer: correctAnswer,
-                  answerA: answerA,
-                  answerB: answerB,
-                  answerC: answerC,
-                  answerD: answerD,
-                  content: content
-        )
+        if let value = dictionary["content2"] {
+            let content2 = Content(dictionary: value as! [String : Any])
+            self.init(tag: tag,
+                      subject: subject,
+                      index: index,
+                      text: text,
+                      correctAnswer: correctAnswer,
+                      answerA: answerA,
+                      answerB: answerB,
+                      answerC: answerC,
+                      answerD: answerD,
+                      content: content,
+                      content2: content2
+            )
+        } else {
+            self.init(tag: tag,
+                      subject: subject,
+                      index: index,
+                      text: text,
+                      correctAnswer: correctAnswer,
+                      answerA: answerA,
+                      answerB: answerB,
+                      answerC: answerC,
+                      answerD: answerD,
+                      content: content,
+                      content2: nil
+            )
+        }
     }
     
 }

@@ -154,18 +154,18 @@ class BadgeViewController: UICollectionViewController {
             cell.imageView.layer.borderColor = UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor
             gradient.colors = [UIColor(red:1.00, green:0.99, blue:0.75, alpha:1.0).cgColor, UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor]
         }
-        let shape = CAShapeLayer()
-        shape.lineWidth = cell.imageView.frame.size.width*0.2
-        shape.path = UIBezierPath(arcCenter: CGPoint (x: (cell.imageView.frame.size.width-2) / 2, y: cell.imageView.frame.size.height / 2),
-                                  radius: cell.imageView.frame.width / 2.0,
-                                  startAngle: CGFloat(-0.5 * .pi),
-                                  endAngle: CGFloat(1.5 * .pi),
-                                  clockwise: true).cgPath
-        
-        shape.strokeColor = UIColor.black.cgColor
-        shape.fillColor = UIColor.clear.cgColor
-        gradient.mask = shape
-        cell.imageView.layer.addSublayer(gradient)
+//        let shape = CAShapeLayer()
+//        shape.lineWidth = cell.imageView.frame.size.width*0.2
+//        shape.path = UIBezierPath(arcCenter: CGPoint (x: (cell.imageView.frame.size.width-2) / 2, y: cell.imageView.frame.size.height / 2),
+//                                  radius: cell.imageView.frame.width / 2.0,
+//                                  startAngle: CGFloat(-0.5 * .pi),
+//                                  endAngle: CGFloat(1.5 * .pi),
+//                                  clockwise: true).cgPath
+//        
+//        shape.strokeColor = UIColor.black.cgColor
+//        shape.fillColor = UIColor.clear.cgColor
+//        gradient.mask = shape
+//        cell.imageView.layer.addSublayer(gradient)
         
         return cell
     }

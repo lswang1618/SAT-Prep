@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     var gravity: UIGravityBehavior!
     var collision: UICollisionBehavior!
     var elasticity: UIDynamicItemBehavior!
+    var error = false
     
     var colors = [UIColor(red:0.33, green:0.33, blue:0.42, alpha:1.0),
                   UIColor(red:0.37, green:0.79, blue:0.00, alpha:1.0),
@@ -78,6 +79,7 @@ class ViewController: UIViewController {
     func loadQuestion(tagQuestion: Question?) {
         if tagQuestion == nil {
             loadError()
+            error = true
             return
         }
         self.question = tagQuestion
@@ -162,7 +164,7 @@ class ViewController: UIViewController {
     }
 
     func fetchQuestion(model: Model, qIndex: Int, tIndex: Int) {
-        if self.question == nil {
+        if self.question == nil && !error {
             model.getQuestion(tIndex: tIndex, qIndex: qIndex) {result in
                 if result == nil {
                     self.loadError()

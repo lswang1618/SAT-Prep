@@ -19,6 +19,7 @@ class BadgeController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabSelector.isEnabled = false
         tabView.frame.size.width = self.view.frame.width
         self.view.addSubview(tabView)
         
@@ -30,6 +31,7 @@ class BadgeController: UITabBarController {
             
             let child = self.childViewControllers[0] as! BadgeViewController
             child.fetchBadges(p: self)
+            self.tabSelector.isEnabled = true
         }
         tabSelector.setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "DinPro-Light", size: view.frame.height*0.018)], for: .normal)
         tabSelector.frame.size.height = floor((UIFont(name: "DinPro-Light", size: view.frame.height*0.02)?.lineHeight)! + 2 * 10)

@@ -172,10 +172,15 @@ class LongQuestionViewController: UIViewController {
             createMathLabel(question.answerC.choiceText, buttonC)
             createMathLabel(question.answerD.choiceText, buttonD)
         } else {
-            buttonA.setTitle(question.answerA.choiceText, for: .normal)
-            buttonB.setTitle(question.answerB.choiceText, for: .normal)
-            buttonC.setTitle(question.answerC.choiceText, for: .normal)
-            buttonD.setTitle(question.answerD.choiceText, for: .normal)
+            let aText = question.answerA.choiceText.replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+            let bText = question.answerB.choiceText.replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+            let cText = question.answerC.choiceText.replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+            let dText = question.answerD.choiceText.replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+            
+            buttonA.setTitle(aText.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}"), for: .normal)
+            buttonB.setTitle(bText.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}"), for: .normal)
+            buttonC.setTitle(cText.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}"), for: .normal)
+            buttonD.setTitle(dText.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}"), for: .normal)
         }
     }
     
@@ -186,16 +191,15 @@ class LongQuestionViewController: UIViewController {
         button.addSubview(button.mathLabel)
     }
     
-    private func renderContent(q: Question) {
-        contentStackView.layoutMargins = UIEdgeInsets(top: 25, left: 25, bottom: 0, right: 25)
-        contentStackView.isLayoutMarginsRelativeArrangement = true
-        
-        let content = q.content
+    private func renderPassage(content: Content) {
         let space = "       "
         
         let titleLabel = UILabel()
         let introLabel = UILabel()
         let mainLabel = UILabel()
+        let bottomSpace = UIView(frame: CGRect(x: 0.0, y: 0.0, width: contentStackView.frame.width, height: contentStackView.frame.height*0.1))
+        bottomSpace.heightAnchor.constraint(equalToConstant: contentStackView.frame.height*0.1).isActive = true
+        bottomSpace.widthAnchor.constraint(equalToConstant: contentStackView.frame.width).isActive = true
         let image = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: contentStackView.frame.width*0.8, height: contentStackView.frame.width*0.8))
         let labels = content.labels
         
@@ -230,7 +234,11 @@ class LongQuestionViewController: UIViewController {
                 let colorSpace = cgImage!.colorSpace
                 let bitmapInfo = cgImage!.bitmapInfo
                 
-                let context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)
+                var context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)
+                if context == nil {
+                    context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+                    
+                }
                 
                 context!.interpolationQuality = .high
                 UIGraphicsPushContext(context!)
@@ -238,14 +246,12 @@ class LongQuestionViewController: UIViewController {
                 oldImage?.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
                 let newImage = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
-                
                 image.image = newImage
                 
                 var ivFrame = image.frame
                 ivFrame.size.height = (image.image?.size.height)!
                 ivFrame.size.width = (image.image?.size.width)!
                 image.frame = ivFrame
-                
                 contentStackView.addArrangedSubview(image)
             }
             catch{
@@ -268,19 +274,23 @@ class LongQuestionViewController: UIViewController {
         }
         
         if content.labels.count == 0 {
+            var string = cArray[0].replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+            string = string.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}")
             if content.useLabels {
-                attributedString = NSMutableAttributedString(string: cArray[0].replacingOccurrences(of: "\\n", with: "\n"))
+                attributedString = NSMutableAttributedString(string: string.replacingOccurrences(of: "\\n", with: "\n"))
             } else {
-                attributedString = NSMutableAttributedString(string: space + cArray[0].replacingOccurrences(of: "\\n", with: "\n" + space))
+                attributedString = NSMutableAttributedString(string: space + string.replacingOccurrences(of: "\\n", with: "\n" + space))
             }
         } else {
             attributedString = NSMutableAttributedString(string: space)
             if content.useLabels  {
                 let iconSize = CGRect(x: 0, y: -5, width: 30, height: 30)
                 let iconList = [UIImage(named: "iconA"), UIImage(named: "iconB"), UIImage(named: "iconC"), UIImage(named: "iconD")]
-            
+                
                 var counter = 0
                 for i in 0...cArray.count-1 {
+                    var string = cArray[i].replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+                    string = string.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}")
                     if labels.contains(i) {
                         let attachment = NSTextAttachment()
                         attachment.image = iconList[counter]
@@ -288,19 +298,21 @@ class LongQuestionViewController: UIViewController {
                         attributedString.append(NSAttributedString(attachment: attachment))
                         counter += 1
                         let attrs = [NSAttributedStringKey.foregroundColor : mint]//, NSAttributedStringKey.backgroundColor : mint]
-                        attributedString.append(NSMutableAttributedString(string:cArray[i].replacingOccurrences(of: "\\n", with: "\n" + space), attributes:attrs))
+                        attributedString.append(NSMutableAttributedString(string:string.replacingOccurrences(of: "\\n", with: "\n" + space), attributes:attrs))
                     } else {
-                        attributedString.append(NSMutableAttributedString(string: cArray[i].replacingOccurrences(of: "\\n", with: "\n" + space)))
+                        attributedString.append(NSMutableAttributedString(string:string.replacingOccurrences(of: "\\n", with: "\n" + space)))
                     }
                 }
             }
             else {
                 for i in 0...cArray.count-1 {
+                    var string = cArray[i].replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
+                    string = string.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}")
                     if labels.contains(i) {
                         let attrs = [NSAttributedStringKey.foregroundColor : mint, NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue] as [NSAttributedStringKey : Any]
-                        attributedString.append(NSMutableAttributedString(string:cArray[i].replacingOccurrences(of: "\\n", with: "\n" + space), attributes:attrs))
+                        attributedString.append(NSMutableAttributedString(string:string.replacingOccurrences(of: "\\n", with: "\n" + space), attributes:attrs))
                     } else {
-                        attributedString.append(NSMutableAttributedString(string: cArray[i].replacingOccurrences(of: "\\n", with: "\n" + space)))
+                        attributedString.append(NSMutableAttributedString(string: string.replacingOccurrences(of: "\\n", with: "\n" + space)))
                     }
                 }
             }
@@ -310,6 +322,29 @@ class LongQuestionViewController: UIViewController {
         mainLabel.attributedText = attributedString
         
         contentStackView.addArrangedSubview(mainLabel)
+        contentStackView.addArrangedSubview(bottomSpace)
+    }
+    
+    private func renderContent(q: Question) {
+        contentStackView.layoutMargins = UIEdgeInsets(top: 25, left: 25, bottom: 0, right: 25)
+        contentStackView.isLayoutMarginsRelativeArrangement = true
+        
+        renderPassage(content: q.content)
+        
+        if question.tag == "Analyzing Multiple Texts" {
+            let separator = UIView(frame: CGRect(x: 0.0, y: 0.0, width: contentStackView.frame.width, height: 50))
+            separator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+            separator.widthAnchor.constraint(equalToConstant: contentStackView.frame.width).isActive = true
+            separator.backgroundColor = mint
+            
+            let bottomSpace = UIView(frame: CGRect(x: 0.0, y: 0.0, width: contentStackView.frame.width, height: contentStackView.frame.height*0.1))
+            bottomSpace.heightAnchor.constraint(equalToConstant: contentStackView.frame.height*0.1).isActive = true
+            bottomSpace.widthAnchor.constraint(equalToConstant: contentStackView.frame.width).isActive = true
+            
+            contentStackView.addArrangedSubview(separator)
+            contentStackView.addArrangedSubview(bottomSpace)
+            renderPassage(content: q.content2!)
+        }
         
         animator = UIDynamicAnimator(referenceView: view)
         gravity = UIGravityBehavior(items: [card])
