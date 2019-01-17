@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93B8BFD1101CD7609A8ECA065F9490A4"
+               BlueprintIdentifier = "5AD9219A67B182940F0A0562EBBABB3B"
                BlueprintName = "GoogleToolboxForMac"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "GoogleToolboxForMac.framework">
