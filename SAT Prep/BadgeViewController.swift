@@ -17,7 +17,7 @@ class BadgeViewController: UICollectionViewController {
     var currentIndex = 0
     var allBadges = [Badge]()
     var badges = [Badge]()
-    var parentVC: BadgeController?
+    weak var parentVC: BadgeController?
     var colors = [UIColor(red:0.33, green:0.33, blue:0.42, alpha:1.0),
                   UIColor(red:0.37, green:0.79, blue:0.00, alpha:1.0),
                   UIColor(red:0.85, green:0.44, blue:0.18, alpha:1.0),
@@ -40,7 +40,8 @@ class BadgeViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        parentVC = self.parent as! BadgeController
+        navigationController?.popViewController(animated: true)
+        parentVC = (parent as! BadgeController)
         parentVC?.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
         
         allTags = model.readTags()
@@ -74,7 +75,7 @@ class BadgeViewController: UICollectionViewController {
         
         navStreakCount.textAlignment = NSTextAlignment.center
         navStreakCount.textColor = UIColor(red:1.00, green:0.45, blue:0.29, alpha:1.0)
-        navStreakCount.font = navStreakCount.font.withSize(self.view.frame.height * 0.036)
+        navStreakCount.font = navStreakCount.font.withSize(view.frame.height * 0.036)
         
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -89,7 +90,7 @@ class BadgeViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.collectionView?.reloadData()
+        collectionView?.reloadData()
     }
     
     
@@ -112,7 +113,7 @@ class BadgeViewController: UICollectionViewController {
         cell.label.text = badge.tag
         cell.label.numberOfLines = 0
         cell.label.lineBreakMode = .byWordWrapping
-        cell.label.font = cell.label.font.withSize(self.view.frame.height * 0.015)
+        cell.label.font = cell.label.font.withSize(view.frame.height * 0.015)
         cell.label.textColor = UIColor.gray
         
         // Get size of cell
@@ -141,31 +142,19 @@ class BadgeViewController: UICollectionViewController {
         let gradient = CAGradientLayer()
         gradient.frame =  CGRect(x: cell.imageView.frame.origin.x-4, y: cell.imageView.frame.origin.y, width: cell.frame.size.width, height: cell.frame.size.height)
         
-        if badge.progress < 10 {
+        if badge.progress < 5 {
             cell.imageView.tintColor = UIColor(red:0.89, green:0.89, blue:0.89, alpha:1.0)
             cell.imageView.layer.borderColor = UIColor.white.cgColor
-        } else if badge.progress < 25 {
+        } else if badge.progress < 10 {
             cell.imageView.layer.borderColor = UIColor(red:0.80, green:0.50, blue:0.20, alpha:1.0).cgColor
             gradient.colors = [UIColor(red:0.64, green:0.40, blue:0.16, alpha:1.0).cgColor, UIColor(red:0.86, green:0.65, blue:0.44, alpha:1.0).cgColor]
-        } else if badge.progress < 50 {
+        } else if badge.progress < 25 {
             cell.imageView.layer.borderColor = UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.0).cgColor
             gradient.colors = [UIColor(red:0.86, green:0.86, blue:0.86, alpha:1.0).cgColor, UIColor(red:0.41, green:0.41, blue:0.41, alpha:1.0).cgColor]
         } else {
             cell.imageView.layer.borderColor = UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor
             gradient.colors = [UIColor(red:1.00, green:0.99, blue:0.75, alpha:1.0).cgColor, UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor]
         }
-//        let shape = CAShapeLayer()
-//        shape.lineWidth = cell.imageView.frame.size.width*0.2
-//        shape.path = UIBezierPath(arcCenter: CGPoint (x: (cell.imageView.frame.size.width-2) / 2, y: cell.imageView.frame.size.height / 2),
-//                                  radius: cell.imageView.frame.width / 2.0,
-//                                  startAngle: CGFloat(-0.5 * .pi),
-//                                  endAngle: CGFloat(1.5 * .pi),
-//                                  clockwise: true).cgPath
-//        
-//        shape.strokeColor = UIColor.black.cgColor
-//        shape.fillColor = UIColor.clear.cgColor
-//        gradient.mask = shape
-//        cell.imageView.layer.addSublayer(gradient)
         
         return cell
     }
@@ -173,11 +162,11 @@ class BadgeViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if let cell = sender as? UICollectionViewCell,
-            let indexPath = self.collectionView?.indexPath(for: cell) {
+            let indexPath = collectionView?.indexPath(for: cell) {
             
-            let vc = segue.destination as! BadgeDetailViewController
-            vc.badge = badges[indexPath.item]
-            vc.color = colors[indexPath.item]
+            weak var vc = (segue.destination as! BadgeDetailViewController)
+            vc?.badge = badges[indexPath.item]
+            vc?.color = colors[indexPath.item]
         }
     }
     
@@ -187,7 +176,7 @@ class BadgeViewController: UICollectionViewController {
         }
         for badge in allBadges {
             if tags.contains(badge.tag) {
-                self.badges.append(badge)
+                badges.append(badge)
             }
         }
         collectionView?.reloadData()
@@ -230,11 +219,11 @@ extension BadgeViewController : UICollectionViewDelegateFlowLayout {
 extension UIImage {
     func imageWithInsets(insets: UIEdgeInsets) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(
-            CGSize(width: self.size.width + insets.left + insets.right,
-                   height: self.size.height + insets.top + insets.bottom), false, self.scale)
+            CGSize(width: size.width + insets.left + insets.right,
+                   height: size.height + insets.top + insets.bottom), false, scale)
         let _ = UIGraphicsGetCurrentContext()
         let origin = CGPoint(x: insets.left, y: insets.top)
-        self.draw(at: origin)
+        draw(at: origin)
         let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return imageWithInsets

@@ -39,7 +39,7 @@ struct Question {
             "answerC": answerC,
             "answerD": answerD,
             "content": content,
-            "content2": content2
+            "content2": content2 as Any
         ]
     }
 }
@@ -153,6 +153,7 @@ struct Content {
     var labels: Array<Int>
     var title: String
     var useLabels: Bool
+    var storyID: String?
     
     var dictionary: [String : Any] {
         return [
@@ -161,7 +162,8 @@ struct Content {
             "intro": intro,
             "labels": labels,
             "title": title,
-            "useLabels": useLabels
+            "useLabels": useLabels,
+            "storyID": storyID as Any
         ]
     }
 }
@@ -175,8 +177,75 @@ extension Content {
             let title = dictionary["title"] as? String,
             let useLabels = dictionary["useLabels"] as? Bool else { return nil }
         
-        self.init(main: main, image: image, intro: intro, labels: labels, title: title, useLabels: useLabels)
+        if let storyID = dictionary["storyID"] {
+            self.init(main: main, image: image, intro: intro, labels: labels, title: title, useLabels: useLabels, storyID: (storyID as! String))
+        } else {
+            self.init(main: main, image: image, intro: intro, labels: labels, title: title, useLabels: useLabels, storyID: "")
+        }
+        
     }
 }
+
+struct Story {
+    var pages: Array<Page>
+    
+    var dictionary: [String : Any] {
+        return [
+            "pages": pages
+        ]
+    }
+}
+
+extension Story {
+    init?(dictionary: [String : Any]) {
+        guard let pages = dictionary["pages"] as? Array<Any> else { return nil }
+        
+        var pageArray: Array<Page>
+        pageArray = []
+        for item in pages {
+            pageArray.append(Page(dictionary: item as! [String : Any])!)
+        }
+        
+        self.init(pages: pageArray)
+    }
+}
+
+struct Page {
+    var image: String
+    var text: String
+    var title: String
+    var link: String
+    var linkText: String
+    
+    var dictionary: [String : Any] {
+        return [
+            "image": image,
+            "title": title,
+            "text": text,
+            "link": link,
+            "linkText": linkText
+        ]
+    }
+}
+
+extension Page {
+    init?(dictionary: [String : Any]) {
+        guard let image = dictionary["image"] as? String,
+            let title = dictionary["title"] as? String,
+            let text = dictionary["text"] as? String,
+            let link = dictionary["link"] as? String,
+            let linkText = dictionary["linkText"] as? String else { return nil }
+        
+        self.init(image: image, text: text, title: title, link: link, linkText: linkText)
+    }
+}
+
+
+
+
+
+
+
+
 
 

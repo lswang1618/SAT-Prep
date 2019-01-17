@@ -38,24 +38,23 @@ class AccountViewController: UIViewController {
     var time: Int = 0
     var uid: String = ""
     var dayLabels: Array<UIButton> = []
-    
-    let center = UNUserNotificationCenter.current()
     var db: Firestore!
+    weak var parentVC: SignInController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let parent = self.parent as! SignInController
-        parent.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
+        parentVC = (parent as! SignInController)
+        parentVC?.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
         
         timePicker.setValue(UIColor.white, forKeyPath: "textColor")
         profileImage.layer.cornerRadius = profileImage.frame.width/2
         profileImage.layer.borderWidth = 4
+        profileImage.layer.borderColor = UIColor.white.cgColor
         profileImage.clipsToBounds = true
         profileImage.layer.masksToBounds = true
         dayLabels = [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
         
         checkNotificationSetting()
-        
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(checkNotificationSetting), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
@@ -70,12 +69,15 @@ class AccountViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         profileImage.layer.cornerRadius = profileImage.frame.width/2
+        
         if name != "" {
             userName.text = name
         }
         
         if profileURL != "" {
-            addProfileImage(url: profileURL)
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.addProfileImage(url: self.profileURL)
+            }
         }
         
         let dateFormatter = DateFormatter()
@@ -91,28 +93,38 @@ class AccountViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        db.collection("users").document(self.uid).updateData([
-            "days": self.days,
-            "time": self.time
+        db.collection("users").document(uid).updateData([
+            "days": days,
+            "time": time
         ])
         
         if !notificationsOff { scheduleNotifications() }
     }
     
     @objc func checkNotificationSetting() {
-        center.getNotificationSettings(){ (settings) in
-            
-            switch settings.notificationCenterSetting{
-            case .enabled:
-                self.notificationsOff = false
-            case .disabled:
-                self.notificationsOff = true
-            case .notSupported:
-                self.notificationsOff = true
+        if #available(iOS 10.0, *) {
+            let center = UNUserNotificationCenter.current()
+            center.getNotificationSettings(){ [unowned self] (settings) in
+                switch settings.notificationCenterSetting{
+                case .enabled:
+                    self.notificationsOff = false
+                case .disabled:
+                    self.notificationsOff = true
+                case .notSupported:
+                    self.notificationsOff = true
+                }
+                
+                self.toggleView()
             }
-            
-            self.toggleView()
+        } else {
+            if UIApplication.shared.isRegisteredForRemoteNotifications {
+                notificationsOff = false
+            } else {
+                notificationsOff = true
+            }
+            toggleView()
         }
+        
     }
     
     @IBAction func toggleNotifications(_ sender: UISwitch) {
@@ -121,35 +133,56 @@ class AccountViewController: UIViewController {
         }
         
         if UIApplication.shared.canOpenURL(settingsUrl) {
-            UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-            })
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                })
+            } else {
+                UIApplication.shared.openURL(settingsUrl)
+            }
         }
     }
     
     func scheduleNotifications() {
-        center.removeAllPendingNotificationRequests()
+        if #available(iOS 10.0, *) {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+        } else {
+            UIApplication.shared.cancelAllLocalNotifications()
+        }
+        
         for day in days {
             scheduleNotification(day: day + 1)
         }
     }
     
     func scheduleNotification(day: Int) {
-        let content = UNMutableNotificationContent()
-        content.title = "Time to Practice"
-        content.body = "A not too boring SAT question awaits"
-        content.sound = UNNotificationSound.default()
-        
         let calendar = Calendar.current
         let date = createDate(weekday: day, hour: Int(calendar.component(.hour, from: timePicker.date)), minute: Int(calendar.component(.minute, from: timePicker.date)))
         let triggerWeekly = Calendar.current.dateComponents([.weekday,.hour,.minute,.second,], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly, repeats: true)
-        let request = UNNotificationRequest(identifier: "textNotification" + String(day), content: content, trigger: trigger)
         
-        center.add(request, withCompletionHandler: {(error) in
-            if let error = error {
-                print(error)
-            }
-        })
+        if #available(iOS 10.0, *) {
+            let content = UNMutableNotificationContent()
+            content.title = "Time to Practice"
+            content.body = "An almost fun SAT question is ready for you"
+            content.sound = UNNotificationSound.default()
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly, repeats: true)
+            let request = UNNotificationRequest(identifier: "textNotification" + String(day), content: content, trigger: trigger)
+            let center = UNUserNotificationCenter.current()
+            center.add(request, withCompletionHandler: {(error) in
+                if error != nil {
+                }
+            })
+        } else {
+            let notification = UILocalNotification()
+            notification.alertTitle = "Time to Practice"
+            notification.alertBody = "An almost fun SAT question is ready for you"
+            notification.fireDate = date
+            notification.soundName = UILocalNotificationDefaultSoundName
+            notification.repeatInterval = NSCalendar.Unit.weekday
+           
+            UIApplication.shared.scheduledLocalNotifications = [notification]
+        }
     }
     
     func createDate(weekday: Int, hour: Int, minute: Int)->Date{
@@ -168,7 +201,7 @@ class AccountViewController: UIViewController {
         let calendar = Calendar.current
         let hour = Int(calendar.component(.hour, from: timePicker.date))
         let minutes = Int(calendar.component(.minute, from: timePicker.date))
-        self.time = hour * 4 + (minutes / 15)
+        time = hour * 4 + (minutes / 15)
     }
     
 
@@ -212,7 +245,7 @@ class AccountViewController: UIViewController {
     @IBAction func editName(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Name?", message: "Change username:", preferredStyle: .alert)
         
-        let confirmAction = UIAlertAction(title: "Done", style: .default) { (_) in
+        let confirmAction = UIAlertAction(title: "Done", style: .default) { [unowned self] _ in
             guard let textFields = alertController.textFields,
                 textFields.count > 0 else {
                     // Could not find textfield
@@ -222,7 +255,7 @@ class AccountViewController: UIViewController {
             let field = textFields[0]
             // store your data
             self.db.collection("users").document(self.uid).updateData([
-                "name": field.text
+                "name": field.text!
             ])
             self.userName.text = field.text
             self.name = field.text!
@@ -230,14 +263,14 @@ class AccountViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
         
-        alertController.addTextField { (textField) in
+        alertController.addTextField { [unowned self] textField in
             textField.placeholder = self.name
         }
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
         
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
     
@@ -282,7 +315,7 @@ class AccountViewController: UIViewController {
     }
     
     @IBAction func editProfileImage(_ sender: UIButton) {
-        checkPermission {
+        checkPermission { [unowned self] in
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
             picker.delegate = self
@@ -318,7 +351,7 @@ extension AccountViewController: UINavigationControllerDelegate, UIImagePickerCo
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
 
-        self.dismiss(animated: true) {
+        self.dismiss(animated: true) { [unowned self] in
             self.profileImage.setBackgroundImage(image, for: .normal)
             var data = Data()
             data = UIImageJPEGRepresentation(image!, 0.8)!
@@ -331,11 +364,13 @@ extension AccountViewController: UINavigationControllerDelegate, UIImagePickerCo
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let photoRef = storageRef.child(filePath)
-            let uploadTask = photoRef.putData(data, metadata: metaData) { metadata, error in
+            let _ = photoRef.putData(data, metadata: metaData) { metadata, error in
                 guard metadata != nil else { return }
                 print(storageRef.downloadURL)
                 
                 photoRef.downloadURL { (url, error) in
+                    
+                    
                     if error != nil { return }
                     let downloadURL = "\(String(describing: url!))"
                     

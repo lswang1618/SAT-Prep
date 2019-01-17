@@ -12,7 +12,7 @@ import Firebase
 class Model {
     var db: Firestore!
     let settings: FirestoreSettings!
-    let tags = ["Linear Equations", "Development", "Analyzing Word Choice", "Linear Inequalities", "Organization", "Analyzing Text Structure", "Rates, Ratios, and Proportions", "Effective Language Use", "Analyzing Point of View", "Scatterplots", "Sentence Structure", "Analyzing Purpose", "Statistics and Probability", "Conventions of Usage", "Analyzing Arguments", "Polynomials and Rational Expressions", "Conventions of Punctuations", "Reading Closely", "Functions", "Citing Textual Evidence", "Quadratic Equations", "Central Ideas and Themes", "Imaginary Numbers", "Summarizing", "Lines, Angles, and Triangles", "Understanding Relationships", "Circles", "Interpreting Words and Phrases", "3D Shapes", "Analyzing Multiple Texts", "Trigonometry", "Quantitative Information", "Systems of Linear Equations"]
+    let tags = ["Summarizing", "Circles", "Development", "Analyzing Word Choice", "Linear Inequalities", "Organization", "Analyzing Text Structure", "Rates, Ratios, and Proportions", "Effective Language Use", "Analyzing Point of View", "Scatterplots", "Sentence Structure", "Analyzing Purpose", "Statistics and Probability", "Conventions of Usage", "Analyzing Arguments", "Polynomials and Rational Expressions", "Conventions of Punctuation", "Reading Closely", "Functions", "Citing Textual Evidence", "Quadratic Equations", "Central Ideas and Themes", "Imaginary Numbers", "Linear Equations", "Lines, Angles, Triangles", "Understanding Relationships", "Interpreting Words and Phrases", "3D Shapes", "Analyzing Multiple Texts", "Trigonometry", "Quantitative Information", "Systems of Linear Equations"]
     
     init() {
         db = Firestore.firestore()
@@ -32,6 +32,14 @@ class Model {
         return returnDict
     }
     
+    func getStory(id: String, completion: @escaping(Story) -> ()) {
+        db.collection("stories").document(id).getDocument() {
+            (document, error) in
+            guard let result = document?.data() else { return }
+            completion(Story(dictionary: result)!)
+        }
+    }
+    
     func getBadges(completion: @escaping([Badge]) -> ()) {
         let user = Auth.auth().currentUser
         var badges = [Badge]()
@@ -48,6 +56,7 @@ class Model {
     
     func getUser(completion: @escaping (User) -> ()) {
         let user = Auth.auth().currentUser
+        
         
         let tagDict = self.readTags()
         let tagArray = tagDict["reading"]! as [String] + tagDict["writing"]! + tagDict["math"]!
@@ -83,6 +92,9 @@ class Model {
                     }
                     batch.commit() { err in
                         if err != nil { return } else {
+                            DispatchQueue.global(qos: .userInitiated).async {
+                                self.getNextQuestions(badges: [])
+                            }
                             completion(User(uid: user!.user.uid)!)
                         }
                     }
@@ -112,6 +124,27 @@ class Model {
                 let result = querySnapshot!.documents
                 if result.count == 0 { completion(nil); return }
                 completion(Question(dictionary: result[0].data())!)
+        }
+    }
+    
+    func getNextQuestions(badges: [Badge]) {
+        
+        let questionsRef = db.collection("questions")
+        if badges.count > 0 {
+            for badge in badges{
+                questionsRef.whereField("tag", isEqualTo: badge.tag)
+                    .whereField("index", isGreaterThan: badge.lastIndex).limit(to: 1)
+                    .getDocuments() { (querySnapshot, error) in
+                }
+            }
+        }
+        else {
+            for tag in tags{
+                questionsRef.whereField("tag", isEqualTo: tag)
+                    .whereField("index", isGreaterThan: 0).limit(to: 1)
+                    .getDocuments() { (querySnapshot, error) in
+                }
+            }
         }
     }
     

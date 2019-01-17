@@ -19,38 +19,35 @@ class SignInController: UIViewController, FUIAuthDelegate {
     var time: Int = 0
     var user = Auth.auth().currentUser
     
-    private lazy var accountController: AccountViewController = {
+    weak var accountController: AccountViewController?
+
+    private var makeAccount: AccountViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
+
         // Instantiate View Controller
-        var viewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
-        
-        // Add View Controller as Child View Controller
-        self.add(viewController: viewController)
-        
-        return viewController
-    }()
+        accountController = (storyboard.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController)
+
+        return accountController!
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let parent = self.parent as! UINavigationController
-        parent.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
+        parent?.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
         
         if (user != nil) {
             if (user!.isAnonymous) {
-                
+
                 let authUI = FUIAuth.defaultAuthUI()
-                // You need to adopt a FUIAuthDelegate protocol to receive callback
                 authUI?.delegate = self
-                
+
                 let providers: [FUIAuthProvider] = [
                     FUIGoogleAuth(),
                     FUIFacebookAuth(),
                     FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()!),
                     ]
                 authUI?.providers = providers
-                //authUI?.shouldAutoUpgradeAnonymousUsers = true
-        
+                authUI?.shouldAutoUpgradeAnonymousUsers = true
+
                 let authViewController = authUI?.authViewController()
                 present(authViewController!, animated: true, completion: nil)
             } else {
@@ -60,35 +57,56 @@ class SignInController: UIViewController, FUIAuthDelegate {
     }
     
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
-        let x = Auth.auth().currentUser
-        if (x?.isAnonymous)! || error != nil {
-            self.performSegue(withIdentifier: "logoutSegue", sender: nil)
-        } else {
+        if error != nil {
+            if error!._code == 4 {
+                let credential = error!._userInfo as! [String : Any]
+
+                Auth.auth().signInAndRetrieveData(with: credential["FUIAuthCredentialKey"] as! AuthCredential, completion: { [unowned self] user, error in
+                    if error == nil {
+                        self.isLoggedIn()
+                    }
+                    else {
+                        self.removeFromParentViewController()
+                        self.performSegue(withIdentifier: "logoutSegue", sender: nil)
+                    }
+                })
+            }
+            else {
+                removeFromParentViewController()
+                performSegue(withIdentifier: "logoutSegue", sender: nil)
+            }
+        }
+        else {
             let data = Auth.auth().currentUser?.providerData[0]
-            
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = data?.displayName
-            changeRequest?.photoURL = data?.photoURL
-            changeRequest?.commitChanges { (error) in
+            let urlString = data?.photoURL?.absoluteString
+            if urlString?.range(of:"facebook") != nil {
+                changeRequest?.photoURL = URL(string: urlString! + "?height=300")
+            } else {
+                changeRequest?.photoURL = data?.photoURL
             }
-            self.user = Auth.auth().currentUser
-            isLoggedIn()
+            changeRequest?.commitChanges { [unowned self] error in
+                self.user = Auth.auth().currentUser
+                self.isLoggedIn()
+            }
+
         }
-        
+
     }
-    
+
     func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
-        
         return AuthChoiceController(authUI: authUI)
     }
-    
+
     func application(_ app: UIApplication, open url: URL,
                      options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         let sourceApplication = options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String?
         if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
+
             return true
         }
-        // other URL handling goes here.
+
         return false
     }
     
@@ -100,18 +118,18 @@ class SignInController: UIViewController, FUIAuthDelegate {
         db.settings = settings
         let model = Model()
         
-        model.getUser() { eUser in
-            
+        model.getUser() { [unowned self] eUser in
             if self.user != nil {
                 var changed = false
                 if eUser.name == "" && self.user?.displayName != nil{
+                    
                     self.name = (self.user?.displayName)!
                     changed = true
                     
                 } else {
                     self.name = eUser.name
                 }
-                if eUser.profileImage == "" && self.user?.photoURL != nil{
+                if eUser.profileImage == "" && self.user?.photoURL != nil {
                     self.profileURL = (self.user?.photoURL?.absoluteString)!
                     changed = true
                 } else {
@@ -127,16 +145,14 @@ class SignInController: UIViewController, FUIAuthDelegate {
             
             self.days = eUser.days
             self.time = eUser.time
-            self.accountController.days = self.days
-            
-            self.accountController.name = self.name
-            self.accountController.profileURL = self.profileURL
-            self.accountController.time = self.time
-            self.accountController.uid = (self.user?.uid)!
-            
-            self.add(viewController: self.accountController)
+            self.makeAccount.days = self.days
+            self.accountController!.name = self.name
+            self.accountController!.profileURL = self.profileURL
+            self.accountController!.time = self.time
+            self.accountController!.uid = (self.user?.uid)!
+
+            self.add(viewController: self.accountController!)
         }
-        
     }
     
     func add(viewController: UIViewController){
@@ -151,10 +167,10 @@ class SignInController: UIViewController, FUIAuthDelegate {
     }
     
     @IBAction func logout(_ sender: UIBarButtonItem) {
-        
         do {
             try Auth.auth().signOut()
-            self.performSegue(withIdentifier: "logoutSegue", sender: nil)
+            removeFromParentViewController()
+            performSegue(withIdentifier: "logoutSegue", sender: nil)
         } catch {
             
         }

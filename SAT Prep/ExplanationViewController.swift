@@ -9,17 +9,21 @@
 import UIKit
 import iosMath
 
-class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
+class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate {
     var explanations: Array<Explanation> = []
     var currentExplanation: Explanation?
     
     var newCardView: RoundedCornerView!
     var oldCardView: RoundedCornerView!
+    var buttonA: ExplanationButton?
+    var buttonB: ExplanationButton?
     
     var animatorIn: UIDynamicAnimator!
     var gravityIn: UIGravityBehavior!
     var collisionIn: UICollisionBehavior!
     var elasticityIn: UIDynamicItemBehavior!
+    
+    weak var vcParent: ViewController?
 
     var animatorOut: UIDynamicAnimator!
     var gravityOut: UIGravityBehavior!
@@ -59,10 +63,10 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        let parent = self.parent as! ViewController
-        parent.navigationController?.navigationBar.barTintColor = UIColor(red:1.00, green:0.39, blue:0.42, alpha:1.0)
-        parent.navStreakLabel.image = UIImage(named:"White_Flame")
-        parent.navStreakCount.textColor = UIColor.white
+        vcParent = (parent as! ViewController)
+        vcParent?.navigationController?.navigationBar.barTintColor = UIColor(red:1.00, green:0.39, blue:0.42, alpha:1.0)
+        vcParent?.navStreakLabel.image = UIImage(named:"White_Flame")
+        vcParent?.navStreakCount.textColor = UIColor.white
         
         currentExplanation = explanations[0]
         renderExplanation(e: currentExplanation!)
@@ -72,15 +76,15 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
     func removeView() {
         newCardView.removeFromSuperview()
         newCardView = nil
-        let parent = self.parent as! ViewController
+        vcParent = (parent as! ViewController)
         
-        parent.remove(asChildViewController: self)
+        vcParent?.remove(asChildViewController: self)
         
-        parent.navigationController?.navigationBar.barTintColor = mint
-        parent.navStreakLabel.image = UIImage(named:"Flame")
-        parent.navStreakCount.textColor = orange
+        vcParent?.navigationController?.navigationBar.barTintColor = mint
+        vcParent?.navStreakLabel.image = UIImage(named:"Flame")
+        vcParent?.navStreakCount.textColor = orange
         
-        if let parentVC = parent.childViewControllers[0] as? LongQuestionViewController {
+        if let parentVC = vcParent?.childViewControllers[0] as? LongQuestionViewController {
             let deviceHeight = parentVC.answers.superview?.frame.height
             let viewHeight = parentVC.answers.frame.height
             parentVC.answers.center = CGPoint(x: parentVC.answers.center.x, y: deviceHeight! - viewHeight*0.5)
@@ -91,11 +95,12 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         button.layer.cornerRadius = 10
         button.layer.borderWidth = 3
         button.layer.borderColor = mint.cgColor
-        
+        let deviceHeight = parent?.view.frame.height
+        button.isEnabled = false
         if choice.range(of: "\\") != nil && choice.range(of: "\\u") == nil {
             button.mathLabel.latex = choice
             button.mathLabel.textColor = UIColor.black
-            button.mathLabel.fontSize = view.frame.size.height*0.024
+            button.mathLabel.fontSize = deviceHeight!*0.020
             button.addSubview(button.mathLabel)
             button.mathLabel.translatesAutoresizingMaskIntoConstraints = false
             button.mathLabel.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
@@ -104,9 +109,8 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         else {
             let string = choice.replacingOccurrences(of: "\\u{2082}", with: "\u{2082}")
             button.setTitle(string.replacingOccurrences(of: "\\u{2084}", with: "\u{2084}"), for: .normal)
-            button.titleLabel?.font = UIFont(name: "DinPro-Light", size: view.frame.height*0.02)!
+            button.titleLabel?.font = UIFont(name: "DinPro-Light", size: deviceHeight!*0.020)!
             button.setTitleColor(UIColor.black, for: .normal)
-            button.titleEdgeInsets = UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
             button.titleLabel?.numberOfLines = 0
             button.titleLabel?.lineBreakMode = .byWordWrapping
         }
@@ -127,8 +131,8 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         if newCardView != nil {
             animatorOut = UIDynamicAnimator(referenceView: view)
             gravityOut = UIGravityBehavior(items: [newCardView])
-            gravityOut.gravityDirection = CGVector(dx: -1.0, dy: 0.0)
-            gravityOut.magnitude = 2.0
+            gravityOut.gravityDirection = CGVector(dx: -2.0, dy: 0.0)
+            gravityOut.magnitude = 4.0
             animatorOut.addBehavior(gravityOut)
             
             collisionOut = UICollisionBehavior(items: [newCardView])
@@ -136,21 +140,21 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
             animatorOut.addBehavior(collisionOut)
         }
         
-        let deviceHeight = self.parent?.view.frame.height
+        let deviceHeight = parent?.view.frame.height
         let deviceWidth = UIScreen.main.bounds.size.width
-        let navHeight = self.navigationController?.navigationBar.frame.size.height
+        let navHeight = navigationController?.navigationBar.frame.size.height
         
         newCardView = RoundedCornerView(frame: CGRect(x: deviceWidth, y: 0, width: deviceWidth - 40 , height: (deviceHeight! - navHeight!)*0.9))
         newCardView.backgroundColor = UIColor.white
         newCardView.cornerRadius = 25
         
         
-        let buttonA = ExplanationButton(type: .system) as ExplanationButton
-        buttonA.addTarget(self, action: #selector(self.selectChoiceA(_:)), for: UIControlEvents.touchUpInside)
+        buttonA = ExplanationButton(type: .system) as ExplanationButton
+        buttonA!.addTarget(self, action: #selector(self.selectChoiceA(_:)), for: UIControlEvents.touchUpInside)
         
         
-        let buttonB = ExplanationButton(type: .system) as ExplanationButton
-        buttonB.addTarget(self, action: #selector(self.selectChoiceB(_:)), for: UIControlEvents.touchUpInside)
+        buttonB = ExplanationButton(type: .system) as ExplanationButton
+        buttonB!.addTarget(self, action: #selector(self.selectChoiceB(_:)), for: UIControlEvents.touchUpInside)
         
         
         let text = UILabel()
@@ -158,9 +162,9 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         var stackView = UIStackView()
         if e.explanationText.range(of: "\\") != nil && e.explanationText.range(of: "\\u") == nil {
             mathLabel.latex = e.explanationText
-            mathLabel.fontSize = self.view.frame.height * 0.026
+            mathLabel.fontSize = deviceHeight! * 0.026
             mathLabel.textAlignment = MTTextAlignment.center
-            stackView = UIStackView(arrangedSubviews: [mathLabel, buttonA, buttonB])
+            stackView = UIStackView(arrangedSubviews: [mathLabel, buttonA!, buttonB!])
         } else {
             text.lineBreakMode = .byWordWrapping
             text.numberOfLines = 0
@@ -170,10 +174,10 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
             text.textColor = UIColor.black
             text.font = UIFont(name: "DinPro-Light", size: deviceHeight!*0.024)!
             text.textAlignment = NSTextAlignment.center
-            stackView = UIStackView(arrangedSubviews: [text, buttonA, buttonB])
+            stackView = UIStackView(arrangedSubviews: [text, buttonA!, buttonB!])
         }
-        renderButton(button: buttonA, choice: e.choiceA)
-        renderButton(button: buttonB, choice: e.choiceB)
+        renderButton(button: buttonA!, choice: e.choiceA)
+        renderButton(button: buttonB!, choice: e.choiceB)
         
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -182,7 +186,7 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         newCardView.addSubview(stackView)
         
-        newCardView.center.y = ((self.parent?.view.center.y)! - navHeight!) * 0.88
+        newCardView.center.y = ((parent?.view.center.y)! - navHeight!) * 0.88
         
         let viewsDictionary = ["stackView": stackView]
         let stackView_H = NSLayoutConstraint.constraints(
@@ -198,17 +202,31 @@ class ExplanationViewController: UIViewController, UIDynamicAnimatorDelegate {
         newCardView.addConstraints(stackView_H)
         newCardView.addConstraints(stackView_V)
         
-        self.view.addSubview(newCardView)
+        view.addSubview(newCardView)
         
         animatorIn = UIDynamicAnimator(referenceView: view)
         gravityIn = UIGravityBehavior(items: [newCardView])
-        gravityIn.gravityDirection = CGVector(dx: -1.0, dy: 0.0)
-        gravityIn.magnitude = 2.0
+        gravityIn.gravityDirection = CGVector(dx: -2.0, dy: 0.0)
+        gravityIn.magnitude = 4.0
         animatorIn.addBehavior(gravityIn)
         
         collisionIn = UICollisionBehavior(items: [newCardView])
         collisionIn.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: view.frame.size.width*0.05, y: 0), to: CGPoint(x: view.frame.size.width*0.05, y: view.frame.size.height))
         animatorIn.addBehavior(collisionIn)
+        
+        elasticityIn = UIDynamicItemBehavior(items: [newCardView])
+        elasticityIn.resistance = 0
+        animatorIn.addBehavior(elasticityIn)
+        collisionIn.collisionDelegate = self
+    }
     
+    func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
+        elasticityIn.resistance = 0
+    }
+    
+    func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
+        elasticityIn.resistance = 150
+        buttonA!.isEnabled = true
+        buttonB!.isEnabled = true
     }
 }

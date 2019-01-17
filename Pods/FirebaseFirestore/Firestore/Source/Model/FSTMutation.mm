@@ -271,11 +271,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (FSTObjectValue *)patchObjectValue:(FSTObjectValue *)objectValue {
   FSTObjectValue *result = objectValue;
   for (const FieldPath &fieldPath : self.fieldMask) {
-    FSTFieldValue *newValue = [self.value valueForPath:fieldPath];
-    if (newValue) {
-      result = [result objectBySettingValue:newValue forPath:fieldPath];
-    } else {
-      result = [result objectByDeletingPath:fieldPath];
+    if (!fieldPath.empty()) {
+      FSTFieldValue *newValue = [self.value valueForPath:fieldPath];
+      if (newValue) {
+        result = [result objectBySettingValue:newValue forPath:fieldPath];
+      } else {
+        result = [result objectByDeletingPath:fieldPath];
+      }
     }
   }
   return result;
@@ -383,8 +385,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The transform results array.
  */
 - (NSArray<FSTFieldValue *> *)
-serverTransformResultsWithBaseDocument:(nullable FSTMaybeDocument *)baseDocument
-                serverTransformResults:(NSArray<FSTFieldValue *> *)serverTransformResults {
+    serverTransformResultsWithBaseDocument:(nullable FSTMaybeDocument *)baseDocument
+                    serverTransformResults:(NSArray<FSTFieldValue *> *)serverTransformResults {
   NSMutableArray<FSTFieldValue *> *transformResults = [NSMutableArray array];
   HARD_ASSERT(self.fieldTransforms.size() == serverTransformResults.count,
               "server transform result count (%s) should match field transforms count (%s)",

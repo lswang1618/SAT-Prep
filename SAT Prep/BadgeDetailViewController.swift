@@ -42,12 +42,12 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "tagQuestion" {
-            let vc = segue.destination as! UINavigationController
-            let cVC = vc.viewControllers.first as! ViewController
+            weak var vc = (segue.destination as! ViewController)
             let model = Model()
             
             model.getTagQuestion(qIndex: (badge?.lastIndex)!, tag: (badge?.tag)!, completion: {question in
-                cVC.loadQuestion(tagQuestion: question)})
+                vc?.loadQuestion(tagQuestion: question)
+            })
         }
     }
     
@@ -57,7 +57,7 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
             configureCount(vIndex: selected!)
             configureColor(imageView: mainImage, vIndex: selected!, grad: gradient, gradView: progressView)
             addSelectedIcon(badgeView: goldBadge)
-            subTitle.text = "Answered 50 questions"
+            subTitle.text = "Answered 25 questions"
         }
     }
     
@@ -67,7 +67,7 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
             configureCount(vIndex: selected!)
             configureColor(imageView: mainImage, vIndex: selected!, grad: gradient, gradView: progressView)
             addSelectedIcon(badgeView: silverBadge)
-            subTitle.text = "Answered 25 questions"
+            subTitle.text = "Answered 10 questions"
         }
     }
     
@@ -77,34 +77,34 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
             configureCount(vIndex: selected!)
             configureColor(imageView: mainImage, vIndex: selected!, grad: gradient, gradView: progressView)
             addSelectedIcon(badgeView: bronzeBadge)
-            subTitle.text = "Answered 10 questions"
+            subTitle.text = "Answered 5 questions"
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         badgeNameLabel.text = badge?.tag
-        badgeNameLabel.font = badgeNameLabel.font.withSize(self.view.frame.height * 0.03)
-        subTitle.font = subTitle.font.withSize(self.view.frame.height * 0.02)
+        badgeNameLabel.font = badgeNameLabel.font.withSize(view.frame.height * 0.03)
+        subTitle.font = subTitle.font.withSize(view.frame.height * 0.02)
         
         finishedCount.isHidden = true
         count.isHidden = true
         
-        if badge!.progress < 10 {
+        if badge!.progress < 5 {
             level = 0
             selected = 0
-            subTitle.text = "Answered 10 questions"
-        } else if badge!.progress < 25 {
+            subTitle.text = "Answered 5 questions"
+        } else if badge!.progress < 10 {
             level = 1
             selected = 1
-            subTitle.text = "Answered 25 questions"
-        } else if badge!.progress < 50 {
+            subTitle.text = "Answered 10 questions"
+        } else if badge!.progress < 25 {
             level = 2
             selected = 2
-            subTitle.text = "Answered 50 questions"
+            subTitle.text = "Answered 25 questions"
         } else {
             level = 3
             selected = 2
-            subTitle.text = "Answered 50 questions"
+            subTitle.text = "Answered 25 questions"
         }
     }
 
@@ -162,10 +162,10 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
         let width = badgeView.frame.width
         let x = badgeStackView.convert(badgeView.frame.origin, to: progressView).x
         let circlePath = UIBezierPath(arcCenter: CGPoint (x: x + width/2, y: progressView.frame.height*0.92),
-                                  radius: 3,
-                                  startAngle: CGFloat(-0.5 * .pi),
-                                  endAngle: CGFloat(1.5 * .pi),
-                                  clockwise: true)
+                                      radius: 3,
+                                      startAngle: CGFloat(-0.5 * .pi),
+                                      endAngle: CGFloat(1.5 * .pi),
+                                      clockwise: true)
         circle.path = circlePath.cgPath
         circle.fillColor = progressColor.cgColor
         circle.strokeColor = progressColor.cgColor
@@ -267,7 +267,7 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
     func configureCount(vIndex: Int) {
         let progress = String(format:"%i", (badge?.progress)!)
         
-        if (badge?.progress)! > 49 && vIndex == 2{
+        if (badge?.progress)! > 24 && vIndex == 2{
             count.isHidden = true
             finishedCount.text = progress
             finishedCount.isHidden = false
@@ -275,22 +275,26 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
         } else {
             finishedCount.isHidden = true
             let attributedString = NSMutableAttributedString()
-            let attrs = [NSAttributedStringKey.foregroundColor : progressColor, NSAttributedStringKey.font : UIFont(name: "DinPro-Light", size: 24.0)! ]
+            let attrs = [NSAttributedStringKey.foregroundColor : progressColor, NSAttributedStringKey.font : UIFont(name: "DinPro-Light", size: 30.0)!]
+            
+            let boldFontAttribute: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 30.0)]
             let attrs2 = [NSAttributedStringKey.foregroundColor : UIColor.black]
             attributedString.append(NSMutableAttributedString(string: progress, attributes:attrs))
+            attributedString.addAttributes(boldFontAttribute, range: NSRange(location: 0, length: progress.count))
+            
             if level! <= vIndex {
                 gradient.removeFromSuperlayer()
                 
                 switch vIndex {
                 case 0:
+                    attributedString.append(NSMutableAttributedString(string: "\n/5", attributes:attrs2))
+                    drawProgress(percent: CGFloat(badge!.progress)/CGFloat(5.0))
+                case 1:
                     attributedString.append(NSMutableAttributedString(string: "\n/10", attributes:attrs2))
                     drawProgress(percent: CGFloat(badge!.progress)/CGFloat(10.0))
-                case 1:
+                case 2:
                     attributedString.append(NSMutableAttributedString(string: "\n/25", attributes:attrs2))
                     drawProgress(percent: CGFloat(badge!.progress)/CGFloat(25.0))
-                case 2:
-                    attributedString.append(NSMutableAttributedString(string: "\n/50", attributes:attrs2))
-                    drawProgress(percent: CGFloat(badge!.progress)/CGFloat(50.0))
                 default:
                     count.isHidden = true
                 }

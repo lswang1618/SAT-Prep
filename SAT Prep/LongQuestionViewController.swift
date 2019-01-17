@@ -12,23 +12,34 @@ import iosMath
 class LongQuestionViewController: UIViewController {
     var question: Question!
     var user: User?
-    var parentVC: ViewController?
+    weak var parentVC: ViewController?
     
     var animator: UIDynamicAnimator!
     var gravity: UIGravityBehavior!
     var collision: UICollisionBehavior!
     var elasticity: UIDynamicItemBehavior!
+    weak var explanationController: ExplanationViewController?
+    weak var storyController: StoryViewController?
     
     let mint = UIColor(red:0.00, green:0.58, blue:0.74, alpha:1.0)
     
-    private lazy var explanationController: ExplanationViewController = {
+    private var makeExplanation: ExplanationViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
         // Instantiate View Controller
-        var viewController = storyboard.instantiateViewController(withIdentifier: "ExplanationViewController") as! ExplanationViewController
+        explanationController = (storyboard.instantiateViewController(withIdentifier: "ExplanationViewController") as! ExplanationViewController)
         
-        return viewController
-    }()
+        return explanationController!
+    }
+    
+    private var makeStory: StoryViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        // Instantiate View Controller
+        storyController = (storyboard.instantiateViewController(withIdentifier: "StoryViewController") as! StoryViewController)
+        storyController?.storyID = question.content.storyID
+        return storyController!
+    }
     
     //MARK: Modal Question Properties
     @IBOutlet weak var questionField: UILabel!
@@ -56,8 +67,8 @@ class LongQuestionViewController: UIViewController {
         } else {
             buttonA.mathLabel.textColor = UIColor.gray
             buttonA.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerA.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerA.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonA.isEnabled = false
         }
     }
@@ -68,21 +79,20 @@ class LongQuestionViewController: UIViewController {
         } else {
             buttonB.mathLabel.textColor = UIColor.gray
             buttonB.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerB.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerB.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonB.isEnabled = false
         }
     }
     
     @IBAction func selectChoiceC(_ sender: UIButton) {
         if question?.correctAnswer == 2 {
-            print("tapped")
             parentVC?.handleCorrect(vc: self)
         } else {
             buttonC.mathLabel.textColor = UIColor.gray
             buttonC.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerC.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerC.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonC.isEnabled = false
         }
     }
@@ -93,16 +103,16 @@ class LongQuestionViewController: UIViewController {
         } else {
             buttonD.mathLabel.textColor = UIColor.gray
             buttonD.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerD.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerD.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonD.isEnabled = false
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.layoutIfNeeded()
-        parentVC = self.parent as? ViewController
+        view.layoutIfNeeded()
+        parentVC = parent as? ViewController
         
         scrollView.layer.cornerRadius = 20
         questionField.isHidden = true
@@ -111,7 +121,7 @@ class LongQuestionViewController: UIViewController {
     }
     
     @IBAction func handlePan(recognizer:UIPanGestureRecognizer) {
-        let translation = recognizer.translation(in: self.view)
+        let translation = recognizer.translation(in: view)
         
         if let view = recognizer.view {
             let viewHeight = view.frame.height
@@ -119,7 +129,7 @@ class LongQuestionViewController: UIViewController {
             view.center = CGPoint(x:view.center.x,
                                   y: min(deviceHeight!*0.88 + viewHeight*0.5, max(view.center.y + translation.y, deviceHeight! - viewHeight*0.5)))
         }
-        recognizer.setTranslation(CGPoint.zero, in: self.view)
+        recognizer.setTranslation(CGPoint.zero, in: view)
     }
     
     @IBAction func handleTap(recognizer:UITapGestureRecognizer) {
@@ -206,8 +216,26 @@ class LongQuestionViewController: UIViewController {
         if content.title != "" {
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
             titleLabel.numberOfLines = 0
-            titleLabel.text = content.title.replacingOccurrences(of: "\\n", with: "\n" + space)
             titleLabel.font = UIFont(name: "Gill Sans", size: 24)
+            
+            if content.storyID != "" {
+                let titleString = NSMutableAttributedString()
+                let attrs = [NSAttributedStringKey.foregroundColor : mint, ]
+                titleString.append(NSMutableAttributedString(string: content.title + "  ", attributes:attrs))
+                let attachment = NSTextAttachment()
+                attachment.image = UIImage(named: "Arrow")
+                attachment.bounds.origin = CGPoint(x: 0, y: -5)
+                attachment.bounds.size = (UIImage(named: "Arrow")?.size)!
+                titleString.append(NSAttributedString(attachment: attachment))
+                titleLabel.attributedText = titleString
+                
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openStory))
+                titleLabel.isUserInteractionEnabled = true
+                titleLabel.addGestureRecognizer(tapGesture)
+            }
+            else {
+                titleLabel.text = content.title
+            }
             contentStackView.addArrangedSubview(titleLabel)
         }
         if content.intro != "" {
@@ -255,7 +283,17 @@ class LongQuestionViewController: UIViewController {
                 contentStackView.addArrangedSubview(image)
             }
             catch{
-                print(error)
+                image.image = UIImage(named:"Error")
+                image.contentMode = .scaleAspectFit
+                contentStackView.addArrangedSubview(image)
+                let errorLabel = UILabel()
+                errorLabel.translatesAutoresizingMaskIntoConstraints = false
+                errorLabel.numberOfLines = 0
+                errorLabel.font = UIFont(name: "Gill Sans", size: 16)
+                errorLabel.text = "We're having trouble loading...check your network connection."
+                errorLabel.textAlignment = .center
+                errorLabel.textColor = UIColor(red:1.00, green:0.39, blue:0.42, alpha:1.0)
+                contentStackView.addArrangedSubview(errorLabel)
             }
         }
         mainLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -297,7 +335,7 @@ class LongQuestionViewController: UIViewController {
                         attachment.bounds = iconSize
                         attributedString.append(NSAttributedString(attachment: attachment))
                         counter += 1
-                        let attrs = [NSAttributedStringKey.foregroundColor : mint]//, NSAttributedStringKey.backgroundColor : mint]
+                        let attrs = [NSAttributedStringKey.foregroundColor : mint]
                         attributedString.append(NSMutableAttributedString(string:string.replacingOccurrences(of: "\\n", with: "\n" + space), attributes:attrs))
                     } else {
                         attributedString.append(NSMutableAttributedString(string:string.replacingOccurrences(of: "\\n", with: "\n" + space)))
@@ -325,6 +363,20 @@ class LongQuestionViewController: UIViewController {
         contentStackView.addArrangedSubview(bottomSpace)
     }
     
+    @objc func openStory(sender: UITapGestureRecognizer) {
+        add(asChildViewController: makeStory)
+        addChildViewController(storyController!)
+    }
+    
+    func add(asChildViewController viewController: UIViewController) {
+        viewController.view.tag = 1
+        UIApplication.shared.keyWindow?.addSubview(viewController.view)
+        viewController.view.frame = (navigationController?.view.bounds)!
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        viewController.didMove(toParentViewController: self)
+    }
+    
     private func renderContent(q: Question) {
         contentStackView.layoutMargins = UIEdgeInsets(top: 25, left: 25, bottom: 0, right: 25)
         contentStackView.isLayoutMarginsRelativeArrangement = true
@@ -345,6 +397,8 @@ class LongQuestionViewController: UIViewController {
             contentStackView.addArrangedSubview(bottomSpace)
             renderPassage(content: q.content2!)
         }
+        scrollView.translatesAutoresizingMaskIntoConstraints = true
+        card.translatesAutoresizingMaskIntoConstraints = false
         
         animator = UIDynamicAnimator(referenceView: view)
         gravity = UIGravityBehavior(items: [card])
@@ -354,6 +408,5 @@ class LongQuestionViewController: UIViewController {
         collision = UICollisionBehavior(items: [card])
         collision.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: 0, y: view.frame.size.height*0.82), to: CGPoint(x: view.frame.size.width, y: view.frame.size.height*0.82))
         animator.addBehavior(collision)
-        
     }
 }

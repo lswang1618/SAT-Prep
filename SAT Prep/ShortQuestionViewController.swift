@@ -12,26 +12,28 @@ import iosMath
 class ShortQuestionViewController: UIViewController {
     var question: Question!
     var user: User?
-    var parentVC: ViewController?
+    weak var parentVC: ViewController?
     
     var animator: UIDynamicAnimator!
     var gravity: UIGravityBehavior!
     var collision: UICollisionBehavior!
     var elasticity: UIDynamicItemBehavior!
+    var explanationController: ExplanationViewController?
     
     let orange = UIColor(red:1.00, green:0.53, blue:0.36, alpha:1.0)
     let grey = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.0)
     
-    private lazy var explanationController: ExplanationViewController = {
+    private var makeExplanation: ExplanationViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
         // Instantiate View Controller
-        var viewController = storyboard.instantiateViewController(withIdentifier: "ExplanationViewController") as! ExplanationViewController
+        explanationController = (storyboard.instantiateViewController(withIdentifier: "ExplanationViewController") as! ExplanationViewController)
         
-        return viewController
-    }()
+        return explanationController!
+    }
     
     @IBOutlet weak var card: RoundedCornerView!
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var questionView: UIStackView!
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var buttonA: ChoiceButton!
@@ -50,8 +52,8 @@ class ShortQuestionViewController: UIViewController {
         } else {
             buttonA.mathLabel.textColor = UIColor.white
             buttonA.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerA.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerA.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonA.isEnabled = false
         }
     }
@@ -62,8 +64,8 @@ class ShortQuestionViewController: UIViewController {
         } else {
             buttonB.mathLabel.textColor = UIColor.white
             buttonB.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerB.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerB.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonB.isEnabled = false
         }
     }
@@ -74,8 +76,8 @@ class ShortQuestionViewController: UIViewController {
         } else {
             buttonC.mathLabel.textColor = UIColor.white
             buttonC.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerC.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerC.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonC.isEnabled = false
         }
     }
@@ -86,19 +88,18 @@ class ShortQuestionViewController: UIViewController {
         } else {
             buttonD.mathLabel.textColor = UIColor.white
             buttonD.shapeLayer.fillColor = UIColor.gray.cgColor
-            self.explanationController.explanations = question.answerD.explanations
-            parentVC?.handleWrong(vc: self.explanationController)
+            makeExplanation.explanations = question.answerD.explanations
+            parentVC?.handleWrong(vc: explanationController!)
             buttonD.isEnabled = false
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.layoutIfNeeded()
-        parentVC = self.parent as? ViewController
+        view.layoutIfNeeded()
+        parentVC = parent as? ViewController
         questionField.isHidden = true
         renderQuestion(q: question)
-        
     }
     
     private func renderQuestion(q: Question) {
@@ -118,7 +119,7 @@ class ShortQuestionViewController: UIViewController {
         if q.text.range(of: "\\") != nil {
             let mathLabel = MTMathUILabel()
             mathLabel.latex = q.text
-            mathLabel.fontSize = self.view.frame.height * 0.026
+            mathLabel.fontSize = view.frame.height * 0.026
             mathLabel.textAlignment = MTTextAlignment.center
             mathLabel.contentInsets = UIEdgeInsetsMake(0, 0, 20, 0);
             questionView.insertArrangedSubview(mathLabel, at: 1)
@@ -138,12 +139,14 @@ class ShortQuestionViewController: UIViewController {
             buttonC.setTitle(question.answerC.choiceText, for: .normal)
             buttonD.setTitle(question.answerD.choiceText, for: .normal)
         }
-            
+        scrollView.translatesAutoresizingMaskIntoConstraints = true
+        card.translatesAutoresizingMaskIntoConstraints = false
+        
         animator = UIDynamicAnimator(referenceView: view)
         gravity = UIGravityBehavior(items: [card])
         gravity.magnitude = 3.0
         animator.addBehavior(gravity)
-        
+
         collision = UICollisionBehavior(items: [card])
         collision.addBoundary(withIdentifier: "center" as NSCopying, from: CGPoint(x: 0, y: view.frame.size.height*0.8), to: CGPoint(x: view.frame.size.width, y: view.frame.size.height*0.8))
         animator.addBehavior(collision)

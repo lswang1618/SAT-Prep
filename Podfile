@@ -6,7 +6,6 @@ target 'SAT Prep' do
   # Pods for SAT Prep
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
-  pod 'Firebase/Auth'
   pod 'iosMath'
   pod 'UICountingLabel'
   pod 'lottie-ios'

@@ -22,16 +22,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        
-        let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.badge, .alert, .sound]
-        
-        center.requestAuthorization(options: options) {
-            (granted, error) in
-            if !granted {
-                print("Something went wrong")
+
+        if #available(iOS 10.0, *){
+            let center = UNUserNotificationCenter.current()
+            let options: UNAuthorizationOptions = [.badge, .alert, .sound]
+            
+            center.requestAuthorization(options: options) {
+                (granted, error) in
+                if !granted {
+                    print("Something went wrong")
+                }
             }
         }
+            
+        else{ //If user is not on iOS 10 use the old methods we've been using
+            let notificationSettings = UIUserNotificationSettings(
+                types: [.badge, .sound, .alert], categories: nil)
+            application.registerUserNotificationSettings(notificationSettings)
+            
+        }
+        
+        
         
         return true
     }

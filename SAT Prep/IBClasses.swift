@@ -156,6 +156,7 @@ class ExplanationButton: UIButton {
     
     override func draw(_ rect: CGRect) {
         mathLabel.isUserInteractionEnabled = false
+        self.titleEdgeInsets = UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
     }
 }
 
