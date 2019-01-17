@@ -58,7 +58,7 @@
 		501C6B7420ABCF40009E2C18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		501C6B9920ABFA8C009E2C18 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		501C6B9B20ABFCA5009E2C18 /* SAT Prep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SAT Prep.entitlements"; sourceTree = "<group>"; };
-		501C6B9E20AD228D009E2C18 /* DINPro-Light_13935.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DINPro-Light_13935.ttf"; path = "../../../Downloads/DINPro-Light_13935.ttf"; sourceTree = "<group>"; };
+		501C6B9E20AD228D009E2C18 /* DINPro-Light_13935.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Light_13935.ttf"; sourceTree = "<group>"; };
 		501C6BA620AD2E42009E2C18 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5028869E21363C9D00B82324 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
