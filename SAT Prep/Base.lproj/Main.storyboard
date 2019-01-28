@@ -1036,24 +1036,149 @@
         <scene sceneID="SpE-h1-EfT">
             <objects>
                 <viewController id="aG2-an-DnX" customClass="BadgeDetailViewController" customModule="SAT_Prep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Jh-Q1-tGJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zi5-X9-xZ6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FFM-vu-3gO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zpu-Rg-xvr" userLabel="Card" customClass="RoundedCornerView" customModule="SAT_Prep" customModuleProvider="target">
+                                <rect key="frame" x="395" y="41.333333333333314" width="337.33333333333326" height="649.33333333333348"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzW-bb-wTv" userLabel="Badge Name Label">
+                                        <rect key="frame" x="99" y="53" width="42" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIx-2F-ZIO" userLabel="Progress View" customClass="RoundedCornerView" customModule="SAT_Prep" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="337.33333333333331" height="649.33333333333337"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n02-d1-yy1" userLabel="Main Image">
+                                        <rect key="frame" x="67.3333333333333" y="207.33333333333331" width="202.66666666666663" height="202.33333333333331"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="n02-d1-yy1" secondAttribute="height" multiplier="1:1" id="tmO-dV-8DZ"/>
+                                        </constraints>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdV-eN-Ty8" userLabel="Badge Stack View">
+                                        <rect key="frame" x="71.3333333333333" y="525.33333333333326" width="194.66666666666663" height="65"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a7o-rY-eVH" userLabel="Bronze Badge">
+                                                <rect key="frame" x="0.0" y="0.0" width="65" height="65"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="a7o-rY-eVH" secondAttribute="height" multiplier="1:1" id="VOf-vb-Jn0"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wcf-zk-OZS" userLabel="Silver Badge">
+                                                <rect key="frame" x="65.000000000000057" y="0.0" width="64.666666666666686" height="65"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="wcf-zk-OZS" secondAttribute="height" multiplier="1:1" id="ofS-r9-QuI"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eSn-mV-0kB" userLabel="Gold Badge">
+                                                <rect key="frame" x="129.66666666666669" y="0.0" width="65" height="65"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="eSn-mV-0kB" secondAttribute="height" multiplier="1:1" id="cAN-0m-SsW"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVF-nc-KHh" userLabel="Count">
+                                        <rect key="frame" x="166" y="395" width="41.666666666666657" height="20.333333333333314"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8d-Ir-NA9" userLabel="FInished Count">
+                                        <rect key="frame" x="166" y="395" width="41.666666666666657" height="20.333333333333314"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCO-lb-zva" userLabel="Sub Title">
+                                        <rect key="frame" x="33.666666666666686" y="71.333333333333343" width="270" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FVM-5g-ypG" userLabel="Practice">
+                                        <rect key="frame" x="93.666666666666686" y="624.33333333333326" width="150" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="9AK-3C-xIr"/>
+                                            <constraint firstAttribute="height" constant="50" id="rff-YY-WdX"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="ZIx-2F-ZIO" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="8w8-5M-MhP"/>
+                                    <constraint firstItem="n02-d1-yy1" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="AjH-eF-NTP"/>
+                                    <constraint firstItem="FVM-5g-ypG" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="ITX-du-0pl"/>
+                                    <constraint firstItem="ZIx-2F-ZIO" firstAttribute="height" secondItem="Zpu-Rg-xvr" secondAttribute="height" id="JF8-Dt-puP"/>
+                                    <constraint firstItem="UCO-lb-zva" firstAttribute="top" secondItem="AzW-bb-wTv" secondAttribute="bottom" multiplier="1.05" constant="8" symbolic="YES" id="LVy-2d-S1h"/>
+                                    <constraint firstItem="AzW-bb-wTv" firstAttribute="top" secondItem="Zpu-Rg-xvr" secondAttribute="top" constant="40" id="Lt2-8D-orT"/>
+                                    <constraint firstItem="n02-d1-yy1" firstAttribute="centerX" secondItem="AzW-bb-wTv" secondAttribute="centerX" id="OW0-Vz-U8E"/>
+                                    <constraint firstItem="FVM-5g-ypG" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="bottom" id="REY-Df-fXt"/>
+                                    <constraint firstItem="UCO-lb-zva" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="SHl-HT-wAb"/>
+                                    <constraint firstItem="n02-d1-yy1" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="centerY" multiplier="0.95" id="UjE-Pa-N2l"/>
+                                    <constraint firstItem="pVF-nc-KHh" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="centerY" multiplier="0.95" id="Wif-mf-4Fe"/>
+                                    <constraint firstItem="n02-d1-yy1" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" multiplier="0.6" id="doi-br-oL1"/>
+                                    <constraint firstItem="ZIx-2F-ZIO" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="centerY" id="eNf-OK-4pL"/>
+                                    <constraint firstItem="AzW-bb-wTv" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" multiplier="0.8" id="hxN-Gz-eOl"/>
+                                    <constraint firstItem="ZIx-2F-ZIO" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" id="jRF-rL-HCQ"/>
+                                    <constraint firstItem="pVF-nc-KHh" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="kE6-J7-Q8O"/>
+                                    <constraint firstAttribute="bottom" secondItem="fdV-eN-Ty8" secondAttribute="bottom" multiplier="1.1" id="kZv-OI-3hx"/>
+                                    <constraint firstItem="l8d-Ir-NA9" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="l7i-Yn-bSq"/>
+                                    <constraint firstItem="UCO-lb-zva" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" multiplier="0.8" id="niN-gM-2qj"/>
+                                    <constraint firstItem="fdV-eN-Ty8" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="tWU-5q-A79"/>
+                                    <constraint firstItem="l8d-Ir-NA9" firstAttribute="centerY" secondItem="n02-d1-yy1" secondAttribute="bottom" id="ug5-4e-dBI"/>
+                                    <constraint firstItem="fdV-eN-Ty8" firstAttribute="height" secondItem="Zpu-Rg-xvr" secondAttribute="height" multiplier="0.1" id="zCi-VQ-vuO"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Zpu-Rg-xvr" firstAttribute="leading" secondItem="FFM-vu-3gO" secondAttribute="trailingMargin" multiplier="1.1" id="GxA-Af-vPT"/>
+                            <constraint firstItem="Zpu-Rg-xvr" firstAttribute="height" secondItem="FFM-vu-3gO" secondAttribute="height" multiplier="0.8" id="Nha-uX-ysD"/>
+                            <constraint firstItem="Zpu-Rg-xvr" firstAttribute="width" secondItem="FFM-vu-3gO" secondAttribute="width" multiplier="0.9" id="hNw-hF-Mf1"/>
+                            <constraint firstItem="Zpu-Rg-xvr" firstAttribute="centerY" secondItem="FFM-vu-3gO" secondAttribute="centerY" constant="-40" id="kpK-i1-Ydw"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <outlet property="handleGoldTap" destination="cpC-gt-HT8" id="eeh-MH-z8q"/>
+                        <outlet property="badgeNameLabel" destination="AzW-bb-wTv" id="VQa-F4-xg6"/>
+                        <outlet property="badgeStackView" destination="fdV-eN-Ty8" id="36n-0D-7TH"/>
+                        <outlet property="bronzeBadge" destination="a7o-rY-eVH" id="P33-s4-mmA"/>
+                        <outlet property="card" destination="Zpu-Rg-xvr" id="JI0-ZE-Ei0"/>
+                        <outlet property="count" destination="pVF-nc-KHh" id="pjP-9H-cpm"/>
+                        <outlet property="finishedCount" destination="l8d-Ir-NA9" id="aVv-kl-w7U"/>
+                        <outlet property="goldBadge" destination="eSn-mV-0kB" id="gR4-IT-tRb"/>
+                        <outlet property="mainImage" destination="n02-d1-yy1" id="SJ2-s6-L1Z"/>
+                        <outlet property="progressView" destination="ZIx-2F-ZIO" id="xLP-D8-APy"/>
+                        <outlet property="silverBadge" destination="wcf-zk-OZS" id="hSd-ob-h4H"/>
+                        <outlet property="subTitle" destination="UCO-lb-zva" id="plR-El-83C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9mR-w9-wYT" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="cpC-gt-HT8">
                     <connections>
-                        <action selector="handleGoldTap:" destination="aG2-an-DnX" id="Wpm-yc-hp1"/>
+                        <action selector="handleGoldTapWithRecognizer:" destination="aG2-an-DnX" id="rp1-bb-M0x"/>
+                        <outlet property="delegate" destination="eSn-mV-0kB" id="xt9-DT-hux"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="aFk-h5-Rok">
                     <connections>
-                        <action selector="handleSilverTap:" destination="aG2-an-DnX" id="XrA-HB-klS"/>
+                        <action selector="handleSilverTapWithRecognizer:" destination="aG2-an-DnX" id="6T1-7i-rh8"/>
+                        <outlet property="delegate" destination="wcf-zk-OZS" id="UWa-wZ-8qO"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="VuI-jN-PDo">
                     <connections>
-                        <action selector="handleBronzeTap:" destination="aG2-an-DnX" id="fCn-eo-mib"/>
+                        <action selector="handleBronzeTapWithRecognizer:" destination="aG2-an-DnX" id="Hb1-0p-Pzs"/>
+                        <outlet property="delegate" destination="a7o-rY-eVH" id="gbU-hZ-vNk"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
