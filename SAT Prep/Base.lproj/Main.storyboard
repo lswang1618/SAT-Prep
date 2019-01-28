@@ -1047,15 +1047,24 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zpu-Rg-xvr" userLabel="Card" customClass="RoundedCornerView" customModule="SAT_Prep" customModuleProvider="target">
                                 <rect key="frame" x="395" y="41.333333333333314" width="337.33333333333326" height="649.33333333333348"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzW-bb-wTv" userLabel="Badge Name Label">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzW-bb-wTv" userLabel="Badge Name Label" customClass="EdgeInsetLabel" customModule="SAT_Prep" customModuleProvider="target">
                                         <rect key="frame" x="99" y="53" width="42" height="20.333333333333329"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="27"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rightTextInset">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIx-2F-ZIO" userLabel="Progress View" customClass="RoundedCornerView" customModule="SAT_Prep" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="337.33333333333331" height="649.33333333333337"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n02-d1-yy1" userLabel="Main Image">
                                         <rect key="frame" x="67.3333333333333" y="207.33333333333331" width="202.66666666666663" height="202.33333333333331"/>
@@ -1063,54 +1072,76 @@
                                             <constraint firstAttribute="width" secondItem="n02-d1-yy1" secondAttribute="height" multiplier="1:1" id="tmO-dV-8DZ"/>
                                         </constraints>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdV-eN-Ty8" userLabel="Badge Stack View">
-                                        <rect key="frame" x="71.3333333333333" y="525.33333333333326" width="194.66666666666663" height="65"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="fdV-eN-Ty8" userLabel="Badge Stack View">
+                                        <rect key="frame" x="21.333333333333314" y="525.33333333333326" width="294.66666666666669" height="65"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a7o-rY-eVH" userLabel="Bronze Badge">
+                                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a7o-rY-eVH" userLabel="Bronze Badge">
                                                 <rect key="frame" x="0.0" y="0.0" width="65" height="65"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="a7o-rY-eVH" secondAttribute="height" multiplier="1:1" id="VOf-vb-Jn0"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="VuI-jN-PDo" appends="YES" id="7ax-wa-MIe"/>
+                                                </connections>
                                             </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wcf-zk-OZS" userLabel="Silver Badge">
-                                                <rect key="frame" x="65.000000000000057" y="0.0" width="64.666666666666686" height="65"/>
+                                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wcf-zk-OZS" userLabel="Silver Badge">
+                                                <rect key="frame" x="115.00000000000006" y="0.0" width="64.666666666666686" height="65"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="wcf-zk-OZS" secondAttribute="height" multiplier="1:1" id="ofS-r9-QuI"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="aFk-h5-Rok" appends="YES" id="aNf-zE-BXq"/>
+                                                </connections>
                                             </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eSn-mV-0kB" userLabel="Gold Badge">
-                                                <rect key="frame" x="129.66666666666669" y="0.0" width="65" height="65"/>
+                                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eSn-mV-0kB" userLabel="Gold Badge">
+                                                <rect key="frame" x="229.66666666666669" y="0.0" width="65" height="65"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="eSn-mV-0kB" secondAttribute="height" multiplier="1:1" id="cAN-0m-SsW"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="cpC-gt-HT8" appends="YES" id="kmO-el-fn3"/>
+                                                </connections>
                                             </imageView>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVF-nc-KHh" userLabel="Count">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVF-nc-KHh" userLabel="Count">
                                         <rect key="frame" x="166" y="395" width="41.666666666666657" height="20.333333333333314"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8d-Ir-NA9" userLabel="FInished Count">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8d-Ir-NA9" userLabel="FInished Count">
                                         <rect key="frame" x="166" y="395" width="41.666666666666657" height="20.333333333333314"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCO-lb-zva" userLabel="Sub Title">
-                                        <rect key="frame" x="33.666666666666686" y="71.333333333333343" width="270" height="20.333333333333329"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCO-lb-zva" userLabel="Sub Title">
+                                        <rect key="frame" x="33.666666666666686" y="86.333333333333343" width="270" height="22"/>
+                                        <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FVM-5g-ypG" userLabel="Practice">
                                         <rect key="frame" x="93.666666666666686" y="624.33333333333326" width="150" height="50"/>
+                                        <color key="backgroundColor" red="1" green="0.44705882349999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="9AK-3C-xIr"/>
                                             <constraint firstAttribute="height" constant="50" id="rff-YY-WdX"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
+                                        <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="23"/>
+                                        <color key="tintColor" red="1" green="0.44705882349999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Practice">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <segue destination="BYZ-38-t0r" kind="show" identifier="tagQuestion" customClass="ReplaceSegue" customModule="SAT_Prep" customModuleProvider="target" id="Yp3-Wr-RUP"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1138,9 +1169,15 @@
                                     <constraint firstItem="l8d-Ir-NA9" firstAttribute="centerY" secondItem="n02-d1-yy1" secondAttribute="bottom" id="ug5-4e-dBI"/>
                                     <constraint firstItem="fdV-eN-Ty8" firstAttribute="height" secondItem="Zpu-Rg-xvr" secondAttribute="height" multiplier="0.1" id="zCi-VQ-vuO"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0" green="0.58039215690000001" blue="0.74117647060000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.0" green="0.58039215690000001" blue="0.74117647060000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Zpu-Rg-xvr" firstAttribute="leading" secondItem="FFM-vu-3gO" secondAttribute="trailingMargin" multiplier="1.1" id="GxA-Af-vPT"/>
                             <constraint firstItem="Zpu-Rg-xvr" firstAttribute="height" secondItem="FFM-vu-3gO" secondAttribute="height" multiplier="0.8" id="Nha-uX-ysD"/>
@@ -1166,19 +1203,16 @@
                 <tapGestureRecognizer id="cpC-gt-HT8">
                     <connections>
                         <action selector="handleGoldTapWithRecognizer:" destination="aG2-an-DnX" id="rp1-bb-M0x"/>
-                        <outlet property="delegate" destination="eSn-mV-0kB" id="xt9-DT-hux"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="aFk-h5-Rok">
                     <connections>
                         <action selector="handleSilverTapWithRecognizer:" destination="aG2-an-DnX" id="6T1-7i-rh8"/>
-                        <outlet property="delegate" destination="wcf-zk-OZS" id="UWa-wZ-8qO"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="VuI-jN-PDo">
                     <connections>
                         <action selector="handleBronzeTapWithRecognizer:" destination="aG2-an-DnX" id="Hb1-0p-Pzs"/>
-                        <outlet property="delegate" destination="a7o-rY-eVH" id="gbU-hZ-vNk"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -1525,7 +1559,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="vwH-8t-dMx"/>
         <segue reference="s3y-Pe-WtP"/>
-        <segue reference="uTv-5K-8qd"/>
+        <segue reference="Yp3-Wr-RUP"/>
         <segue reference="WQI-h0-Jem"/>
     </inferredMetricsTieBreakers>
 </document>

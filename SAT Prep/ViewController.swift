@@ -113,6 +113,7 @@ class ViewController: UIViewController {
         errorView.animationView.contentMode = .scaleAspectFit
         errorView.animationView.loopAnimation = true
         errorView.animationView.play()
+        
     }
     
     @objc func renderLoading() {
@@ -131,8 +132,10 @@ class ViewController: UIViewController {
         loaded = true
         if tagQuestion == nil {
             loadError()
+            
             return
         }
+        
         question = tagQuestion
         if badges.count == 0 {
             model?.getBadges() { [unowned self] results in
@@ -353,6 +356,7 @@ class ViewController: UIViewController {
         } else {
             showSuccess()
         }
+        
         remove(asChildViewController: vc)
     }
     
@@ -386,6 +390,7 @@ class ViewController: UIViewController {
     }
     
     @objc func popupHide() {
+        
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
         let badgeVC = storyBoard.instantiateViewController(withIdentifier: "badgeDetailView") as! BadgeDetailViewController
