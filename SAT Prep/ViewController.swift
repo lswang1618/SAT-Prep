@@ -230,6 +230,7 @@ class ViewController: UIViewController {
             if !(viewControllers.contains(where: { return $0 is LongQuestionViewController || $0 is ShortQuestionViewController})) && !error {
                 
                 model.getQuestion(tIndex: tIndex, qIndex: qIndex) {[unowned self] result in
+                   
                     if result == nil {
                         self.fetchQuestion(model: model, qIndex: (self.badges.filter({ [unowned self] in $0.tag == self.model!.tags[(tIndex + 1) % self.badges.count] }).first?.lastIndex)!, tIndex: (tIndex + 1) % self.badges.count, count: count + 1)
                         return

@@ -12,7 +12,7 @@ struct Question {
     // question type
     var tag: String
     var subject: String
-    var index: Int
+    var index: Int?
     
     // question info
     var text: String
@@ -26,12 +26,13 @@ struct Question {
     
     var content: Content
     var content2: Content?
+    var pack: [Question]?
     
     var dictionary: [String: Any] {
         return [
             "tag": tag,
             "subject": subject,
-            "index": index,
+            "index": index as Any,
             "text": text,
             "correctAnswer": correctAnswer,
             "answerA": answerA,
@@ -39,7 +40,8 @@ struct Question {
             "answerC": answerC,
             "answerD": answerD,
             "content": content,
-            "content2": content2 as Any
+            "content2": content2 as Any,
+            "pack": pack as Any
         ]
     }
 }
@@ -51,7 +53,6 @@ extension Question {
     init?(dictionary: [String : Any]) {
         guard let tag = dictionary["tag"] as? String,
             let subject = dictionary["subject"] as? String,
-            let index = dictionary["index"] as? Int,
             let text = dictionary["text"] as? String,
             let correctAnswer = dictionary["correctAnswer"] as? Int,
             let answerA = Answer(dictionary: dictionary["answerA"] as! [String : Any]),
@@ -60,34 +61,43 @@ extension Question {
             let answerD = Answer(dictionary: dictionary["answerD"] as! [String : Any]),
             let content = Content(dictionary: dictionary["content"] as! [String : Any]) else { return nil }
         
-        if let value = dictionary["content2"] {
-            let content2 = Content(dictionary: value as! [String : Any])
-            self.init(tag: tag,
-                      subject: subject,
-                      index: index,
-                      text: text,
-                      correctAnswer: correctAnswer,
-                      answerA: answerA,
-                      answerB: answerB,
-                      answerC: answerC,
-                      answerD: answerD,
-                      content: content,
-                      content2: content2
-            )
+        var packQArray: Array<Question>?
+        if let packQs = dictionary["pack"] {
+            packQArray = []
+            for item in (packQs as? Array<Any>)! {
+                packQArray!.append(Question(dictionary: item as! [String : Any])!)
+            }
         } else {
-            self.init(tag: tag,
-                      subject: subject,
-                      index: index,
-                      text: text,
-                      correctAnswer: correctAnswer,
-                      answerA: answerA,
-                      answerB: answerB,
-                      answerC: answerC,
-                      answerD: answerD,
-                      content: content,
-                      content2: nil
-            )
+            packQArray = nil
         }
+        
+        var content2: Content?
+        if let value = dictionary["content2"] {
+            content2 = Content(dictionary: value as! [String : Any])
+        } else {
+            content2 = nil
+        }
+        
+        var index: Int?
+        if dictionary["index"] != nil {
+            index = (dictionary["index"] as! Int)
+        } else {
+            index = nil
+        }
+        
+        self.init(tag: tag,
+                  subject: subject,
+                  index: index,
+                  text: text,
+                  correctAnswer: correctAnswer,
+                  answerA: answerA,
+                  answerB: answerB,
+                  answerC: answerC,
+                  answerD: answerD,
+                  content: content,
+                  content2: content2,
+                  pack: packQArray
+        )
     }
     
 }
@@ -109,8 +119,7 @@ extension Answer {
         guard let choiceText = dictionary["choiceText"] as? String,
             let explanations = dictionary["explanations"] as? Array<Any> else { return nil }
         
-        var explanationArray: Array<Explanation>
-        explanationArray = []
+        var explanationArray: Array<Explanation> = []
         for item in explanations {
              explanationArray.append(Explanation(dictionary: item as! [String : Any])!)
         }

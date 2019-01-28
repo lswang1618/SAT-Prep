@@ -104,7 +104,7 @@ class Model {
     }
         
     func getQuestion(tIndex: Int, qIndex: Int, completion: @escaping (Question?) -> ()) {
-        let questionsRef = db.collection("questions")
+        let questionsRef = db.collection("questions_v2")
         
         questionsRef.whereField("tag", isEqualTo: tags[tIndex])
             .whereField("index", isGreaterThan: qIndex).limit(to: 1)
@@ -116,7 +116,7 @@ class Model {
     }
     
     func getTagQuestion(qIndex: Int, tag: String, completion: @escaping (Question?) -> ()) {
-        let questionsRef = db.collection("questions")
+        let questionsRef = db.collection("questions_v2")
         
         questionsRef.whereField("tag", isEqualTo: tag)
             .whereField("index", isGreaterThan: qIndex).limit(to: 1)
@@ -129,7 +129,7 @@ class Model {
     
     func getNextQuestions(badges: [Badge]) {
         
-        let questionsRef = db.collection("questions")
+        let questionsRef = db.collection("questions_v2")
         if badges.count > 0 {
             for badge in badges{
                 questionsRef.whereField("tag", isEqualTo: badge.tag)
