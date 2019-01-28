@@ -29,6 +29,7 @@ class Model {
         returnDict["reading"] = tagDict?["Reading"] as! Array<String>?
         returnDict["writing"] = tagDict?["Writing"] as! Array<String>?
         returnDict["math"] = tagDict?["Math"] as! Array<String>?
+        returnDict["packs"] = tagDict?["Packs"] as! Array<String>?
         return returnDict
     }
     
@@ -37,6 +38,22 @@ class Model {
             (document, error) in
             guard let result = document?.data() else { return }
             completion(Story(dictionary: result)!)
+        }
+    }
+    
+    func createPackBadges(completion: @escaping([Badge]) -> ()) {
+        let user = Auth.auth().currentUser
+        let batch = self.db.batch()
+        for tag in self.readTags()["packs"]! {
+            let badgeRef = self.db.collection("users").document(user!.uid).collection("badges").document(tag)
+            batch.setData([
+                "tag": tag,
+                "progress": 0,
+                "lastIndex": 0
+            ], forDocument: badgeRef)
+        }
+        batch.commit() { err in 
+            self.getBadges(completion: completion)
         }
     }
     
@@ -50,17 +67,21 @@ class Model {
             for doc in docs {
                 badges.append(Badge(dictionary: doc.data())!)
             }
-            completion(badges)
+            if badges.count == self.tags.count {
+                self.createPackBadges(completion: completion)
+            } else {
+                completion(badges)
+            }
         }
     }
     
     func getUser(completion: @escaping (User) -> ()) {
         let user = Auth.auth().currentUser
         
-        
         let tagDict = self.readTags()
-        let tagArray = tagDict["reading"]! as [String] + tagDict["writing"]! + tagDict["math"]!
+        let tagArray = tagDict["reading"]! as [String] + tagDict["writing"]! + tagDict["math"]! + tagDict["packs"]!
         if user != nil {
+            
             db.collection("users").document(user!.uid)
                 .getDocument() { (document, error) in
                     guard let result = document?.data() else { return }

@@ -25,6 +25,7 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
     
     var badge: Badge?
     var color: UIColor?
+    var subjectIndex: Int?
     var image: UIImage?
     var selected: Int?
     var level: Int?
@@ -89,54 +90,63 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
         finishedCount.isHidden = true
         count.isHidden = true
         
-        if badge!.progress < 5 {
-            level = 0
-            selected = 0
-            subTitle.text = "Answered 5 questions"
-        } else if badge!.progress < 10 {
-            level = 1
-            selected = 1
-            subTitle.text = "Answered 10 questions"
-        } else if badge!.progress < 25 {
-            level = 2
-            selected = 2
-            subTitle.text = "Answered 25 questions"
+        if subjectIndex == 0 {
+            subTitle.text = "FILL IN"
         } else {
-            level = 3
-            selected = 2
-            subTitle.text = "Answered 25 questions"
+            if badge!.progress < 5 {
+                level = 0
+                selected = 0
+                subTitle.text = "Answered 5 questions"
+            } else if badge!.progress < 10 {
+                level = 1
+                selected = 1
+                subTitle.text = "Answered 10 questions"
+            } else if badge!.progress < 25 {
+                level = 2
+                selected = 2
+                subTitle.text = "Answered 25 questions"
+            } else {
+                level = 3
+                selected = 2
+                subTitle.text = "Answered 25 questions"
+            }
         }
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         configureBadgeImage(imageView: mainImage)
-        configureColor(imageView: mainImage, vIndex: selected!, grad: gradient, gradView: progressView)
         
-        
-        let gBronze = CAGradientLayer()
-        configureBadgeImage(imageView: bronzeBadge)
-        configureColor(imageView: bronzeBadge, vIndex: 0, grad: gBronze, gradView: bronzeBadge)
-        
-        let gSilver = CAGradientLayer()
-        configureBadgeImage(imageView: silverBadge)
-        configureColor(imageView: silverBadge, vIndex: 1, grad: gSilver, gradView: silverBadge)
-        
-        let gGold = CAGradientLayer()
-        configureBadgeImage(imageView: goldBadge)
-        configureColor(imageView: goldBadge, vIndex: 2, grad: gGold, gradView: goldBadge)
-        
-        switch selected {
-        case 0:
-            addSelectedIcon(badgeView: bronzeBadge)
-        case 1:
-            addSelectedIcon(badgeView: silverBadge)
-        case 2:
-            addSelectedIcon(badgeView: goldBadge)
-        default:
-            addSelectedIcon(badgeView: bronzeBadge)
+        if subjectIndex == 0 {
+            mainImage.image = mainImage.image?.withRenderingMode(.alwaysOriginal)
+        } else {
+            configureColor(imageView: mainImage, vIndex: selected!, grad: gradient, gradView: progressView)
+            
+            let gBronze = CAGradientLayer()
+            configureBadgeImage(imageView: bronzeBadge)
+            configureColor(imageView: bronzeBadge, vIndex: 0, grad: gBronze, gradView: bronzeBadge)
+            
+            let gSilver = CAGradientLayer()
+            configureBadgeImage(imageView: silverBadge)
+            configureColor(imageView: silverBadge, vIndex: 1, grad: gSilver, gradView: silverBadge)
+            
+            let gGold = CAGradientLayer()
+            configureBadgeImage(imageView: goldBadge)
+            configureColor(imageView: goldBadge, vIndex: 2, grad: gGold, gradView: goldBadge)
+            
+            switch selected {
+            case 0:
+                addSelectedIcon(badgeView: bronzeBadge)
+            case 1:
+                addSelectedIcon(badgeView: silverBadge)
+            case 2:
+                addSelectedIcon(badgeView: goldBadge)
+            default:
+                addSelectedIcon(badgeView: bronzeBadge)
+            }
         }
+        
         animator = UIDynamicAnimator(referenceView: view)
         animator.delegate = self
         gravity = UIGravityBehavior(items: [card])
@@ -154,7 +164,9 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
     }
     
     func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
-        configureCount(vIndex: selected!)
+        if subjectIndex! > 0 {
+            configureCount(vIndex: selected!)
+        }
     }
     
     func addSelectedIcon(badgeView: UIImageView) {

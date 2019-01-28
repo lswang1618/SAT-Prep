@@ -56,6 +56,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var loadingStackView: UIStackView!
     @IBOutlet weak var loadingMessage: UILabel!
     @IBOutlet weak var loadingView: LOTAnimatedControl!
+    @IBOutlet weak var packUnlock: UIStackView!
+    @IBOutlet weak var unlockView: LOTAnimatedControl!
     
     var loadingStrings = ["Putting together the perfect question for you...",
                           "Boris! Put down the cake and get a question ready!",
@@ -78,6 +80,27 @@ class ViewController: UIViewController {
             fetchQuestion(model: self.model!, qIndex: (self.badges.filter({ [unowned self] in $0.tag == self.model!.tags[tagIndex] }).first?.lastIndex)!, tIndex: tagIndex, count: 0)
             renderHeader()
         }
+    }
+    
+    @IBAction func nextPack(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func exitPack(_ sender: UIButton) {
+        
+    }
+    
+    func loadUnlockPack() {
+        loaded = true
+        
+        renderHeader()
+        streakStackView.isHidden = true
+        packUnlock.isHidden = false
+        startConfetti()
+        unlockView.animationView.setAnimation(named: "unlock")
+        unlockView.animationView.contentMode = .scaleAspectFit
+        unlockView.animationView.loopAnimation = true
+        unlockView.animationView.play()
     }
     
     func loadError() {
@@ -232,7 +255,7 @@ class ViewController: UIViewController {
                 model.getQuestion(tIndex: tIndex, qIndex: qIndex) {[unowned self] result in
                    
                     if result == nil {
-                        self.fetchQuestion(model: model, qIndex: (self.badges.filter({ [unowned self] in $0.tag == self.model!.tags[(tIndex + 1) % self.badges.count] }).first?.lastIndex)!, tIndex: (tIndex + 1) % self.badges.count, count: count + 1)
+                        self.fetchQuestion(model: model, qIndex: (self.badges.filter({ [unowned self] in $0.tag == self.model!.tags[(tIndex + 1) % self.model!.tags.count] }).first?.lastIndex)!, tIndex: (tIndex + 1) % self.model!.tags.count, count: count + 1)
                         return
                     }
                     
@@ -325,7 +348,11 @@ class ViewController: UIViewController {
         ])
         
         updateUser()
-        showSuccess()
+        if question?.pack != nil {
+            loadUnlockPack()
+        } else {
+            showSuccess()
+        }
         remove(asChildViewController: vc)
     }
     

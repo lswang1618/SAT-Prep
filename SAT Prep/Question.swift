@@ -27,6 +27,7 @@ struct Question {
     var content: Content
     var content2: Content?
     var pack: [Question]?
+    var packID: String?
     
     var dictionary: [String: Any] {
         return [
@@ -41,7 +42,8 @@ struct Question {
             "answerD": answerD,
             "content": content,
             "content2": content2 as Any,
-            "pack": pack as Any
+            "pack": pack as Any,
+            "packID": packID as Any
         ]
     }
 }
@@ -85,6 +87,13 @@ extension Question {
             index = nil
         }
         
+        var packID: String?
+        if dictionary["packID"] != nil {
+            packID = (dictionary["packID"] as! String)
+        } else {
+            packID = nil
+        }
+        
         self.init(tag: tag,
                   subject: subject,
                   index: index,
@@ -96,7 +105,8 @@ extension Question {
                   answerD: answerD,
                   content: content,
                   content2: content2,
-                  pack: packQArray
+                  pack: packQArray,
+                  packID: packID
         )
     }
     

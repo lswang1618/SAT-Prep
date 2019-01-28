@@ -48,16 +48,19 @@ class BadgeViewController: UICollectionViewController {
         currentIndex = (parentVC?.getIndex())!
         switch currentIndex {
         case 0:
-            tags = allTags["reading"]!
+            tags = allTags["packs"]!
             renderHeader()
         case 1:
-            tags = allTags["writing"]!
+            tags = allTags["reading"]!
             fetchBadges(p: parentVC!)
         case 2:
+            tags = allTags["writing"]!
+            fetchBadges(p: parentVC!)
+        case 3:
             tags = allTags["math"]!
             fetchBadges(p: parentVC!)
         default:
-            tags = allTags["reading"]!
+            tags = allTags["packs"]!
         }
     }
     
@@ -156,6 +159,9 @@ class BadgeViewController: UICollectionViewController {
             gradient.colors = [UIColor(red:1.00, green:0.99, blue:0.75, alpha:1.0).cgColor, UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor]
         }
         
+        if currentIndex == 0 {
+            cell.imageView.image = cell.imageView.image?.withRenderingMode(.alwaysOriginal)
+        }
         return cell
     }
 
@@ -167,6 +173,7 @@ class BadgeViewController: UICollectionViewController {
             weak var vc = (segue.destination as! BadgeDetailViewController)
             vc?.badge = badges[indexPath.item]
             vc?.color = colors[indexPath.item]
+            vc?.subjectIndex = currentIndex
         }
     }
     
