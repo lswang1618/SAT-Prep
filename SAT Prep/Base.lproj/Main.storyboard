@@ -915,6 +915,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </view>
+                                <connections>
+                                    <segue destination="aG2-an-DnX" kind="show" id="t6p-g2-5UM"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="header" id="a1G-vZ-AEe">
@@ -958,6 +961,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </view>
+                                <connections>
+                                    <segue destination="aG2-an-DnX" kind="show" id="s3y-Pe-WtP"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="header" id="L6t-fz-Ohh">
@@ -1001,6 +1007,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </view>
+                                <connections>
+                                    <segue destination="aG2-an-DnX" kind="show" id="ipF-1z-U76"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="header" id="MZr-iZ-nVU">
@@ -1023,13 +1032,32 @@
             </objects>
             <point key="canvasLocation" x="3897" y="965"/>
         </scene>
-        <!--Badge View Controller-->
+        <!--Badge Detail View Controller-->
         <scene sceneID="SpE-h1-EfT">
             <objects>
-                <viewController id="aG2-an-DnX" customClass="BadgeViewController" customModule="SAT_Prep" customModuleProvider="target" sceneMemberID="viewController"/>
+                <viewController id="aG2-an-DnX" customClass="BadgeDetailViewController" customModule="SAT_Prep" customModuleProvider="target" sceneMemberID="viewController">
+                    <connections>
+                        <outlet property="handleGoldTap" destination="cpC-gt-HT8" id="eeh-MH-z8q"/>
+                    </connections>
+                </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9mR-w9-wYT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="cpC-gt-HT8">
+                    <connections>
+                        <action selector="handleGoldTap:" destination="aG2-an-DnX" id="Wpm-yc-hp1"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="aFk-h5-Rok">
+                    <connections>
+                        <action selector="handleSilverTap:" destination="aG2-an-DnX" id="XrA-HB-klS"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="VuI-jN-PDo">
+                    <connections>
+                        <action selector="handleBronzeTap:" destination="aG2-an-DnX" id="fCn-eo-mib"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2742" y="1069"/>
+            <point key="canvasLocation" x="4652" y="225"/>
         </scene>
         <!--Reading-->
         <scene sceneID="mw7-ke-wuJ">
@@ -1053,6 +1081,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </view>
+                                <connections>
+                                    <segue destination="aG2-an-DnX" kind="show" id="Hgy-UZ-BMf"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="header" id="XBx-xf-UHK">
@@ -1368,6 +1399,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="vwH-8t-dMx"/>
+        <segue reference="s3y-Pe-WtP"/>
         <segue reference="uTv-5K-8qd"/>
         <segue reference="WQI-h0-Jem"/>
     </inferredMetricsTieBreakers>
