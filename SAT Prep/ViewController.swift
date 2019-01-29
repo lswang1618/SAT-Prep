@@ -82,14 +82,6 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func nextPack(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func exitPack(_ sender: UIButton) {
-        
-    }
-    
     func loadUnlockPack() {
         loaded = true
         
@@ -101,6 +93,8 @@ class ViewController: UIViewController {
         unlockView.animationView.contentMode = .scaleAspectFit
         unlockView.animationView.loopAnimation = true
         unlockView.animationView.play()
+        
+        perform(#selector(self.popupHide), with: self, afterDelay: 3)
     }
     
     func loadError() {
@@ -113,7 +107,6 @@ class ViewController: UIViewController {
         errorView.animationView.contentMode = .scaleAspectFit
         errorView.animationView.loopAnimation = true
         errorView.animationView.play()
-        
     }
     
     @objc func renderLoading() {
@@ -132,7 +125,6 @@ class ViewController: UIViewController {
         loaded = true
         if tagQuestion == nil {
             loadError()
-            
             return
         }
         
@@ -205,7 +197,6 @@ class ViewController: UIViewController {
                 self.renderStreak()
             } else {
                 let tagIndex = self.user!.index
-                
                 if self.badges.count == 0 {
                     self.model?.getBadges() { [unowned self] results in
                         self.badges = results
@@ -252,12 +243,11 @@ class ViewController: UIViewController {
         }
         else {
             let viewControllers = childViewControllers
-            
             if !(viewControllers.contains(where: { return $0 is LongQuestionViewController || $0 is ShortQuestionViewController})) && !error {
                 
                 model.getQuestion(tIndex: tIndex, qIndex: qIndex) {[unowned self] result in
                    
-                    if result == nil {
+                    if result == nil || (result?.subject == "Pack" && result?.index ?? 0 > 1) {
                         self.fetchQuestion(model: model, qIndex: (self.badges.filter({ [unowned self] in $0.tag == self.model!.tags[(tIndex + 1) % self.model!.tags.count] }).first?.lastIndex)!, tIndex: (tIndex + 1) % self.model!.tags.count, count: count + 1)
                         return
                     }
@@ -351,7 +341,7 @@ class ViewController: UIViewController {
         ])
         
         updateUser()
-        if question?.pack != nil {
+        if question?.subject == "Pack" && question?.index == 1 {
             loadUnlockPack()
         } else {
             showSuccess()
@@ -390,13 +380,17 @@ class ViewController: UIViewController {
     }
     
     @objc func popupHide() {
-        
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
         let badgeVC = storyBoard.instantiateViewController(withIdentifier: "badgeDetailView") as! BadgeDetailViewController
         let tags = model?.readTags()[(question?.subject)!.lowercased()]
         let index = question!.tag
-        badgeVC.color = colors[(tags?.index(of: index))!]
+        if question!.subject != "Pack" {
+            badgeVC.color = colors[(tags?.index(of: index))!]
+            badgeVC.subjectIndex = 1
+        } else {
+            badgeVC.subjectIndex = 0
+        }
         badgeVC.badge = (badges.filter({ $0.tag == question?.tag }).first)!
         navigationController?.pushViewController(badgeVC, animated: true)
     }
@@ -408,6 +402,7 @@ class ViewController: UIViewController {
         let calendar = Calendar.current
         let today = Date()
         let tagIndex = (badges.index(where: { $0.tag == question?.tag }))!
+        let userTagIndex = self.model!.tags.index(where: { $0 == question?.tag})!
         
         if date as? Int != 0 {
             let dict = date as AnyObject,
@@ -423,8 +418,11 @@ class ViewController: UIViewController {
             next_month = calendar.component(.month, from: next_date),
             next_day = calendar.component(.day, from: next_date)
             
+            if userTagIndex == user!.index {
+                user!.index = (user!.index + 1) % 33
+            }
+            
             if last_year == today_year && last_month == today_month && last_day == today_day {
-                user!.index = (user!.index + 1) % 32
                 badges[tagIndex].update(index: (question?.index)!)
                 ref.updateData([
                     "qIndex": user!.index
@@ -435,7 +433,6 @@ class ViewController: UIViewController {
                     ])
             } else if next_year == today_year && next_month == today_month && next_day == today_day {
                 user!.last_answered = today
-                user!.index = (user!.index + 1) % 32
                 badges[tagIndex].update(index: (question?.index)!)
                 user!.streak += 1
                 ref.updateData([
@@ -449,7 +446,6 @@ class ViewController: UIViewController {
                     ])
             } else {
                 user!.last_answered = today
-                user!.index = (user!.index + 1) % 32
                 badges[tagIndex].update(index: (question?.index)!)
                 user!.streak = 1
                 ref.updateData([

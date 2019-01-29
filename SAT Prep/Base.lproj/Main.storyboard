@@ -464,59 +464,28 @@
                                 <color key="backgroundColor" red="0.0" green="0.57901251316070557" blue="0.74126392602920532" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="WDL-tB-eJa">
-                                <rect key="frame" x="47" y="151.33333333333334" width="281" height="509.33333333333326"/>
+                                <rect key="frame" x="9.3333333333333428" y="189.00000000000003" width="356.33333333333326" height="352.66666666666674"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qkx-0a-G5s" customClass="LOTAnimatedControl">
-                                        <rect key="frame" x="0.0" y="0.0" width="281" height="211"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="356.33333333333331" height="267.33333333333331"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Qkx-0a-G5s" secondAttribute="height" multiplier="4:3" id="zOv-ei-EwS"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've unlocked a new pack! Continue to earn a new badge" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Rr-Gn-IFt">
-                                        <rect key="frame" x="0.0" y="240.99999999999997" width="281" height="48.333333333333343"/>
-                                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've unlocked a new challenge!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Rr-Gn-IFt" customClass="EdgeInsetLabel" customModule="SAT_Prep" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="297.33333333333331" width="356.33333333333331" height="55.333333333333314"/>
+                                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
+                                                <real key="value" value="30"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rightTextInset">
+                                                <real key="value" value="30"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQ4-6T-W9Z">
-                                        <rect key="frame" x="0.0" y="319.33333333333337" width="281" height="80"/>
-                                        <color key="backgroundColor" red="1" green="0.44705882349999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="nHD-1D-Yh1"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="25"/>
-                                        <state key="normal" title="Continue">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="nextPack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fjb-88-YEM"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifU-iR-hac">
-                                        <rect key="frame" x="0.0" y="429.33333333333326" width="281" height="80"/>
-                                        <color key="backgroundColor" red="1" green="0.44705882349999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="0HX-SY-gV6"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="25"/>
-                                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
-                                        <state key="normal" title="Exit">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="exitPack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="A2D-JR-pcH"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -524,7 +493,7 @@
                         <constraints>
                             <constraint firstItem="uUF-N3-Cb8" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0JI-J3-WWZ"/>
                             <constraint firstItem="G0p-D3-rLA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.9" id="1bc-P7-JCi"/>
-                            <constraint firstItem="WDL-tB-eJa" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.75" id="1cq-aL-Cr6"/>
+                            <constraint firstItem="WDL-tB-eJa" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.95" id="1cq-aL-Cr6"/>
                             <constraint firstItem="uUF-N3-Cb8" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="2wg-ng-uDO"/>
                             <constraint firstItem="G0p-D3-rLA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5VH-k7-Aie"/>
                             <constraint firstItem="inI-W0-229" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="JJY-1E-oS7"/>
@@ -533,7 +502,7 @@
                             <constraint firstItem="A67-Xc-RhO" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="Xkg-7K-4wj"/>
                             <constraint firstItem="uUF-N3-Cb8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Xp5-7Q-3HA"/>
                             <constraint firstItem="inI-W0-229" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-50" id="Zp6-w6-WUx"/>
-                            <constraint firstItem="WDL-tB-eJa" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="gLA-ta-o3d"/>
+                            <constraint firstItem="WDL-tB-eJa" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.9" id="gLA-ta-o3d"/>
                             <constraint firstItem="uUF-N3-Cb8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="iKJ-b0-HUb"/>
                             <constraint firstItem="inI-W0-229" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kUZ-QV-aqQ"/>
                             <constraint firstItem="LWf-6R-UW2" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.97" id="psL-RB-VGD"/>
@@ -1035,7 +1004,7 @@
         <!--Badge Detail View Controller-->
         <scene sceneID="SpE-h1-EfT">
             <objects>
-                <viewController id="aG2-an-DnX" customClass="BadgeDetailViewController" customModule="SAT_Prep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="badgeDetailView" id="aG2-an-DnX" customClass="BadgeDetailViewController" customModule="SAT_Prep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2Jh-Q1-tGJ"/>
                         <viewControllerLayoutGuide type="bottom" id="Zi5-X9-xZ6"/>
@@ -1047,8 +1016,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zpu-Rg-xvr" userLabel="Card" customClass="RoundedCornerView" customModule="SAT_Prep" customModuleProvider="target">
                                 <rect key="frame" x="395" y="41.333333333333314" width="337.33333333333326" height="649.33333333333348"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzW-bb-wTv" userLabel="Badge Name Label" customClass="EdgeInsetLabel" customModule="SAT_Prep" customModuleProvider="target">
-                                        <rect key="frame" x="99" y="53" width="42" height="20.333333333333329"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzW-bb-wTv" userLabel="Badge Name Label" customClass="EdgeInsetLabel" customModule="SAT_Prep" customModuleProvider="target">
+                                        <rect key="frame" x="33.666666666666686" y="40" width="270" height="34.666666666666657"/>
                                         <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="27"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1104,22 +1073,51 @@
                                             </imageView>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVF-nc-KHh" userLabel="Count">
-                                        <rect key="frame" x="166" y="395" width="41.666666666666657" height="20.333333333333314"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVF-nc-KHh" userLabel="Count">
+                                        <rect key="frame" x="147.66666666666663" y="297.33333333333337" width="41.666666666666657" height="22"/>
                                         <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8d-Ir-NA9" userLabel="FInished Count">
-                                        <rect key="frame" x="166" y="395" width="41.666666666666657" height="20.333333333333314"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8d-Ir-NA9" userLabel="FInished Count" customClass="EdgeInsetLabel" customModule="SAT_Prep" customModuleProvider="target">
+                                        <rect key="frame" x="139" y="392" width="59" height="35.666666666666686"/>
                                         <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rightTextInset">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="topTextInset">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomTextInset">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UCO-lb-zva" userLabel="Sub Title">
                                         <rect key="frame" x="33.666666666666686" y="86.333333333333343" width="270" height="22"/>
                                         <fontDescription key="fontDescription" name="DINPro-Light" family="DINPro" pointSize="17"/>
                                         <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZR-dA-vJQ">
+                                        <rect key="frame" x="42.000000000000014" y="472.66666666666669" width="253.33333333333337" height="20.333333333333314"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Label">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="system" size="17"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FVM-5g-ypG" userLabel="Practice">
@@ -1143,21 +1141,37 @@
                                             <segue destination="BYZ-38-t0r" kind="show" identifier="tagQuestion" customClass="ReplaceSegue" customModule="SAT_Prep" customModuleProvider="target" id="Yp3-Wr-RUP"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPv-B2-eSL">
+                                        <rect key="frame" x="143.33333333333337" y="698.33333333333326" width="50.666666666666657" height="50.666666666666629"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="RPv-B2-eSL" secondAttribute="height" multiplier="1:1" id="BO4-Ly-IaG"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="Close"/>
+                                        <connections>
+                                            <action selector="close:" destination="aG2-an-DnX" eventType="touchUpInside" id="24U-Sd-rVV"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="fZR-dA-vJQ" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="0gJ-cb-kZc"/>
                                     <constraint firstItem="ZIx-2F-ZIO" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="8w8-5M-MhP"/>
                                     <constraint firstItem="n02-d1-yy1" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="AjH-eF-NTP"/>
                                     <constraint firstItem="FVM-5g-ypG" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="ITX-du-0pl"/>
                                     <constraint firstItem="ZIx-2F-ZIO" firstAttribute="height" secondItem="Zpu-Rg-xvr" secondAttribute="height" id="JF8-Dt-puP"/>
                                     <constraint firstItem="UCO-lb-zva" firstAttribute="top" secondItem="AzW-bb-wTv" secondAttribute="bottom" multiplier="1.05" constant="8" symbolic="YES" id="LVy-2d-S1h"/>
                                     <constraint firstItem="AzW-bb-wTv" firstAttribute="top" secondItem="Zpu-Rg-xvr" secondAttribute="top" constant="40" id="Lt2-8D-orT"/>
+                                    <constraint firstItem="RPv-B2-eSL" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" multiplier="0.15" id="LuM-iq-0Jw"/>
                                     <constraint firstItem="n02-d1-yy1" firstAttribute="centerX" secondItem="AzW-bb-wTv" secondAttribute="centerX" id="OW0-Vz-U8E"/>
                                     <constraint firstItem="FVM-5g-ypG" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="bottom" id="REY-Df-fXt"/>
                                     <constraint firstItem="UCO-lb-zva" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="SHl-HT-wAb"/>
                                     <constraint firstItem="n02-d1-yy1" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="centerY" multiplier="0.95" id="UjE-Pa-N2l"/>
                                     <constraint firstItem="pVF-nc-KHh" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="centerY" multiplier="0.95" id="Wif-mf-4Fe"/>
+                                    <constraint firstAttribute="bottom" secondItem="RPv-B2-eSL" secondAttribute="top" multiplier="0.93" id="Zo6-wk-bld"/>
+                                    <constraint firstItem="n02-d1-yy1" firstAttribute="bottom" secondItem="fZR-dA-vJQ" secondAttribute="top" multiplier="0.85" constant="8" symbolic="YES" id="aUP-IU-d98"/>
+                                    <constraint firstItem="RPv-B2-eSL" firstAttribute="centerX" secondItem="Zpu-Rg-xvr" secondAttribute="centerX" id="dGh-qc-rTe"/>
                                     <constraint firstItem="n02-d1-yy1" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" multiplier="0.6" id="doi-br-oL1"/>
+                                    <constraint firstItem="fZR-dA-vJQ" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" multiplier="0.75" id="eCW-PD-3Sn"/>
                                     <constraint firstItem="ZIx-2F-ZIO" firstAttribute="centerY" secondItem="Zpu-Rg-xvr" secondAttribute="centerY" id="eNf-OK-4pL"/>
                                     <constraint firstItem="AzW-bb-wTv" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" multiplier="0.8" id="hxN-Gz-eOl"/>
                                     <constraint firstItem="ZIx-2F-ZIO" firstAttribute="width" secondItem="Zpu-Rg-xvr" secondAttribute="width" id="jRF-rL-HCQ"/>
@@ -1189,11 +1203,13 @@
                         <outlet property="badgeNameLabel" destination="AzW-bb-wTv" id="VQa-F4-xg6"/>
                         <outlet property="badgeStackView" destination="fdV-eN-Ty8" id="36n-0D-7TH"/>
                         <outlet property="bronzeBadge" destination="a7o-rY-eVH" id="P33-s4-mmA"/>
+                        <outlet property="button" destination="FVM-5g-ypG" id="NyZ-MT-jk0"/>
                         <outlet property="card" destination="Zpu-Rg-xvr" id="JI0-ZE-Ei0"/>
                         <outlet property="count" destination="pVF-nc-KHh" id="pjP-9H-cpm"/>
                         <outlet property="finishedCount" destination="l8d-Ir-NA9" id="aVv-kl-w7U"/>
                         <outlet property="goldBadge" destination="eSn-mV-0kB" id="gR4-IT-tRb"/>
                         <outlet property="mainImage" destination="n02-d1-yy1" id="SJ2-s6-L1Z"/>
+                        <outlet property="packLabel" destination="fZR-dA-vJQ" id="TbY-Ak-SyU"/>
                         <outlet property="progressView" destination="ZIx-2F-ZIO" id="xLP-D8-APy"/>
                         <outlet property="silverBadge" destination="wcf-zk-OZS" id="hSd-ob-h4H"/>
                         <outlet property="subTitle" destination="UCO-lb-zva" id="plR-El-83C"/>
@@ -1560,6 +1576,6 @@
         <segue reference="vwH-8t-dMx"/>
         <segue reference="s3y-Pe-WtP"/>
         <segue reference="Yp3-Wr-RUP"/>
-        <segue reference="WQI-h0-Jem"/>
+        <segue reference="11Q-PX-3bK"/>
     </inferredMetricsTieBreakers>
 </document>

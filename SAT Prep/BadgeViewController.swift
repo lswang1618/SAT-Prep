@@ -159,8 +159,14 @@ class BadgeViewController: UICollectionViewController {
             gradient.colors = [UIColor(red:1.00, green:0.99, blue:0.75, alpha:1.0).cgColor, UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor]
         }
         
-        if currentIndex == 0 {
+        if currentIndex == 0{
             cell.imageView.image = cell.imageView.image?.withRenderingMode(.alwaysOriginal)
+            
+            if badge.progress == 5 {
+                cell.imageView.layer.borderColor = UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor
+                gradient.colors = [UIColor(red:1.00, green:0.99, blue:0.75, alpha:1.0).cgColor, UIColor(red:0.98, green:0.75, blue:0.23, alpha:1.0).cgColor]
+
+            }
         }
         return cell
     }

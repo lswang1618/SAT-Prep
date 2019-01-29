@@ -22,6 +22,8 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
     @IBOutlet weak var progressView: RoundedCornerView!
     @IBOutlet weak var subTitle: UILabel!
     @IBOutlet weak var card: RoundedCornerView!
+    @IBOutlet weak var packLabel: UILabel!
+    @IBOutlet weak var button: UIButton!
     
     var badge: Badge?
     var color: UIColor?
@@ -81,18 +83,63 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
             subTitle.text = "Answered 5 questions"
         }
     }
+    
+    @IBAction func close(_ sender: UIButton) {
+        _ = navigationController?.popViewController(animated: true)
+    }
+    
+    func readPackTitles() -> NSDictionary {
+        let path = Bundle.main.path(forResource: "/packTitles", ofType: "plist")
+        return NSDictionary(contentsOfFile: path!)!
+    }
 
     override func viewWillAppear(_ animated: Bool) {
-        badgeNameLabel.text = badge?.tag
         badgeNameLabel.font = badgeNameLabel.font.withSize(view.frame.height * 0.03)
         subTitle.font = subTitle.font.withSize(view.frame.height * 0.02)
         
         finishedCount.isHidden = true
         count.isHidden = true
-        
+
         if subjectIndex == 0 {
-            subTitle.text = "FILL IN"
+            badgeNameLabel.text = (badge?.tag)! + " Challenge"
+            let dict = readPackTitles()
+            subTitle.text = dict[badge?.tag as! String] as! String
+            
+            let attributedString = NSMutableAttributedString()
+            let attrs = [NSAttributedStringKey.foregroundColor : progressColor, NSAttributedStringKey.font : UIFont(name: "DinPro-Light", size: view.frame.size.width*0.07)!]
+            let progress = String(format:"%i", 5-(badge?.progress)!)
+            let boldFontAttribute: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: view.frame.size.width*0.05)]
+            let attrs2 = [NSAttributedStringKey.foregroundColor : UIColor.black, NSAttributedStringKey.font : UIFont(name: "DinPro-Light", size: view.frame.size.width*0.05)!]
+            if badge!.progress == 0 {
+                attributedString.append(NSMutableAttributedString(string: "Unlock this challenge by answering the first question ", attributes:attrs2))
+                button.setTitle("Unlock", for: .normal)
+            } else if 5-badge!.progress == 1 {
+                attributedString.append(NSMutableAttributedString(string: "Answer ", attributes:attrs2))
+                attributedString.append(NSMutableAttributedString(string: progress, attributes:attrs))
+                attributedString.addAttributes(boldFontAttribute, range: NSRange(location: 7, length: 1))
+                attributedString.append(NSMutableAttributedString(string: " more question to earn this badge", attributes:attrs2))
+                button.setTitle("Continue", for: .normal)
+            } else if badge!.progress < 5 {
+                attributedString.append(NSMutableAttributedString(string: "Answer ", attributes:attrs2))
+                attributedString.append(NSMutableAttributedString(string: progress, attributes:attrs))
+                attributedString.addAttributes(boldFontAttribute, range: NSRange(location: 7, length: 1))
+                attributedString.append(NSMutableAttributedString(string: " more questions to earn this badge", attributes:attrs2))
+                button.setTitle("Continue", for: .normal)
+            } else {
+                attributedString.append(NSMutableAttributedString(string: "Congrats ", attributes:attrs))
+                attributedString.addAttributes(boldFontAttribute, range: NSRange(location: 0, length: 8))
+                attributedString.append(NSMutableAttributedString(string: "on earning this badge!", attributes:attrs2))
+                button.isHidden = true
+            }
+
+            packLabel.attributedText = attributedString
+            packLabel.isHidden = false
+            badgeStackView.isHidden = true
+            level = 0
+            selected = 0
         } else {
+            badgeNameLabel.text = (badge?.tag)!
+            
             if badge!.progress < 5 {
                 level = 0
                 selected = 0
@@ -111,18 +158,17 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
                 subTitle.text = "Answered 25 questions"
             }
         }
-        
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         configureBadgeImage(imageView: mainImage)
-        
+        configureColor(imageView: mainImage, vIndex: selected!, grad: gradient, gradView: progressView)
         if subjectIndex == 0 {
             mainImage.image = mainImage.image?.withRenderingMode(.alwaysOriginal)
+//            progressView.centerYAnchor.constraint(equalTo: card.centerYAnchor, constant: card.center.y*(-0.102)).isActive = true
+//            mainImage.centerYAnchor.constraint(equalTo: card.centerYAnchor, constant: card.center.y*(-0.15)).isActive = true
         } else {
-            configureColor(imageView: mainImage, vIndex: selected!, grad: gradient, gradView: progressView)
-            
             let gBronze = CAGradientLayer()
             configureBadgeImage(imageView: bronzeBadge)
             configureColor(imageView: bronzeBadge, vIndex: 0, grad: gBronze, gradView: bronzeBadge)
@@ -166,6 +212,8 @@ class BadgeDetailViewController: UIViewController, UIDynamicAnimatorDelegate {
     func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
         if subjectIndex! > 0 {
             configureCount(vIndex: selected!)
+        } else {
+            drawProgress(percent: CGFloat(badge!.progress) / 5.0)
         }
     }
     

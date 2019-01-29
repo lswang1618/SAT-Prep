@@ -30,6 +30,7 @@
 		509024C320B7CC4400221E74 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024C220B7CC4400221E74 /* Model.swift */; };
 		509024CC20BCEDD500221E74 /* LongQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024CB20BCEDD500221E74 /* LongQuestionViewController.swift */; };
 		509024CE20BCF72800221E74 /* ShortQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509024CD20BCF72800221E74 /* ShortQuestionViewController.swift */; };
+		509301AB220005AC00E51304 /* packTitles.plist in Resources */ = {isa = PBXBuildFile; fileRef = 509301AA220005AC00E51304 /* packTitles.plist */; };
 		50B0EF6D2106B329001806B8 /* flame.gif in Resources */ = {isa = PBXBuildFile; fileRef = 50B0EF6C2106B328001806B8 /* flame.gif */; };
 		50B0EF732106E378001806B8 /* check_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 50B0EF722106E377001806B8 /* check_animation.json */; };
 		50B0EF752106E75A001806B8 /* confettibar.png in Resources */ = {isa = PBXBuildFile; fileRef = 50B0EF742106E75A001806B8 /* confettibar.png */; };
@@ -70,6 +71,7 @@
 		509024C220B7CC4400221E74 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		509024CB20BCEDD500221E74 /* LongQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongQuestionViewController.swift; sourceTree = "<group>"; };
 		509024CD20BCF72800221E74 /* ShortQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortQuestionViewController.swift; sourceTree = "<group>"; };
+		509301AA220005AC00E51304 /* packTitles.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = packTitles.plist; sourceTree = "<group>"; };
 		50B0EF6C2106B328001806B8 /* flame.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = flame.gif; sourceTree = "<group>"; };
 		50B0EF722106E377001806B8 /* check_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = check_animation.json; sourceTree = "<group>"; };
 		50B0EF742106E75A001806B8 /* confettibar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = confettibar.png; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				501C6B6F20ABCF40009E2C18 /* Assets.xcassets */,
 				501C6B7120ABCF40009E2C18 /* LaunchScreen.storyboard */,
 				501C6B7420ABCF40009E2C18 /* Info.plist */,
+				509301AA220005AC00E51304 /* packTitles.plist */,
 				501C6BB320B0ED57009E2C18 /* GoogleService-Info.plist */,
 				50B0EF742106E75A001806B8 /* confettibar.png */,
 				503A697021FE87A80039EF9E /* unlock.json */,
@@ -281,6 +284,7 @@
 				501C6BB420B0ED57009E2C18 /* GoogleService-Info.plist in Resources */,
 				501C6B6E20ABCF40009E2C18 /* Main.storyboard in Resources */,
 				503A697121FE87A80039EF9E /* unlock.json in Resources */,
+				509301AB220005AC00E51304 /* packTitles.plist in Resources */,
 				501C6B9F20AD228D009E2C18 /* DINPro-Light_13935.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

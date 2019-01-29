@@ -12,7 +12,7 @@ import Firebase
 class Model {
     var db: Firestore!
     let settings: FirestoreSettings!
-    let tags = ["Summarizing", "Circles", "Development", "Analyzing Word Choice", "Linear Inequalities", "Organization", "Analyzing Text Structure", "Rates, Ratios, and Proportions", "Effective Language Use", "Analyzing Point of View", "Scatterplots", "Sentence Structure", "Analyzing Purpose", "Statistics and Probability", "Conventions of Usage", "Analyzing Arguments", "Polynomials and Rational Expressions", "Conventions of Punctuation", "Reading Closely", "Functions", "Citing Textual Evidence", "Quadratic Equations", "Central Ideas and Themes", "Imaginary Numbers", "Linear Equations", "Lines, Angles, Triangles", "Understanding Relationships", "Interpreting Words and Phrases", "3D Shapes", "Analyzing Multiple Texts", "Trigonometry", "Quantitative Information", "Systems of Linear Equations"]
+    let tags = ["Summarizing", "Baking", "Circles", "Development", "Analyzing Word Choice", "Linear Inequalities", "Organization", "Analyzing Text Structure", "Rates, Ratios, and Proportions", "Effective Language Use", "Analyzing Point of View", "Scatterplots", "Sentence Structure", "Analyzing Purpose", "Statistics and Probability", "Conventions of Usage", "Analyzing Arguments", "Polynomials and Rational Expressions", "Conventions of Punctuation", "Reading Closely", "Functions", "Citing Textual Evidence", "Quadratic Equations", "Central Ideas and Themes", "Imaginary Numbers", "Linear Equations", "Lines, Angles, Triangles", "Understanding Relationships", "Interpreting Words and Phrases", "3D Shapes", "Analyzing Multiple Texts", "Trigonometry", "Quantitative Information", "Systems of Linear Equations"]
     
     init() {
         db = Firestore.firestore()
@@ -67,7 +67,7 @@ class Model {
             for doc in docs {
                 badges.append(Badge(dictionary: doc.data())!)
             }
-            if badges.count == self.tags.count {
+            if badges.count != self.tags.count {
                 self.createPackBadges(completion: completion)
             } else {
                 completion(badges)
