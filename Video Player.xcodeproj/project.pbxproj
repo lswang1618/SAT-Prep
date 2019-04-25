@@ -14,6 +14,9 @@
 		504679672270EC660080A01C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504679652270EC660080A01C /* LaunchScreen.storyboard */; };
 		504679722270EC670080A01C /* Video_PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504679712270EC670080A01C /* Video_PlayerTests.swift */; };
 		5046797D2270EC670080A01C /* Video_PlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5046797C2270EC670080A01C /* Video_PlayerUITests.swift */; };
+		50467996227160860080A01C /* MVI_3527.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 504679952271607B0080A01C /* MVI_3527.mp4 */; };
+		504679982271FBA70080A01C /* QuestionOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504679972271FBA70080A01C /* QuestionOverlayViewController.swift */; };
+		505D33862271FFB700E84D02 /* UIView+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505D33852271FFB700E84D02 /* UIView+Snapshot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		504679782270EC670080A01C /* Video PlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Video PlayerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5046797C2270EC670080A01C /* Video_PlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video_PlayerUITests.swift; sourceTree = "<group>"; };
 		5046797E2270EC670080A01C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		504679952271607B0080A01C /* MVI_3527.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = MVI_3527.mp4; sourceTree = "<group>"; };
+		504679972271FBA70080A01C /* QuestionOverlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionOverlayViewController.swift; sourceTree = "<group>"; };
+		505D33852271FFB700E84D02 /* UIView+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Snapshot.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,9 +83,11 @@
 		504679502270EC640080A01C = {
 			isa = PBXGroup;
 			children = (
+				504679952271607B0080A01C /* MVI_3527.mp4 */,
 				5046795B2270EC640080A01C /* Video Player */,
 				504679702270EC670080A01C /* Video PlayerTests */,
 				5046797B2270EC670080A01C /* Video PlayerUITests */,
+				505D33842271FF9700E84D02 /* Helpers */,
 				5046795A2270EC640080A01C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,6 +107,7 @@
 			children = (
 				5046795C2270EC640080A01C /* AppDelegate.swift */,
 				5046795E2270EC640080A01C /* ViewController.swift */,
+				504679972271FBA70080A01C /* QuestionOverlayViewController.swift */,
 				504679602270EC640080A01C /* Main.storyboard */,
 				504679632270EC660080A01C /* Assets.xcassets */,
 				504679652270EC660080A01C /* LaunchScreen.storyboard */,
@@ -123,6 +132,14 @@
 				5046797E2270EC670080A01C /* Info.plist */,
 			);
 			path = "Video PlayerUITests";
+			sourceTree = "<group>";
+		};
+		505D33842271FF9700E84D02 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				505D33852271FFB700E84D02 /* UIView+Snapshot.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50467996227160860080A01C /* MVI_3527.mp4 in Resources */,
 				504679672270EC660080A01C /* LaunchScreen.storyboard in Resources */,
 				504679642270EC660080A01C /* Assets.xcassets in Resources */,
 				504679622270EC640080A01C /* Main.storyboard in Resources */,
@@ -256,6 +274,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				505D33862271FFB700E84D02 /* UIView+Snapshot.swift in Sources */,
+				504679982271FBA70080A01C /* QuestionOverlayViewController.swift in Sources */,
 				5046795F2270EC640080A01C /* ViewController.swift in Sources */,
 				5046795D2270EC640080A01C /* AppDelegate.swift in Sources */,
 			);
@@ -433,6 +453,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J66Z4LJ7R7;
 				INFOPLIST_FILE = "Video Player/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -450,6 +471,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J66Z4LJ7R7;
 				INFOPLIST_FILE = "Video Player/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
