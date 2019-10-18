@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>713444674647-hg2r13vmjr2ku9t1v1q7qtehvs06u4s0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.713444674647-hg2r13vmjr2ku9t1v1q7qtehvs06u4s0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDVTzovYhZJ_EfCNTwLDwKOPFQ5uow_mBU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>713444674647</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>lswang.SAT-Prep</string>
+	<key>PROJECT_ID</key>
+	<string>sat-prep-7b5d6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sat-prep-7b5d6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:713444674647:ios:4c2ad23bf35ba70d</string>
+	<key>DATABASE_URL</key>
+	<string>https://sat-prep-7b5d6.firebaseio.com</string>
+</dict>
+</plist>

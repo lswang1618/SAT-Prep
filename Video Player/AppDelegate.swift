@@ -7,15 +7,74 @@
 //
 
 import UIKit
+import Firebase
+import AVKit
+import UserNotifications
+import GoogleSignIn
+import FacebookCore
+import TouchVisualizer
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate{
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+//        var config = Configuration()
+//        config.defaultSize = CGSize(width: 40, height: 40)
+//        
+//        Visualizer.start(config)
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print(error)
+
+        }
+        
+        if #available(iOS 10.0, *){
+            let center = UNUserNotificationCenter.current()
+            let options: UNAuthorizationOptions = [.badge, .alert, .sound]
+            
+            center.requestAuthorization(options: options) {
+                (granted, error) in
+                if !granted {
+                    print("Something went wrong")
+                }
+            }
+        }
+            
+        else{ //If user is not on iOS 10 use the old methods we've been using
+            let notificationSettings = UIUserNotificationSettings(
+                types: [.badge, .sound, .alert], categories: nil)
+            application.registerUserNotificationSettings(notificationSettings)
+            
+        }
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance()?.delegate = self
+        
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        let userDefaults = UserDefaults.standard
+        let user = Auth.auth().currentUser
+        if (userDefaults.string(forKey: "currentVersion") == "2.0" && user != nil) || user != nil {
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarViewController")
+            
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        }
+        userDefaults.set(false, forKey: "NSAllowsDefaultLineBreakStrategy")
+        
         return true
     }
 
@@ -41,6 +100,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
+      -> Bool {
+        return GIDSignIn.sharedInstance().handle(url)
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url)
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+      // ...
+        if error != nil {
+            return
+        }
 
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                        accessToken: authentication.accessToken)
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if error == nil {
+                
+            }
+        }
+    }
+
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
+    }
+    
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+        return ApplicationDelegate.shared.application(application, open: url)
+    }
 }
 

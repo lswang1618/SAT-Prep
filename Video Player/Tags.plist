@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<string>Summarizing</string>
+		<string>Reading Closely</string>
+		<string>Multiple Texts</string>
+		<string>Words and Phrases</string>
+		<string>Text Structure</string>
+		<string>Central Ideas</string>
+		<string>Quantitative Information</string>
+		<string>Word Choice</string>
+		<string>Purpose</string>
+		<string>Arguments</string>
+		<string>Citing Textual Evidence</string>
+		<string>Points of View</string>
+		<string>Understanding Relationships</string>
+	</array>
+	<array>
+		<string>Linear Equations</string>
+		<string>Linear Inequalities</string>
+		<string>Systems of Linear Equations</string>
+		<string>Functions</string>
+		<string>Scatterplots</string>
+		<string>Statistics and Probability</string>
+		<string>Rates, Ratios, Percents</string>
+		<string>Polynomials &amp; Rationals</string>
+		<string>Quadratic Equations</string>
+		<string>Imaginary Numbers</string>
+		<string>Lines, Angles, Triangles</string>
+		<string>Trigonometry</string>
+		<string>Circles</string>
+		<string>3D Shapes</string>
+	</array>
+	<array>
+		<string>Connecting Sentences</string>
+		<string>Conventions of Usage</string>
+		<string>Development</string>
+		<string>Effective Language Use</string>
+		<string>Items in a Series</string>
+		<string>Logical Comparison</string>
+		<string>Modifiers</string>
+		<string>Misplaced Modifiers</string>
+		<string>Organization</string>
+		<string>Possessives</string>
+		<string>Pronouns</string>
+		<string>Punctuation</string>
+		<string>Sentence Structure</string>
+		<string>Usage Agreement</string>
+		<string>Verb and Mood Shifts</string>
+	</array>
+</array>
+</plist>

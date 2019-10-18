@@ -7,7 +7,25 @@
 		<key>Video Player.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>18</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>504679582270EC640080A01C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5046796C2270EC670080A01C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>504679772270EC670080A01C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
